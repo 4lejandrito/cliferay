@@ -28,4 +28,4 @@ Commands:
   completions       Print completions script
 ```
 
-Created with https://bashly.dannyb.co
+Created with https://bashly.dannyb.co.
