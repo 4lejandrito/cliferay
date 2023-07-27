@@ -36,6 +36,10 @@ commands:
   alias: sd
   help: Deploy changed modules
   group: Module
+- name: format-source
+  alias: sf
+  help: Run SF globally
+  group: Module
 
 - name: run
   help: Start the server
