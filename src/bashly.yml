@@ -3,6 +3,8 @@ help: Daily scripts to work with Liferay
 version: 1.0.0
 
 commands:
+- name: folder
+  help: Prints the source folder
 - name: update
   help: Update codebase
 - name: build

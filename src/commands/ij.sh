@@ -1,2 +1,2 @@
-cd $(liferay_folder)
+cd $(liferay folder)
 ../liferay-intellij/intellij

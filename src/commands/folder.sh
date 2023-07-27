@@ -1,0 +1,1 @@
+echo "/home/alex/Projects/liferay/liferay-portal"

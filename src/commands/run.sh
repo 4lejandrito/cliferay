@@ -1,2 +1,2 @@
-cd $(liferay_folder)
+cd $(liferay folder)
 ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run

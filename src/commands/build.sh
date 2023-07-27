@@ -1,2 +1,2 @@
-cd $(liferay_folder)
+cd $(liferay folder)
 ANT_OPTS=-Xmx4096m ant all

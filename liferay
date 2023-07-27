@@ -34,6 +34,7 @@ liferay_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
+  printf "  %s   Prints the source folder\n" "folder     "
   printf "  %s   Update codebase\n" "update     "
   printf "  %s   Run ant all\n" "build      "
   printf "  %s   Run liferay-intellij\n" "ij         "
@@ -52,6 +53,35 @@ liferay_usage() {
     echo
     printf "  %s\n" "--version, -v"
     printf "    Show version number\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+liferay_folder_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "liferay folder - Prints the source folder\n"
+    echo
+
+  else
+    printf "liferay folder - Prints the source folder\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  liferay folder\n"
+  printf "  liferay folder --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
     echo
 
   fi
@@ -284,11 +314,6 @@ inspect_args() {
 }
 
 # :command.user_lib
-# src/lib/liferay_folder.sh
-liferay_folder() {
-  echo "/home/alex/Projects/liferay/liferay-portal"
-}
-
 # src/lib/send_completions.sh
 send_completions() {
   echo $'# liferay completion                                       -*- shell-script -*-'
@@ -329,6 +354,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'folder\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'update\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -346,7 +375,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build completions ij morning run update")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build completions folder ij morning run update")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -358,9 +387,15 @@ send_completions() {
 
 # :command.command_functions
 # :command.function
+liferay_folder_command() {
+  # src/commands/folder.sh
+  echo "/home/alex/Projects/liferay/liferay-portal"
+}
+
+# :command.function
 liferay_update_command() {
   # src/commands/update.sh
-  cd $(liferay_folder)
+  cd $(liferay folder)
   gh repo sync 4lejandrito/liferay-portal
   gh repo sync
   git push
@@ -370,7 +405,7 @@ liferay_update_command() {
 # :command.function
 liferay_build_command() {
   # src/commands/build.sh
-  cd $(liferay_folder)
+  cd $(liferay folder)
   ANT_OPTS=-Xmx4096m ant all
 
 }
@@ -378,7 +413,7 @@ liferay_build_command() {
 # :command.function
 liferay_ij_command() {
   # src/commands/ij.sh
-  cd $(liferay_folder)
+  cd $(liferay folder)
   ../liferay-intellij/intellij
 
 }
@@ -386,7 +421,7 @@ liferay_ij_command() {
 # :command.function
 liferay_run_command() {
   # src/commands/run.sh
-  cd $(liferay_folder)
+  cd $(liferay folder)
   ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
 
 }
@@ -435,6 +470,13 @@ parse_requirements() {
 
   case $action in
     -*) ;;
+
+    folder)
+      action="folder"
+      shift
+      liferay_folder_parse_requirements "$@"
+      shift $#
+      ;;
 
     update)
       action="update"
@@ -490,6 +532,50 @@ parse_requirements() {
       ;;
 
   esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+liferay_folder_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_folder_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="folder"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -796,6 +882,7 @@ run() {
   parse_requirements "${input[@]}"
 
   case "$action" in
+    "folder") liferay_folder_command ;;
     "update") liferay_update_command ;;
     "build") liferay_build_command ;;
     "ij") liferay_ij_command ;;
