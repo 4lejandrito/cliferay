@@ -13,3 +13,5 @@ commands:
   help: Start the server
 - name: morning
   help: Update, build, ij and run
+- name: completions
+  help: "Enable completions"
