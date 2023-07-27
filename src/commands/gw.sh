@@ -1,0 +1,1 @@
+echo "$(liferay folder)/gradlew"

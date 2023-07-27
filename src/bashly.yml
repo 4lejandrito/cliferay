@@ -4,7 +4,7 @@ version: 1.0.0
 
 commands:
 - name: folder
-  help: Prints the source folder
+  help: Print the source folder
 - name: update
   help: Update codebase
 - name: build
@@ -15,5 +15,13 @@ commands:
   help: Start the server
 - name: morning
   help: Update, build, ij and run
+- name: changed-modules
+  alias: cm
+  help: List changed modules
+- name: gw
+  help: Print gradlew path
+- name: super-deploy
+  alias: sd
+  help: Deploy changed modules
 - name: completions
   help: "Enable completions"
