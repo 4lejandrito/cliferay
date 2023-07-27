@@ -1,1 +1,1 @@
-echo "/home/alex/Projects/liferay/liferay-portal"
+git rev-parse --show-toplevel

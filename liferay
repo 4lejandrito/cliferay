@@ -528,7 +528,7 @@ send_completions() {
 # :command.function
 liferay_folder_command() {
   # src/commands/folder.sh
-  echo "/home/alex/Projects/liferay/liferay-portal"
+  git rev-parse --show-toplevel
 }
 
 # :command.function
