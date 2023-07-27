@@ -2,6 +2,11 @@ name: liferay
 help: Daily scripts to work with Liferay
 version: 1.0.0
 
+environment_variables:
+  - name: LIFERAY_HOME
+    help: Location of your main liferay-portal clone
+    required: true
+
 commands:
 - name: folder
   help: Print the source folder

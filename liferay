@@ -59,6 +59,14 @@ liferay_usage() {
     printf "    Show version number\n"
     echo
 
+    # :command.usage_environment_variables
+    printf "%s\n" "Environment Variables:"
+
+    # :environment_variable.usage
+    printf "  %s\n" "LIFERAY_HOME (required)"
+    printf "    Location of your main liferay-portal clone\n"
+    echo
+
   fi
 }
 
@@ -562,7 +570,13 @@ send_completions() {
 # :command.function
 liferay_folder_command() {
   # src/commands/folder.sh
-  git rev-parse --show-toplevel
+  root=$(git rev-parse --show-toplevel 2> /dev/null || true)
+  if [[ $root == *liferay-portal ]]; then
+      echo $root
+  else
+      echo $LIFERAY_HOME
+  fi
+
 }
 
 # :command.function
@@ -663,6 +677,13 @@ parse_requirements() {
 
     esac
   done
+
+  # :command.environment_variables_filter
+
+  if [[ -z "${LIFERAY_HOME:-}" ]]; then
+    printf "missing required environment variable: LIFERAY_HOME\n" >&2
+    exit 1
+  fi
 
   # :command.command_filter
   action=${1:-}
