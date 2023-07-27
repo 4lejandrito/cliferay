@@ -1,4 +1,2 @@
-echo "# this file is located in 'src/run_command.sh'"
-echo "# code for 'liferay run' goes here"
-echo "# you can edit it freely and regenerate (it will not be overwritten)"
-inspect_args
+cd $(liferay_folder)
+../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
