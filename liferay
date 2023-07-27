@@ -43,6 +43,7 @@ liferay_usage() {
   printf "  %s   List changed modules\n" "changed-modules"
   printf "  %s   Print gradlew path\n" "gw             "
   printf "  %s   Deploy changed modules\n" "super-deploy   "
+  printf "  %s   Kill Liferay running server\n" "kill           "
   printf "  %s   Enable completions\n" "completions    "
   echo
 
@@ -329,6 +330,35 @@ liferay_super_deploy_usage() {
 }
 
 # :command.usage
+liferay_kill_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "liferay kill - Kill Liferay running server\n"
+    echo
+
+  else
+    printf "liferay kill - Kill Liferay running server\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  liferay kill\n"
+  printf "  liferay kill --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 liferay_completions_usage() {
   if [[ -n $long_usage ]]; then
     printf "liferay completions - Enable completions\n"
@@ -493,6 +523,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'kill\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'run\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -505,16 +539,16 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sd\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'gw\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'sd\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build changed-modules cm completions folder gw ij morning run sd super-deploy sync")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build changed-modules cm completions folder gw ij kill morning run sd super-deploy sync")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -593,6 +627,12 @@ liferay_super_deploy_command() {
   # src/commands/super-deploy.sh
   cd $(liferay folder)
   liferay changed-modules | grep -v test | run-stdin $(liferay gw) -a deploy
+}
+
+# :command.function
+liferay_kill_command() {
+  # src/commands/kill.sh
+  pgrep -f tomcat | xargs kill -9
 }
 
 # :command.function
@@ -690,6 +730,13 @@ parse_requirements() {
       action="super-deploy"
       shift
       liferay_super_deploy_parse_requirements "$@"
+      shift $#
+      ;;
+
+    kill)
+      action="kill"
+      shift
+      liferay_kill_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1133,6 +1180,50 @@ liferay_super_deploy_parse_requirements() {
 }
 
 # :command.parse_requirements
+liferay_kill_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_kill_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kill"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 liferay_completions_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1203,6 +1294,7 @@ run() {
     "changed-modules") liferay_changed_modules_command ;;
     "gw") liferay_gw_command ;;
     "super-deploy") liferay_super_deploy_command ;;
+    "kill") liferay_kill_command ;;
     "completions") liferay_completions_command ;;
   esac
 }

@@ -23,5 +23,7 @@ commands:
 - name: super-deploy
   alias: sd
   help: Deploy changed modules
+- name: kill
+  help: Kill Liferay running server
 - name: completions
   help: "Enable completions"
