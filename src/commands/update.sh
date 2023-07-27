@@ -1,4 +1,4 @@
 cd $(liferay folder)
-gh repo sync 4lejandrito/liferay-portal
+gh repo sync $(gh repo view --json nameWithOwner -q ".nameWithOwner")
 gh repo sync
 git push
