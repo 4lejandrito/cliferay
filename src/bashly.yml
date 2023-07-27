@@ -5,8 +5,8 @@ version: 1.0.0
 commands:
 - name: folder
   help: Print the source folder
-- name: update
-  help: Update codebase
+- name: sync
+  help: Sync fork and local copy with upstream
 - name: build
   help: Run ant all
 - name: ij
@@ -14,7 +14,7 @@ commands:
 - name: run
   help: Start the server
 - name: morning
-  help: Update, build, ij and run
+  help: Sync, build, ij and run
 - name: changed-modules
   alias: cm
   help: List changed modules

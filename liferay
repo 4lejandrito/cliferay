@@ -35,11 +35,11 @@ liferay_usage() {
   # :command.usage_commands
   printf "%s\n" "Commands:"
   printf "  %s   Print the source folder\n" "folder         "
-  printf "  %s   Update codebase\n" "update         "
+  printf "  %s   Sync fork and local copy with upstream\n" "sync           "
   printf "  %s   Run ant all\n" "build          "
   printf "  %s   Run liferay-intellij\n" "ij             "
   printf "  %s   Start the server\n" "run            "
-  printf "  %s   Update, build, ij and run\n" "morning        "
+  printf "  %s   Sync, build, ij and run\n" "morning        "
   printf "  %s   List changed modules\n" "changed-modules"
   printf "  %s   Print gradlew path\n" "gw             "
   printf "  %s   Deploy changed modules\n" "super-deploy   "
@@ -91,20 +91,20 @@ liferay_folder_usage() {
 }
 
 # :command.usage
-liferay_update_usage() {
+liferay_sync_usage() {
   if [[ -n $long_usage ]]; then
-    printf "liferay update - Update codebase\n"
+    printf "liferay sync - Sync fork and local copy with upstream\n"
     echo
 
   else
-    printf "liferay update - Update codebase\n"
+    printf "liferay sync - Sync fork and local copy with upstream\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  liferay update\n"
-  printf "  liferay update --help | -h\n"
+  printf "  liferay sync\n"
+  printf "  liferay sync --help | -h\n"
   echo
 
   # :command.long_usage
@@ -209,11 +209,11 @@ liferay_run_usage() {
 # :command.usage
 liferay_morning_usage() {
   if [[ -n $long_usage ]]; then
-    printf "liferay morning - Update, build, ij and run\n"
+    printf "liferay morning - Sync, build, ij and run\n"
     echo
 
   else
-    printf "liferay morning - Update, build, ij and run\n"
+    printf "liferay morning - Sync, build, ij and run\n"
     echo
 
   fi
@@ -485,11 +485,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'update\'*)'
+  echo $'    \'build\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'build\'*)'
+  echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -514,7 +514,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build changed-modules cm completions folder gw ij morning run sd super-deploy update")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help --version -h -v build changed-modules cm completions folder gw ij morning run sd super-deploy sync")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -532,8 +532,8 @@ liferay_folder_command() {
 }
 
 # :command.function
-liferay_update_command() {
-  # src/commands/update.sh
+liferay_sync_command() {
+  # src/commands/sync.sh
   cd $(liferay folder)
   gh repo sync $(gh repo view --json nameWithOwner -q ".nameWithOwner")
   gh repo sync
@@ -568,7 +568,7 @@ liferay_run_command() {
 # :command.function
 liferay_morning_command() {
   # src/commands/morning.sh
-  liferay update
+  liferay sync
   liferay build
   liferay ij
   liferay run
@@ -637,10 +637,10 @@ parse_requirements() {
       shift $#
       ;;
 
-    update)
-      action="update"
+    sync)
+      action="sync"
       shift
-      liferay_update_parse_requirements "$@"
+      liferay_sync_parse_requirements "$@"
       shift $#
       ;;
 
@@ -781,13 +781,13 @@ liferay_folder_parse_requirements() {
 }
 
 # :command.parse_requirements
-liferay_update_parse_requirements() {
+liferay_sync_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       --help | -h)
         long_usage=yes
-        liferay_update_usage
+        liferay_sync_usage
         exit
         ;;
 
@@ -799,7 +799,7 @@ liferay_update_parse_requirements() {
   done
 
   # :command.command_filter
-  action="update"
+  action="sync"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1195,7 +1195,7 @@ run() {
 
   case "$action" in
     "folder") liferay_folder_command ;;
-    "update") liferay_update_command ;;
+    "sync") liferay_sync_command ;;
     "build") liferay_build_command ;;
     "ij") liferay_ij_command ;;
     "run") liferay_run_command ;;
