@@ -359,7 +359,7 @@ send_completions() {
 # :command.command_functions
 # :command.function
 liferay_update_command() {
-  # src/update_command.sh
+  # src/commands/update.sh
   cd $(liferay_folder)
   gh repo sync 4lejandrito/liferay-portal
   gh repo sync
@@ -369,7 +369,7 @@ liferay_update_command() {
 
 # :command.function
 liferay_build_command() {
-  # src/build_command.sh
+  # src/commands/build.sh
   cd $(liferay_folder)
   ANT_OPTS=-Xmx4096m ant all
 
@@ -377,7 +377,7 @@ liferay_build_command() {
 
 # :command.function
 liferay_ij_command() {
-  # src/ij_command.sh
+  # src/commands/ij.sh
   cd $(liferay_folder)
   ../liferay-intellij/intellij
 
@@ -385,7 +385,7 @@ liferay_ij_command() {
 
 # :command.function
 liferay_run_command() {
-  # src/run_command.sh
+  # src/commands/run.sh
   cd $(liferay_folder)
   ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
 
@@ -393,7 +393,7 @@ liferay_run_command() {
 
 # :command.function
 liferay_morning_command() {
-  # src/morning_command.sh
+  # src/commands/morning.sh
   liferay update
   liferay build
   liferay ij
@@ -403,7 +403,7 @@ liferay_morning_command() {
 
 # :command.function
 liferay_completions_command() {
-  # src/completions_command.sh
+  # src/commands/completions.sh
   send_completions
 }
 
