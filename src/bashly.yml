@@ -12,6 +12,10 @@ commands:
   help: Print the source folder
 - name: sync
   help: Sync fork and local copy with upstream
+  dependencies:
+    gh:
+      command: [gh]
+      help: install it from https://cli.github.com
 - name: build
   help: Run ant all
 - name: ij
