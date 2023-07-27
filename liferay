@@ -41,7 +41,7 @@ liferay_usage() {
   printf "  %s   Start the server\n" "run            "
   printf "  %s   Sync, build, ij and run\n" "morning        "
   printf "  %s   List changed modules\n" "changed-modules"
-  printf "  %s   Print gradlew path\n" "gw             "
+  printf "  %s   Run gradlew\n" "gw             "
   printf "  %s   Deploy changed modules\n" "super-deploy   "
   printf "  %s   Kill Liferay running server\n" "kill           "
   printf "  %s   Enable completions\n" "completions    "
@@ -279,17 +279,17 @@ liferay_changed_modules_usage() {
 # :command.usage
 liferay_gw_usage() {
   if [[ -n $long_usage ]]; then
-    printf "liferay gw - Print gradlew path\n"
+    printf "liferay gw - Run gradlew\n"
     echo
 
   else
-    printf "liferay gw - Print gradlew path\n"
+    printf "liferay gw - Run gradlew\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  liferay gw\n"
+  printf "  liferay gw [...]\n"
   printf "  liferay gw --help | -h\n"
   echo
 
@@ -633,14 +633,14 @@ liferay_changed_modules_command() {
 # :command.function
 liferay_gw_command() {
   # src/commands/gw.sh
-  echo "$(liferay folder)/gradlew"
+  $(liferay folder)/gradlew ${other_args[*]}
 }
 
 # :command.function
 liferay_super_deploy_command() {
   # src/commands/super-deploy.sh
   cd $(liferay folder)
-  liferay changed-modules | grep -v test | run-stdin $(liferay gw) -a deploy
+  liferay changed-modules | grep -v test | run-stdin liferay gw -a deploy
 }
 
 # :command.function
@@ -1147,16 +1147,22 @@ liferay_gw_parse_requirements() {
     key="$1"
     case "$key" in
 
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
+
       -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
+        other_args+=("$1")
+        shift
         ;;
 
       *)
         # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
+        # :command.parse_requirements_case_catch_all
+        other_args+=("$1")
+        shift
 
         ;;
 

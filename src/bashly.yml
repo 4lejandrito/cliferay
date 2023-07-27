@@ -28,7 +28,8 @@ commands:
   alias: cm
   help: List changed modules
 - name: gw
-  help: Print gradlew path
+  help: Run gradlew
+  catch_all: true
 - name: super-deploy
   alias: sd
   help: Deploy changed modules

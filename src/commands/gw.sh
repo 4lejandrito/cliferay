@@ -1,1 +1,1 @@
-echo "$(liferay folder)/gradlew"
+$(liferay folder)/gradlew ${other_args[*]}
