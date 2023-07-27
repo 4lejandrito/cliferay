@@ -1,2 +1,2 @@
-cd $(liferay folder)
-liferay changed-modules | grep -v test | run-stdin liferay gw -a deploy
+cd $(cliferay folder)
+cliferay changed-modules | grep -v test | run-stdin cliferay gw -a deploy

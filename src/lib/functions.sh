@@ -12,10 +12,10 @@ function get-module() {
 function run-stdin() {
 	while read line
 	do
-		echo "" | (cd $(liferay folder)/$line; $*)
+		echo "" | (cd $(cliferay folder)/$line; $*)
 	done
 }
 
 function liferay-get-modules() {
-	(cd $(liferay folder) && $* --name-only | get-module | uniq)
+	(cd $(cliferay folder) && $* --name-only | get-module | uniq)
 }

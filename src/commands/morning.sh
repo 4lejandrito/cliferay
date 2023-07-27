@@ -1,4 +1,4 @@
-liferay sync
-liferay build
-liferay ij
-liferay run
+cliferay sync
+cliferay build
+cliferay ij
+cliferay run
