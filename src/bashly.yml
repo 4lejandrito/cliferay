@@ -8,32 +8,45 @@ environment_variables:
     required: true
 
 commands:
-- name: folder
-  help: Print the source folder
+
 - name: sync
   help: Sync fork and local copy with upstream
+  group: Git
   dependencies:
     gh:
       command: [gh]
       help: install it from https://cli.github.com
+
 - name: build
   help: Run ant all
+  group: Build
 - name: ij
   help: Run liferay-intellij
-- name: run
-  help: Start the server
-- name: morning
-  help: Sync, build, ij and run
-- name: changed-modules
-  alias: cm
-  help: List changed modules
+  group: Build
 - name: gw
   help: Run gradlew
   catch_all: true
+  group: Build
+
+- name: changed-modules
+  alias: cm
+  help: List changed modules
+  group: Module
 - name: super-deploy
   alias: sd
   help: Deploy changed modules
+  group: Module
+
+- name: run
+  help: Start the server
+  group: Server
 - name: kill
-  help: Kill Liferay running server
+  help: Kill the server
+  group: Server
+
+- name: morning
+  help: Sync, build, ij and run
+- name: folder
+  help: Print the source folder
 - name: completions
   help: "Enable completions"

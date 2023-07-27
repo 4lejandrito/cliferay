@@ -33,17 +33,25 @@ liferay_usage() {
   printf "  liferay --version | -v\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "Commands:"
-  printf "  %s   Print the source folder\n" "folder         "
+  printf "%s\n" "Git Commands:"
   printf "  %s   Sync fork and local copy with upstream\n" "sync           "
+  echo
+  printf "%s\n" "Build Commands:"
   printf "  %s   Run ant all\n" "build          "
   printf "  %s   Run liferay-intellij\n" "ij             "
-  printf "  %s   Start the server\n" "run            "
-  printf "  %s   Sync, build, ij and run\n" "morning        "
-  printf "  %s   List changed modules\n" "changed-modules"
   printf "  %s   Run gradlew\n" "gw             "
+  echo
+  printf "%s\n" "Module Commands:"
+  printf "  %s   List changed modules\n" "changed-modules"
   printf "  %s   Deploy changed modules\n" "super-deploy   "
-  printf "  %s   Kill Liferay running server\n" "kill           "
+  echo
+  printf "%s\n" "Server Commands:"
+  printf "  %s   Start the server\n" "run            "
+  printf "  %s   Kill the server\n" "kill           "
+  echo
+  printf "%s\n" "Commands:"
+  printf "  %s   Sync, build, ij and run\n" "morning        "
+  printf "  %s   Print the source folder\n" "folder         "
   printf "  %s   Enable completions\n" "completions    "
   echo
 
@@ -65,35 +73,6 @@ liferay_usage() {
     # :environment_variable.usage
     printf "  %s\n" "LIFERAY_HOME (required)"
     printf "    Location of your main liferay-portal clone\n"
-    echo
-
-  fi
-}
-
-# :command.usage
-liferay_folder_usage() {
-  if [[ -n $long_usage ]]; then
-    printf "liferay folder - Print the source folder\n"
-    echo
-
-  else
-    printf "liferay folder - Print the source folder\n"
-    echo
-
-  fi
-
-  printf "%s\n" "Usage:"
-  printf "  liferay folder\n"
-  printf "  liferay folder --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n $long_usage ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
     echo
 
   fi
@@ -187,49 +166,20 @@ liferay_ij_usage() {
 }
 
 # :command.usage
-liferay_run_usage() {
+liferay_gw_usage() {
   if [[ -n $long_usage ]]; then
-    printf "liferay run - Start the server\n"
+    printf "liferay gw - Run gradlew\n"
     echo
 
   else
-    printf "liferay run - Start the server\n"
+    printf "liferay gw - Run gradlew\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  liferay run\n"
-  printf "  liferay run --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n $long_usage ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-  fi
-}
-
-# :command.usage
-liferay_morning_usage() {
-  if [[ -n $long_usage ]]; then
-    printf "liferay morning - Sync, build, ij and run\n"
-    echo
-
-  else
-    printf "liferay morning - Sync, build, ij and run\n"
-    echo
-
-  fi
-
-  printf "%s\n" "Usage:"
-  printf "  liferay morning\n"
-  printf "  liferay morning --help | -h\n"
+  printf "  liferay gw [...]\n"
+  printf "  liferay gw --help | -h\n"
   echo
 
   # :command.long_usage
@@ -277,35 +227,6 @@ liferay_changed_modules_usage() {
 }
 
 # :command.usage
-liferay_gw_usage() {
-  if [[ -n $long_usage ]]; then
-    printf "liferay gw - Run gradlew\n"
-    echo
-
-  else
-    printf "liferay gw - Run gradlew\n"
-    echo
-
-  fi
-
-  printf "%s\n" "Usage:"
-  printf "  liferay gw [...]\n"
-  printf "  liferay gw --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n $long_usage ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-  fi
-}
-
-# :command.usage
 liferay_super_deploy_usage() {
   if [[ -n $long_usage ]]; then
     printf "liferay super-deploy - Deploy changed modules\n"
@@ -338,13 +259,42 @@ liferay_super_deploy_usage() {
 }
 
 # :command.usage
-liferay_kill_usage() {
+liferay_run_usage() {
   if [[ -n $long_usage ]]; then
-    printf "liferay kill - Kill Liferay running server\n"
+    printf "liferay run - Start the server\n"
     echo
 
   else
-    printf "liferay kill - Kill Liferay running server\n"
+    printf "liferay run - Start the server\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  liferay run\n"
+  printf "  liferay run --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+liferay_kill_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "liferay kill - Kill the server\n"
+    echo
+
+  else
+    printf "liferay kill - Kill the server\n"
     echo
 
   fi
@@ -352,6 +302,64 @@ liferay_kill_usage() {
   printf "%s\n" "Usage:"
   printf "  liferay kill\n"
   printf "  liferay kill --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+liferay_morning_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "liferay morning - Sync, build, ij and run\n"
+    echo
+
+  else
+    printf "liferay morning - Sync, build, ij and run\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  liferay morning\n"
+  printf "  liferay morning --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+liferay_folder_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "liferay folder - Print the source folder\n"
+    echo
+
+  else
+    printf "liferay folder - Print the source folder\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  liferay folder\n"
+  printf "  liferay folder --help | -h\n"
   echo
 
   # :command.long_usage
@@ -539,11 +547,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'ij\'*)'
+  echo $'    \'cm\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'cm\'*)'
+  echo $'    \'ij\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_liferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -567,18 +575,6 @@ send_completions() {
 }
 
 # :command.command_functions
-# :command.function
-liferay_folder_command() {
-  # src/commands/folder.sh
-  root=$(git rev-parse --show-toplevel 2> /dev/null || true)
-  if [[ $root == *liferay-portal ]]; then
-      echo $root
-  else
-      echo $LIFERAY_HOME
-  fi
-
-}
-
 # :command.function
 liferay_sync_command() {
   # src/commands/sync.sh
@@ -606,11 +602,37 @@ liferay_ij_command() {
 }
 
 # :command.function
+liferay_gw_command() {
+  # src/commands/gw.sh
+  $(liferay folder)/gradlew ${other_args[*]}
+}
+
+# :command.function
+liferay_changed_modules_command() {
+  # src/commands/changed-modules.sh
+  cd $(liferay folder)
+  liferay-get-modules git diff --name-only ${BRANCH:-master}
+}
+
+# :command.function
+liferay_super_deploy_command() {
+  # src/commands/super-deploy.sh
+  cd $(liferay folder)
+  liferay changed-modules | grep -v test | run-stdin liferay gw -a deploy
+}
+
+# :command.function
 liferay_run_command() {
   # src/commands/run.sh
   cd $(liferay folder)
   ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
 
+}
+
+# :command.function
+liferay_kill_command() {
+  # src/commands/kill.sh
+  pgrep -f tomcat | xargs kill -9
 }
 
 # :command.function
@@ -624,29 +646,15 @@ liferay_morning_command() {
 }
 
 # :command.function
-liferay_changed_modules_command() {
-  # src/commands/changed-modules.sh
-  cd $(liferay folder)
-  liferay-get-modules git diff --name-only ${BRANCH:-master}
-}
+liferay_folder_command() {
+  # src/commands/folder.sh
+  root=$(git rev-parse --show-toplevel 2> /dev/null || true)
+  if [[ $root == *liferay-portal ]]; then
+      echo $root
+  else
+      echo $LIFERAY_HOME
+  fi
 
-# :command.function
-liferay_gw_command() {
-  # src/commands/gw.sh
-  $(liferay folder)/gradlew ${other_args[*]}
-}
-
-# :command.function
-liferay_super_deploy_command() {
-  # src/commands/super-deploy.sh
-  cd $(liferay folder)
-  liferay changed-modules | grep -v test | run-stdin liferay gw -a deploy
-}
-
-# :command.function
-liferay_kill_command() {
-  # src/commands/kill.sh
-  pgrep -f tomcat | xargs kill -9
 }
 
 # :command.function
@@ -691,13 +699,6 @@ parse_requirements() {
   case $action in
     -*) ;;
 
-    folder)
-      action="folder"
-      shift
-      liferay_folder_parse_requirements "$@"
-      shift $#
-      ;;
-
     sync)
       action="sync"
       shift
@@ -719,17 +720,10 @@ parse_requirements() {
       shift $#
       ;;
 
-    run)
-      action="run"
+    gw)
+      action="gw"
       shift
-      liferay_run_parse_requirements "$@"
-      shift $#
-      ;;
-
-    morning)
-      action="morning"
-      shift
-      liferay_morning_parse_requirements "$@"
+      liferay_gw_parse_requirements "$@"
       shift $#
       ;;
 
@@ -740,13 +734,6 @@ parse_requirements() {
       shift $#
       ;;
 
-    gw)
-      action="gw"
-      shift
-      liferay_gw_parse_requirements "$@"
-      shift $#
-      ;;
-
     super-deploy | sd)
       action="super-deploy"
       shift
@@ -754,10 +741,31 @@ parse_requirements() {
       shift $#
       ;;
 
+    run)
+      action="run"
+      shift
+      liferay_run_parse_requirements "$@"
+      shift $#
+      ;;
+
     kill)
       action="kill"
       shift
       liferay_kill_parse_requirements "$@"
+      shift $#
+      ;;
+
+    morning)
+      action="morning"
+      shift
+      liferay_morning_parse_requirements "$@"
+      shift $#
+      ;;
+
+    folder)
+      action="folder"
+      shift
+      liferay_folder_parse_requirements "$@"
       shift $#
       ;;
 
@@ -780,50 +788,6 @@ parse_requirements() {
       ;;
 
   esac
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-liferay_folder_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        liferay_folder_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="folder"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -990,6 +954,144 @@ liferay_ij_parse_requirements() {
 }
 
 # :command.parse_requirements
+liferay_gw_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_gw_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="gw"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
+
+      -?*)
+        other_args+=("$1")
+        shift
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_catch_all
+        other_args+=("$1")
+        shift
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+liferay_changed_modules_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_changed_modules_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="changed-modules"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+liferay_super_deploy_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_super_deploy_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="super-deploy"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 liferay_run_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1009,6 +1111,50 @@ liferay_run_parse_requirements() {
 
   # :command.command_filter
   action="run"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+liferay_kill_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        liferay_kill_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kill"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1078,13 +1224,13 @@ liferay_morning_parse_requirements() {
 }
 
 # :command.parse_requirements
-liferay_changed_modules_parse_requirements() {
+liferay_folder_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       --help | -h)
         long_usage=yes
-        liferay_changed_modules_usage
+        liferay_folder_usage
         exit
         ;;
 
@@ -1096,145 +1242,7 @@ liferay_changed_modules_parse_requirements() {
   done
 
   # :command.command_filter
-  action="changed-modules"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-liferay_gw_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        liferay_gw_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="gw"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      --)
-        shift
-        other_args+=("$@")
-        break
-        ;;
-
-      -?*)
-        other_args+=("$1")
-        shift
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_catch_all
-        other_args+=("$1")
-        shift
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-liferay_super_deploy_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        liferay_super_deploy_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="super-deploy"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-liferay_kill_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        liferay_kill_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="kill"
+  action="folder"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1321,16 +1329,16 @@ run() {
   parse_requirements "${input[@]}"
 
   case "$action" in
-    "folder") liferay_folder_command ;;
     "sync") liferay_sync_command ;;
     "build") liferay_build_command ;;
     "ij") liferay_ij_command ;;
-    "run") liferay_run_command ;;
-    "morning") liferay_morning_command ;;
-    "changed-modules") liferay_changed_modules_command ;;
     "gw") liferay_gw_command ;;
+    "changed-modules") liferay_changed_modules_command ;;
     "super-deploy") liferay_super_deploy_command ;;
+    "run") liferay_run_command ;;
     "kill") liferay_kill_command ;;
+    "morning") liferay_morning_command ;;
+    "folder") liferay_folder_command ;;
     "completions") liferay_completions_command ;;
   esac
 }
