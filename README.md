@@ -25,7 +25,7 @@ Server Commands:
 Commands:
   morning           Sync, build, ij and run
   folder            Print the source folder
-  completions       Enable completions
+  completions       Print completions script
 ```
 
 Created with https://bashly.dannyb.co

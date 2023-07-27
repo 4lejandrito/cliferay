@@ -49,4 +49,4 @@ commands:
 - name: folder
   help: Print the source folder
 - name: completions
-  help: "Enable completions"
+  help: Print completions script

@@ -52,7 +52,7 @@ cliferay_usage() {
   printf "%s\n" "Commands:"
   printf "  %s   Sync, build, ij and run\n" "morning        "
   printf "  %s   Print the source folder\n" "folder         "
-  printf "  %s   Enable completions\n" "completions    "
+  printf "  %s   Print completions script\n" "completions    "
   echo
 
   # :command.long_usage
@@ -377,11 +377,11 @@ cliferay_folder_usage() {
 # :command.usage
 cliferay_completions_usage() {
   if [[ -n $long_usage ]]; then
-    printf "cliferay completions - Enable completions\n"
+    printf "cliferay completions - Print completions script\n"
     echo
 
   else
-    printf "cliferay completions - Enable completions\n"
+    printf "cliferay completions - Print completions script\n"
     echo
 
   fi
