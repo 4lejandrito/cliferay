@@ -1,0 +1,15 @@
+name: liferay
+help: Daily scripts to work with Liferay
+version: 1.0.0
+
+commands:
+- name: update
+  help: Update codebase
+- name: build
+  help: Run ant all
+- name: ij
+  help: Run liferay-intellij
+- name: run
+  help: Start the server
+- name: morning
+  help: Update, build, ij and run
