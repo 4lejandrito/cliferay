@@ -253,54 +253,54 @@ inspect_args() {
 
 }
 
+# :command.user_lib
+# src/lib/sample_function.sh
+liferay_folder() {
+  echo "/home/alex/Projects/liferay/liferay-portal"
+}
+
 # :command.command_functions
 # :command.function
 liferay_update_command() {
   # src/update_command.sh
-  echo "# this file is located in 'src/update_command.sh'"
-  echo "# code for 'liferay update' goes here"
-  echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  inspect_args
+  cd $(liferay_folder)
+  gh repo sync 4lejandrito/liferay-portal
+  gh repo sync
+  git push
 
 }
 
 # :command.function
 liferay_build_command() {
   # src/build_command.sh
-  echo "# this file is located in 'src/build_command.sh'"
-  echo "# code for 'liferay build' goes here"
-  echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  inspect_args
+  cd $(liferay_folder)
+  ANT_OPTS=-Xmx4096m ant all
 
 }
 
 # :command.function
 liferay_ij_command() {
   # src/ij_command.sh
-  echo "# this file is located in 'src/ij_command.sh'"
-  echo "# code for 'liferay ij' goes here"
-  echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  inspect_args
+  cd $(liferay_folder)
+  ../liferay-intellij/intellij
 
 }
 
 # :command.function
 liferay_run_command() {
   # src/run_command.sh
-  echo "# this file is located in 'src/run_command.sh'"
-  echo "# code for 'liferay run' goes here"
-  echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  inspect_args
+  cd $(liferay_folder)
+  ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
 
 }
 
 # :command.function
 liferay_morning_command() {
   # src/morning_command.sh
-  echo "# this file is located in 'src/morning_command.sh'"
-  echo "# code for 'liferay morning' goes here"
-  echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  inspect_args
+  liferay update
+  liferay build
+  liferay ij
+  liferay run
 
 }
 
