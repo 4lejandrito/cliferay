@@ -18,7 +18,10 @@ version_command() {
 # :command.usage
 cliferay_usage() {
   if [[ -n $long_usage ]]; then
-    printf "cliferay - Daily scripts to work with Liferay\n"
+    printf "cliferay\n"
+    echo
+
+    printf "  Daily scripts to work with Liferay\n  \n  The scripts can be run from any folder:\n    - If the folder is outside the repo it will use LIFERAY_HOME.\n    - If the folder is inside the repo it will use that repo. \n    \n  For example every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will just work no matter which folder I am in.\n"
     echo
 
   else
@@ -572,11 +575,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
+  echo $'    \'kill\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -584,7 +587,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sd\'*)'
+  echo $'    \'cm\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -596,11 +599,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'cm\'*)'
+  echo $'    \'sf\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sf\'*)'
+  echo $'    \'sd\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''

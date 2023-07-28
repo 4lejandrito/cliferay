@@ -1,5 +1,17 @@
 name: cliferay
-help: Daily scripts to work with Liferay
+help: > 
+  Daily scripts to work with Liferay
+
+
+  The scripts can be run from any folder:
+    - If the folder is outside the repo it will use LIFERAY_HOME.
+    - If the folder is inside the repo it will use that repo. 
+    
+  For example every day I open my terminal and type:
+  
+    > cliferay morning
+  
+  and it will just work no matter which folder I am in.
 version: 1.0.0
 
 environment_variables:
