@@ -28,4 +28,19 @@ Commands:
   completions       Print completions script
 ```
 
+# Installation
+1. Clone this repo.
+2. Add it to your path:
+    ```bash
+    export PATH=/path/to/cliferay:$PATH
+    ```
+3. Run it!
+    ```bash
+    cliferay --help
+    ```
+4. If you want to enable bash completions add this to your `.bash_profile`, `.zshrc` or similar:
+    ```bash
+    eval "$(cliferay completions)"
+    ```
+----
 Created with https://bashly.dannyb.co.
