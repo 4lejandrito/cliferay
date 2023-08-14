@@ -52,6 +52,7 @@ cliferay_usage() {
   printf "%s\n" "Server Commands:"
   printf "  %s   Start the server\n" "run            "
   printf "  %s   Kill the server\n" "kill           "
+  printf "  %s   Delete all persisted data\n" "nuke           "
   echo
   printf "%s\n" "Commands:"
   printf "  %s   Sync, build, ij and run\n" "morning        "
@@ -353,6 +354,35 @@ cliferay_kill_usage() {
 }
 
 # :command.usage
+cliferay_nuke_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay nuke - Delete all persisted data\n"
+    echo
+
+  else
+    printf "cliferay nuke - Delete all persisted data\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay nuke\n"
+  printf "  cliferay nuke --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 cliferay_morning_usage() {
   if [[ -n $long_usage ]]; then
     printf "cliferay morning - Sync, build, ij and run\n"
@@ -583,6 +613,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'nuke\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'run\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -595,11 +629,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'gw\'*)'
+  echo $'    \'sf\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sf\'*)'
+  echo $'    \'gw\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -608,7 +642,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v build changed-modules cm completions folder format-source gw ij kill morning run sd sf super-deploy sync")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -684,6 +718,14 @@ cliferay_run_command() {
 cliferay_kill_command() {
   # src/commands/kill.sh
   pgrep -f tomcat | xargs kill -9
+}
+
+# :command.function
+cliferay_nuke_command() {
+  # src/commands/nuke.sh
+  cd $(cliferay folder)
+  rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/state ../bundles/tomcat-9.0.75/work/Catalina
+  echo "drop database lportal; create database lportal CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
 }
 
 # :command.function
@@ -810,6 +852,13 @@ parse_requirements() {
       action="kill"
       shift
       cliferay_kill_parse_requirements "$@"
+      shift $#
+      ;;
+
+    nuke)
+      action="nuke"
+      shift
+      cliferay_nuke_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1282,6 +1331,50 @@ cliferay_kill_parse_requirements() {
 }
 
 # :command.parse_requirements
+cliferay_nuke_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_nuke_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="nuke"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 cliferay_morning_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1440,6 +1533,7 @@ run() {
     "format-source") cliferay_format_source_command ;;
     "run") cliferay_run_command ;;
     "kill") cliferay_kill_command ;;
+    "nuke") cliferay_nuke_command ;;
     "morning") cliferay_morning_command ;;
     "folder") cliferay_folder_command ;;
     "completions") cliferay_completions_command ;;

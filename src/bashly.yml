@@ -59,6 +59,9 @@ commands:
 - name: kill
   help: Kill the server
   group: Server
+- name: nuke
+  help: Delete all persisted data
+  group: Server
 
 - name: morning
   help: Sync, build, ij and run
