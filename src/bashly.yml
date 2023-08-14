@@ -62,6 +62,9 @@ commands:
 - name: nuke
   help: Delete all persisted data
   group: Server
+- name: tomcat-folder
+  help: Print the current tomcat folder
+  group: Server
 
 - name: morning
   help: Sync, build, ij and run

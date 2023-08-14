@@ -53,6 +53,7 @@ cliferay_usage() {
   printf "  %s   Start the server\n" "run            "
   printf "  %s   Kill the server\n" "kill           "
   printf "  %s   Delete all persisted data\n" "nuke           "
+  printf "  %s   Print the current tomcat folder\n" "tomcat-folder  "
   echo
   printf "%s\n" "Commands:"
   printf "  %s   Sync, build, ij and run\n" "morning        "
@@ -383,6 +384,35 @@ cliferay_nuke_usage() {
 }
 
 # :command.usage
+cliferay_tomcat_folder_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay tomcat-folder - Print the current tomcat folder\n"
+    echo
+
+  else
+    printf "cliferay tomcat-folder - Print the current tomcat folder\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay tomcat-folder\n"
+  printf "  cliferay tomcat-folder --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 cliferay_morning_usage() {
   if [[ -n $long_usage ]]; then
     printf "cliferay morning - Sync, build, ij and run\n"
@@ -581,6 +611,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'tomcat-folder\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'format-source\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -605,11 +639,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
+  echo $'    \'kill\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -625,11 +659,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'ij\'*)'
+  echo $'    \'sf\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sf\'*)'
+  echo $'    \'ij\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -642,7 +676,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -709,8 +743,7 @@ cliferay_format_source_command() {
 # :command.function
 cliferay_run_command() {
   # src/commands/run.sh
-  cd $(cliferay folder)
-  ../bundles/tomcat-9.0.75/bin/catalina.sh jpda run
+  $(cliferay tomcat-folder)/bin/catalina.sh jpda run
 
 }
 
@@ -724,8 +757,15 @@ cliferay_kill_command() {
 cliferay_nuke_command() {
   # src/commands/nuke.sh
   cd $(cliferay folder)
-  rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/state ../bundles/tomcat-9.0.75/work/Catalina
+  rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/state .$(cliferay tomcat-folder)/work/Catalina
   echo "drop database lportal; create database lportal CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
+}
+
+# :command.function
+cliferay_tomcat_folder_command() {
+  # src/commands/tomcat-folder.sh
+  cd $(cliferay folder)/../bundles
+  ls -d "$PWD/"** | grep tomcat | tail -n 1
 }
 
 # :command.function
@@ -859,6 +899,13 @@ parse_requirements() {
       action="nuke"
       shift
       cliferay_nuke_parse_requirements "$@"
+      shift $#
+      ;;
+
+    tomcat-folder)
+      action="tomcat-folder"
+      shift
+      cliferay_tomcat_folder_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1375,6 +1422,50 @@ cliferay_nuke_parse_requirements() {
 }
 
 # :command.parse_requirements
+cliferay_tomcat_folder_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_tomcat_folder_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="tomcat-folder"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 cliferay_morning_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1534,6 +1625,7 @@ run() {
     "run") cliferay_run_command ;;
     "kill") cliferay_kill_command ;;
     "nuke") cliferay_nuke_command ;;
+    "tomcat-folder") cliferay_tomcat_folder_command ;;
     "morning") cliferay_morning_command ;;
     "folder") cliferay_folder_command ;;
     "completions") cliferay_completions_command ;;
