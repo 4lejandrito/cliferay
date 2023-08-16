@@ -737,7 +737,7 @@ cliferay_super_deploy_command() {
 cliferay_format_source_command() {
   # src/commands/format-source.sh
   cd $(cliferay folder)/portal-impl
-  ant format-source-current-branch
+  ANT_OPTS=-Xmx4096m ant format-source-current-branch
 }
 
 # :command.function
