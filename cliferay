@@ -889,6 +889,15 @@ parse_requirements() {
     exit 1
   fi
 
+  # :command.dependencies_filter
+  if command -v gh >/dev/null 2>&1; then
+    deps['gh']="$(command -v gh | head -n1)"
+  else
+    printf "missing dependency: gh\n" >&2
+    printf "%s\n" "install it from https://cli.github.com" >&2
+    exit 1
+  fi
+
   # :command.command_filter
   action=${1:-}
 
@@ -1054,15 +1063,6 @@ cliferay_sync_parse_requirements() {
     esac
   done
 
-  # :command.dependencies_filter
-  if command -v gh >/dev/null 2>&1; then
-    deps['gh']="$(command -v gh | head -n1)"
-  else
-    printf "missing dependency: gh\n" >&2
-    printf "%s\n" "install it from https://cli.github.com" >&2
-    exit 1
-  fi
-
   # :command.command_filter
   action="sync"
 
@@ -1106,15 +1106,6 @@ cliferay_brian_parse_requirements() {
 
     esac
   done
-
-  # :command.dependencies_filter
-  if command -v gh >/dev/null 2>&1; then
-    deps['gh']="$(command -v gh | head -n1)"
-  else
-    printf "missing dependency: gh\n" >&2
-    printf "%s\n" "install it from https://cli.github.com" >&2
-    exit 1
-  fi
 
   # :command.command_filter
   action="brian"
