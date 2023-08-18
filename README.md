@@ -20,6 +20,7 @@ Usage:
 
 Git Commands:
   sync              Sync fork and local copy with upstream
+  brian             Sync fork and local copy with upstream
 
 Build Commands:
   build             Run ant all
@@ -34,6 +35,8 @@ Module Commands:
 Server Commands:
   run               Start the server
   kill              Kill the server
+  nuke              Delete all persisted data
+  tomcat-folder     Print the current tomcat folder
 
 Commands:
   morning           Sync, build, ij and run
