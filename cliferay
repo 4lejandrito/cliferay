@@ -38,6 +38,7 @@ cliferay_usage() {
   # :command.usage_commands
   printf "%s\n" "Git Commands:"
   printf "  %s   Sync fork and local copy with upstream\n" "sync           "
+  printf "  %s   Sync fork and local copy with upstream\n" "brian          "
   echo
   printf "%s\n" "Build Commands:"
   printf "  %s   Run ant all\n" "build          "
@@ -108,6 +109,43 @@ cliferay_sync_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_brian_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay brian - Sync fork and local copy with upstream\n"
+    echo
+
+  else
+    printf "cliferay brian - Sync fork and local copy with upstream\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay brian PR\n"
+  printf "  cliferay brian --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "PR"
+    printf "    Link to the GitHub PR.\n"
     echo
 
   fi
@@ -639,11 +677,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
+  echo $'    \'brian\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -651,23 +689,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'kill\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'run\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'cm\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'sf\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'ij\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'gw\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -675,8 +701,24 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'sf\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'gw\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'cm\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'ij\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v brian build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -695,6 +737,27 @@ cliferay_sync_command() {
   gh repo sync
   git push
 
+}
+
+# :command.function
+cliferay_brian_command() {
+  # src/commands/brian.sh
+  PR=${args["pr"]}
+  echo "Checking out $PR"
+  gh pr checkout -f $PR
+  echo "Creating Brian's PR from $PR"
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)-brian
+  git branch -D $BRANCH &>/dev/null || true
+  git checkout -b $BRANCH
+  git push -f origin $BRANCH
+  git branch -u origin/$BRANCH
+  BRIAN_PR=$(gh pr create --title "$(gh pr view $PR --json title --jq .title)" --body "$(gh pr view $PR --json body --jq .body)" -R brianchandotcom/liferay-portal)
+  sleep 2
+  gh pr comment $BRIAN_PR --body "ci:reopen"
+  echo "Closing $PR"
+  gh pr comment $PR --body "$BRIAN_PR"
+  gh pr close $PR
+  echo $BRIAN_PR
 }
 
 # :command.function
@@ -836,6 +899,13 @@ parse_requirements() {
       action="sync"
       shift
       cliferay_sync_parse_requirements "$@"
+      shift $#
+      ;;
+
+    brian)
+      action="brian"
+      shift
+      cliferay_brian_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1016,6 +1086,71 @@ cliferay_sync_parse_requirements() {
 
     esac
   done
+
+}
+
+# :command.parse_requirements
+cliferay_brian_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_brian_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v gh >/dev/null 2>&1; then
+    deps['gh']="$(command -v gh | head -n1)"
+  else
+    printf "missing dependency: gh\n" >&2
+    printf "%s\n" "install it from https://cli.github.com" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="brian"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['pr']+x} ]]; then
+
+          args['pr']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['pr']+x} ]]; then
+    printf "missing required argument: PR\nusage: cliferay brian PR\n" >&2
+    exit 1
+  fi
 
 }
 
@@ -1616,6 +1751,7 @@ run() {
 
   case "$action" in
     "sync") cliferay_sync_command ;;
+    "brian") cliferay_brian_command ;;
     "build") cliferay_build_command ;;
     "ij") cliferay_ij_command ;;
     "gw") cliferay_gw_command ;;

@@ -28,6 +28,17 @@ commands:
     gh:
       command: [gh]
       help: install it from https://cli.github.com
+- name: brian
+  help: Sync fork and local copy with upstream
+  group: Git
+  args:
+  - name: pr
+    help: Link to the GitHub PR.
+    required: true
+  dependencies:
+    gh:
+      command: [gh]
+      help: install it from https://cli.github.com
 
 - name: build
   help: Run ant all
