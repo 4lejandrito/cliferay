@@ -32,6 +32,8 @@ commands:
 - name: brian
   help: Sync fork and local copy with upstream
   group: Git
+  examples:
+    - cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433
   args:
   - name: pr
     help: Link to the GitHub PR.

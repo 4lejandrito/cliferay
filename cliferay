@@ -148,6 +148,11 @@ cliferay_brian_usage() {
     printf "    Link to the GitHub PR.\n"
     echo
 
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433\n"
+    echo
+
   fi
 }
 
