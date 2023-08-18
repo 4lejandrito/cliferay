@@ -38,7 +38,7 @@ cliferay_usage() {
   # :command.usage_commands
   printf "%s\n" "Git Commands:"
   printf "  %s   Sync fork and local copy with upstream\n" "sync           "
-  printf "  %s   Sync fork and local copy with upstream\n" "brian          "
+  printf "  %s   Forward an existing PR to Brian and close it\n" "brian          "
   echo
   printf "%s\n" "Build Commands:"
   printf "  %s   Run ant all\n" "build          "
@@ -117,11 +117,11 @@ cliferay_sync_usage() {
 # :command.usage
 cliferay_brian_usage() {
   if [[ -n $long_usage ]]; then
-    printf "cliferay brian - Sync fork and local copy with upstream\n"
+    printf "cliferay brian - Forward an existing PR to Brian and close it\n"
     echo
 
   else
-    printf "cliferay brian - Sync fork and local copy with upstream\n"
+    printf "cliferay brian - Forward an existing PR to Brian and close it\n"
     echo
 
   fi

@@ -20,7 +20,7 @@ Usage:
 
 Git Commands:
   sync              Sync fork and local copy with upstream
-  brian             Sync fork and local copy with upstream
+  brian             Forward an existing PR to Brian and close it
 
 Build Commands:
   build             Run ant all

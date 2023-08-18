@@ -30,7 +30,7 @@ commands:
   help: Sync fork and local copy with upstream
   group: Git
 - name: brian
-  help: Sync fork and local copy with upstream
+  help: Forward an existing PR to Brian and close it
   group: Git
   examples:
     - cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433
