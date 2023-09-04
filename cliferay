@@ -44,11 +44,13 @@ cliferay_usage() {
   printf "  %s   Run ant all\n" "build          "
   printf "  %s   Run liferay-intellij\n" "ij             "
   printf "  %s   Run gradlew\n" "gw             "
+  printf "  %s   Run ant\n" "ant            "
   echo
   printf "%s\n" "Module Commands:"
   printf "  %s   List changed modules\n" "changed-modules"
   printf "  %s   Deploy changed modules\n" "super-deploy   "
   printf "  %s   Run SF globally\n" "format-source  "
+  printf "  %s   Deploy the current folder\n" "deploy         "
   echo
   printf "%s\n" "Server Commands:"
   printf "  %s   Start the server\n" "run            "
@@ -244,6 +246,35 @@ cliferay_gw_usage() {
 }
 
 # :command.usage
+cliferay_ant_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay ant - Run ant\n"
+    echo
+
+  else
+    printf "cliferay ant - Run ant\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay ant [...]\n"
+  printf "  cliferay ant --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 cliferay_changed_modules_usage() {
   if [[ -n $long_usage ]]; then
     printf "cliferay changed-modules - List changed modules\n"
@@ -325,6 +356,38 @@ cliferay_format_source_usage() {
   printf "%s\n" "Usage:"
   printf "  cliferay format-source\n"
   printf "  cliferay format-source --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_deploy_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay deploy - Deploy the current folder\n"
+    echo
+
+  else
+    printf "cliferay deploy - Deploy the current folder\n"
+    echo
+
+  fi
+
+  printf "Alias: d\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay deploy\n"
+  printf "  cliferay deploy --help | -h\n"
   echo
 
   # :command.long_usage
@@ -654,11 +717,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'tomcat-folder\'*)'
+  echo $'    \'format-source\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'format-source\'*)'
+  echo $'    \'tomcat-folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -678,11 +741,19 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'deploy\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'build\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'brian\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kill\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -694,7 +765,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'ant\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -702,11 +773,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sd\'*)'
+  echo $'    \'sf\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sf\'*)'
+  echo $'    \'sd\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -714,16 +785,20 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'cm\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'ij\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'cm\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'d\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v brian build changed-modules cm completions folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions d deploy folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -769,7 +844,7 @@ cliferay_brian_command() {
 cliferay_build_command() {
   # src/commands/build.sh
   cd $(cliferay folder)
-  ANT_OPTS=-Xmx4096m ant all
+  cliferay ant all
 
 }
 
@@ -788,6 +863,12 @@ cliferay_gw_command() {
 }
 
 # :command.function
+cliferay_ant_command() {
+  # src/commands/ant.sh
+  ANT_OPTS=-Xmx4096m ant ${other_args[*]}
+}
+
+# :command.function
 cliferay_changed_modules_command() {
   # src/commands/changed-modules.sh
   cd $(cliferay folder)
@@ -798,7 +879,7 @@ cliferay_changed_modules_command() {
 cliferay_super_deploy_command() {
   # src/commands/super-deploy.sh
   cd $(cliferay folder)
-  cliferay changed-modules | grep -v test | run-stdin cliferay gw -a deploy
+  cliferay changed-modules | run-stdin cliferay deploy
 }
 
 # :command.function
@@ -806,6 +887,16 @@ cliferay_format_source_command() {
   # src/commands/format-source.sh
   cd $(cliferay folder)/portal-impl
   ANT_OPTS=-Xmx4096m ant format-source-current-branch
+}
+
+# :command.function
+cliferay_deploy_command() {
+  # src/commands/deploy.sh
+  if [[ "$PWD" = */portal-test ]]; then
+      cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
+  else
+      cliferay gw -a depl
+  fi
 }
 
 # :command.function
@@ -944,6 +1035,13 @@ parse_requirements() {
       shift $#
       ;;
 
+    ant)
+      action="ant"
+      shift
+      cliferay_ant_parse_requirements "$@"
+      shift $#
+      ;;
+
     changed-modules | cm)
       action="changed-modules"
       shift
@@ -962,6 +1060,13 @@ parse_requirements() {
       action="format-source"
       shift
       cliferay_format_source_parse_requirements "$@"
+      shift $#
+      ;;
+
+    deploy | d)
+      action="deploy"
+      shift
+      cliferay_deploy_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1289,6 +1394,56 @@ cliferay_gw_parse_requirements() {
 }
 
 # :command.parse_requirements
+cliferay_ant_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_ant_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="ant"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
+
+      -?*)
+        other_args+=("$1")
+        shift
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_catch_all
+        other_args+=("$1")
+        shift
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 cliferay_changed_modules_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1396,6 +1551,50 @@ cliferay_format_source_parse_requirements() {
 
   # :command.command_filter
   action="format-source"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_deploy_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_deploy_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="deploy"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1751,9 +1950,11 @@ run() {
     "build") cliferay_build_command ;;
     "ij") cliferay_ij_command ;;
     "gw") cliferay_gw_command ;;
+    "ant") cliferay_ant_command ;;
     "changed-modules") cliferay_changed_modules_command ;;
     "super-deploy") cliferay_super_deploy_command ;;
     "format-source") cliferay_format_source_command ;;
+    "deploy") cliferay_deploy_command ;;
     "run") cliferay_run_command ;;
     "kill") cliferay_kill_command ;;
     "nuke") cliferay_nuke_command ;;

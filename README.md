@@ -26,11 +26,13 @@ Build Commands:
   build             Run ant all
   ij                Run liferay-intellij
   gw                Run gradlew
+  ant               Run ant
 
 Module Commands:
   changed-modules   List changed modules
   super-deploy      Deploy changed modules
   format-source     Run SF globally
+  deploy            Deploy the current folder
 
 Server Commands:
   run               Start the server

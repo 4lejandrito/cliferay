@@ -49,6 +49,10 @@ commands:
   help: Run gradlew
   catch_all: true
   group: Build
+- name: ant
+  help: Run ant
+  catch_all: true
+  group: Build
 
 - name: changed-modules
   alias: cm
@@ -61,6 +65,10 @@ commands:
 - name: format-source
   alias: sf
   help: Run SF globally
+  group: Module
+- name: deploy
+  alias: d
+  help: Deploy the current folder
   group: Module
 
 - name: run
