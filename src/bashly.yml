@@ -70,6 +70,15 @@ commands:
   alias: d
   help: Deploy the current folder
   group: Module
+- name: poshi
+  help: Run a Poshi test
+  group: Module
+  examples:
+    - cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint
+  args:
+  - name: test
+    help: The test to run.
+    required: true
 
 - name: run
   help: Start the server

@@ -51,6 +51,7 @@ cliferay_usage() {
   printf "  %s   Deploy changed modules\n" "super-deploy   "
   printf "  %s   Run SF globally\n" "format-source  "
   printf "  %s   Deploy the current folder\n" "deploy         "
+  printf "  %s   Run a Poshi test\n" "poshi          "
   echo
   printf "%s\n" "Server Commands:"
   printf "  %s   Start the server\n" "run            "
@@ -403,6 +404,48 @@ cliferay_deploy_usage() {
 }
 
 # :command.usage
+cliferay_poshi_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay poshi - Run a Poshi test\n"
+    echo
+
+  else
+    printf "cliferay poshi - Run a Poshi test\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay poshi TEST\n"
+  printf "  cliferay poshi --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "TEST"
+    printf "    The test to run.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 cliferay_run_usage() {
   if [[ -n $long_usage ]]; then
     printf "cliferay run - Start the server\n"
@@ -717,11 +760,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'format-source\'*)'
+  echo $'    \'tomcat-folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'tomcat-folder\'*)'
+  echo $'    \'format-source\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -737,11 +780,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'folder\'*)'
+  echo $'    \'deploy\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'deploy\'*)'
+  echo $'    \'folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -753,7 +796,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'poshi\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -765,11 +808,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'ant\'*)'
+  echo $'    \'kill\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'run\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'ant\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -798,7 +845,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions d deploy folder format-source gw ij kill morning nuke run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -897,6 +944,13 @@ cliferay_deploy_command() {
   else
       cliferay gw -a depl
   fi
+}
+
+# :command.function
+cliferay_poshi_command() {
+  # src/commands/poshi.sh
+  cd $(cliferay folder)
+  HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
 }
 
 # :command.function
@@ -1067,6 +1121,13 @@ parse_requirements() {
       action="deploy"
       shift
       cliferay_deploy_parse_requirements "$@"
+      shift $#
+      ;;
+
+    poshi)
+      action="poshi"
+      shift
+      cliferay_poshi_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1620,6 +1681,62 @@ cliferay_deploy_parse_requirements() {
 }
 
 # :command.parse_requirements
+cliferay_poshi_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_poshi_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="poshi"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['test']+x} ]]; then
+
+          args['test']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['test']+x} ]]; then
+    printf "missing required argument: TEST\nusage: cliferay poshi TEST\n" >&2
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
 cliferay_run_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -1955,6 +2072,7 @@ run() {
     "super-deploy") cliferay_super_deploy_command ;;
     "format-source") cliferay_format_source_command ;;
     "deploy") cliferay_deploy_command ;;
+    "poshi") cliferay_poshi_command ;;
     "run") cliferay_run_command ;;
     "kill") cliferay_kill_command ;;
     "nuke") cliferay_nuke_command ;;
