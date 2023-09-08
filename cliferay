@@ -701,7 +701,7 @@ cliferay_curl_new_instance_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  cliferay curl new-instance\n"
+  printf "  cliferay curl new-instance HOST\n"
   printf "  cliferay curl new-instance --help | -h\n"
   echo
 
@@ -712,6 +712,19 @@ cliferay_curl_new_instance_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "HOST"
+    printf "    The virtual host.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay curl new-instance www.able.com\n"
     echo
 
   fi
@@ -1122,14 +1135,15 @@ cliferay_completions_command() {
 # :command.function
 cliferay_curl_new_instance_command() {
   # src/commands/curl/new-instance.sh
+  HOST=${args["host"]}
   curl --no-progress-meter -X 'POST' \
     'http://localhost:8080/o/headless-portal-instances/v1.0/portal-instances' \
     -H 'accept: application/json' \
     -H 'Content-Type: application/json' \
     -d '{
-    "domain": "able.com",
-    "portalInstanceId": "able.com",
-    "virtualHost": "www.able.com"
+    "domain": "'$HOST'",
+    "portalInstanceId": "'$HOST'",
+    "virtualHost": "'$HOST'"
   }' \
   -u 'test@liferay.com:test' | jq
 }
@@ -2394,13 +2408,25 @@ cliferay_curl_new_instance_parse_requirements() {
       *)
         # :command.parse_requirements_case
         # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
+        if [[ -z ${args['host']+x} ]]; then
+
+          args['host']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
 
         ;;
 
     esac
   done
+
+  # :command.required_args_filter
+  if [[ -z ${args['host']+x} ]]; then
+    printf "missing required argument: HOST\nusage: cliferay curl new-instance HOST\n" >&2
+    exit 1
+  fi
 
 }
 

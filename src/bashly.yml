@@ -112,5 +112,11 @@ commands:
   commands:
   - name: new-instance
     help: Create a new instance
+    args:
+    - name: host
+      help: The virtual host.
+      required: true
+    examples:
+      - cliferay curl new-instance www.able.com
   - name: new-api
     help: Create a new API Builder API
