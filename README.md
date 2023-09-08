@@ -45,6 +45,7 @@ Commands:
   morning           Sync, build, ij and run
   folder            Print the source folder
   completions       Print completions script
+  curl              Send predefined HTTP requests to a running portal
 
 Options:
   --help, -h
@@ -56,6 +57,9 @@ Options:
 Environment Variables:
   LIFERAY_HOME (required)
     Location of your main liferay-portal clone
+
+  DEBUG
+    Set to true to enable echoing of all the commands being run
 ```
 
 # Installation
@@ -73,4 +77,22 @@ Environment Variables:
     eval "$(cliferay completions)"
     ```
 ----
+
+# Contributing
+
+## Modify an existing command
+1. Make the change inside `src/commands`.
+2. Run `./generate.sh`.
+3. Test it `cliferay [COMMAND] ...`
+4. Submit a pull request!
+
+## Add a new command
+1. Modify `src/bashly.yml` with your new command.
+2. Run `./generate.sh`.
+3. Implement your command inside `src/commands`.
+4. Run `./generate.sh` again.
+5. Test it `cliferay [COMMAND] ...`
+6. Submit a pull request!
+----
+
 Created with https://bashly.dannyb.co.
