@@ -18,6 +18,9 @@ environment_variables:
   - name: LIFERAY_HOME
     help: Location of your main liferay-portal clone
     required: true
+  - name: DEBUG
+    help: Set to true to enable echoing of all the commands being run
+    default: false
 
 dependencies:
   gh:

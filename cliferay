@@ -85,6 +85,11 @@ cliferay_usage() {
     printf "    Location of your main liferay-portal clone\n"
     echo
 
+    # :environment_variable.usage
+    printf "  %s\n" "DEBUG"
+    printf "    Set to true to enable echoing of all the commands being run\n"
+    echo
+
   fi
 }
 
@@ -2044,6 +2049,14 @@ cliferay_completions_parse_requirements() {
 
 }
 
+# :command.user_hooks
+before_hook() {
+  # src/before.sh
+  if [[ "${DEBUG}" == 'true' ]]; then
+    set -x
+  fi
+}
+
 # :command.initialize
 initialize() {
   version="1.0.0"
@@ -2060,6 +2073,7 @@ run() {
   declare -a input=()
   normalize_input "$@"
   parse_requirements "${input[@]}"
+  before_hook
 
   case "$action" in
     "sync") cliferay_sync_command ;;
