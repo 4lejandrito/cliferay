@@ -102,3 +102,15 @@ commands:
   help: Print the source folder
 - name: completions
   help: Print completions script
+
+- name: curl
+  help: Send predefined HTTP requests to a running portal
+  dependencies:
+    jq:
+      command: [jq]
+      help: install it from https://jqlang.github.io/jq
+  commands:
+  - name: new-instance
+    help: Create a new instance
+  - name: new-api
+    help: Create a new API Builder API

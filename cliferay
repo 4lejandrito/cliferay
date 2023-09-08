@@ -63,6 +63,7 @@ cliferay_usage() {
   printf "  %s   Sync, build, ij and run\n" "morning        "
   printf "  %s   Print the source folder\n" "folder         "
   printf "  %s   Print completions script\n" "completions    "
+  printf "  %s   Send predefined HTTP requests to a running portal\n" "curl           "
   echo
 
   # :command.long_usage
@@ -653,6 +654,98 @@ cliferay_completions_usage() {
   fi
 }
 
+# :command.usage
+cliferay_curl_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay curl - Send predefined HTTP requests to a running portal\n"
+    echo
+
+  else
+    printf "cliferay curl - Send predefined HTTP requests to a running portal\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay curl COMMAND\n"
+  printf "  cliferay curl [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "Commands:"
+  printf "  %s   Create a new instance\n" "new-instance"
+  printf "  %s   Create a new API Builder API\n" "new-api     "
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_curl_new_instance_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay curl new-instance - Create a new instance\n"
+    echo
+
+  else
+    printf "cliferay curl new-instance - Create a new instance\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay curl new-instance\n"
+  printf "  cliferay curl new-instance --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_curl_new_api_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay curl new-api - Create a new API Builder API\n"
+    echo
+
+  else
+    printf "cliferay curl new-api - Create a new API Builder API\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay curl new-api\n"
+  printf "  cliferay curl new-api --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
 # :command.normalize_input
 normalize_input() {
   local arg flags
@@ -761,6 +854,10 @@ send_completions() {
   echo $'  local compline="${compwords[*]}"'
   echo $''
   echo $'  case "$compline" in'
+  echo $'    \'curl new-instance\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'changed-modules\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -770,6 +867,10 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'format-source\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl new-api\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -805,11 +906,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'    \'curl\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h new-api new-instance")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'nuke\'*)'
+  echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -817,11 +918,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'run\'*)'
+  echo $'    \'nuke\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'ant\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'run\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -850,7 +955,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions curl d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1012,6 +1117,122 @@ cliferay_folder_command() {
 cliferay_completions_command() {
   # src/commands/completions.sh
   send_completions
+}
+
+# :command.function
+cliferay_curl_new_instance_command() {
+  # src/commands/curl/new-instance.sh
+  curl --no-progress-meter -X 'POST' \
+    'http://localhost:8080/o/headless-portal-instances/v1.0/portal-instances' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "domain": "able.com",
+    "portalInstanceId": "able.com",
+    "virtualHost": "www.able.com"
+  }' \
+  -u 'test@liferay.com:test' | jq
+}
+
+# :command.function
+cliferay_curl_new_api_command() {
+  # src/commands/curl/new-api.sh
+  curl --no-progress-meter -X "POST" "http://localhost:8080/o/object-admin/v1.0/object-definitions" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' \
+       -d $'{
+    "active": true,
+    "status": {
+      "code": 0
+    },
+    "objectFields": [
+      {
+        "DBType": "String",
+        "indexed": true,
+        "indexedLanguageId": "",
+        "externalReferenceCode": "university-name",
+        "listTypeDefinitionId": 0,
+        "label": {
+          "en_US": "University name"
+        },
+        "type": "String",
+        "required": true,
+        "name": "universityName",
+        "indexedAsKeyword": false
+      }
+    ],
+    "pluralLabel": {
+      "en-US": "Universities"
+    },
+    "portlet": true,
+    "scope": "company",
+    "label": {
+      "en-US": "University"
+    },
+    "externalReferenceCode": "University",
+    "name": "University"
+  }' | jq
+
+  curl --no-progress-meter -X "POST" "http://localhost:8080/o/c/universities/batch" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' \
+       -d $'[
+    {
+      "universityName": "Oxford"
+    },
+    {
+      "universityName": "Cambridge"
+    }
+  ]' | jq
+
+  curl --no-progress-meter -X "POST" "http://localhost:8080/o/headless-builder/applications/" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' \
+       -d $'{
+    "baseURL": "my-application",
+    "title": "My application",
+    "externalReferenceCode": "my-application",
+    "apiApplicationToAPIEndpoints": [
+      {
+        "path": "/my-endpoint",
+        "scope": "company",
+        "externalReferenceCode": "my-endpoint",
+        "name": "name",
+        "description": "description",
+        "httpMethod": "get"
+      }
+    ],
+    "applicationStatus": "unpublished",
+    "apiApplicationToAPISchemas": [
+      {
+        "externalReferenceCode": "my-schema",
+        "mainObjectDefinitionERC": "University",
+        "description": "description",
+        "name": "MySchema",
+        "apiSchemaToAPIProperties": [
+          {
+            "objectFieldERC": "university-name",
+            "name": "name",
+            "description": "description"
+          }
+        ]
+      }
+    ]
+  }' | jq
+
+  curl --no-progress-meter -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/my-schema/responseAPISchemaToAPIEndpoints/my-endpoint" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' | jq
+
+  curl --no-progress-meter -X "PATCH" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' \
+       -d $'{
+    "applicationStatus": "published"
+  }' | jq
+
+  curl --no-progress-meter "http://localhost:8080/o/c/my-application/my-endpoint" \
+       -u 'test@liferay.com:test' | jq
 }
 
 # :command.parse_requirements
@@ -1182,6 +1403,13 @@ parse_requirements() {
       action="completions"
       shift
       cliferay_completions_parse_requirements "$@"
+      shift $#
+      ;;
+
+    curl)
+      action="curl"
+      shift
+      cliferay_curl_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2049,6 +2277,177 @@ cliferay_completions_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+cliferay_curl_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_curl_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v jq >/dev/null 2>&1; then
+    deps['jq']="$(command -v jq | head -n1)"
+  else
+    printf "missing dependency: jq\n" >&2
+    printf "%s\n" "install it from https://jqlang.github.io/jq" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    new-instance)
+      action="new-instance"
+      shift
+      cliferay_curl_new_instance_parse_requirements "$@"
+      shift $#
+      ;;
+
+    new-api)
+      action="new-api"
+      shift
+      cliferay_curl_new_api_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      cliferay_curl_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_curl_new_instance_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_curl_new_instance_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="curl new-instance"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_curl_new_api_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_curl_new_api_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="curl new-api"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
 # :command.user_hooks
 before_hook() {
   # src/before.sh
@@ -2094,6 +2493,9 @@ run() {
     "morning") cliferay_morning_command ;;
     "folder") cliferay_folder_command ;;
     "completions") cliferay_completions_command ;;
+    "curl") cliferay_curl_command ;;
+    "curl new-instance") cliferay_curl_new_instance_command ;;
+    "curl new-api") cliferay_curl_new_api_command ;;
   esac
 }
 
