@@ -4,7 +4,7 @@ curl --no-progress-meter -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "domain": "'$HOST'",
+  "domain": "liferay.com",
   "portalInstanceId": "'$HOST'",
   "virtualHost": "'$HOST'"
 }' \
