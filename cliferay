@@ -1187,7 +1187,10 @@ cliferay_curl_new_api_command() {
   # src/commands/curl/new-api.sh
   cliferay curl new-object
 
-  curl --no-progress-meter -X "POST" "http://localhost:8080/o/headless-builder/applications/" \
+  curl --no-progress-meter -X "DELETE" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application" \
+       -u 'test@liferay.com:test' | jq
+
+  curl --no-progress-meter -X "POST" "http://localhost:8080/o/headless-builder/applications" \
        -H 'Content-Type: application/json' \
        -u 'test@liferay.com:test' \
        -d $'{
@@ -1204,7 +1207,7 @@ cliferay_curl_new_api_command() {
         "httpMethod": "get"
       }
     ],
-    "applicationStatus": "unpublished",
+    "applicationStatus": "published",
     "apiApplicationToAPISchemas": [
       {
         "externalReferenceCode": "my-schema",
@@ -1225,13 +1228,6 @@ cliferay_curl_new_api_command() {
   curl --no-progress-meter -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/my-schema/responseAPISchemaToAPIEndpoints/my-endpoint" \
        -H 'Content-Type: application/json' \
        -u 'test@liferay.com:test' | jq
-
-  curl --no-progress-meter -X "PATCH" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application" \
-       -H 'Content-Type: application/json' \
-       -u 'test@liferay.com:test' \
-       -d $'{
-    "applicationStatus": "published"
-  }' | jq
 
   curl --no-progress-meter "http://localhost:8080/o/c/my-application/my-endpoint" \
        -u 'test@liferay.com:test' | jq
@@ -1286,17 +1282,19 @@ cliferay_curl_new_object_command() {
        -u 'test@liferay.com:test' | jq
   fi
 
-  curl --no-progress-meter -X "POST" "http://localhost:8080/o/c/universities/batch" \
+  curl --no-progress-meter -X "PUT" "http://localhost:8080/o/c/universities/by-external-reference-code/Oxford" \
        -H 'Content-Type: application/json' \
        -u 'test@liferay.com:test' \
-       -d $'[
-    {
+       -d $'{
       "universityName": "Oxford"
-    },
-    {
+    }' | jq
+
+  curl --no-progress-meter -X "PUT" "http://localhost:8080/o/c/universities/by-external-reference-code/Cambridge" \
+       -H 'Content-Type: application/json' \
+       -u 'test@liferay.com:test' \
+       -d $'{
       "universityName": "Cambridge"
-    }
-  ]' | jq
+    }' | jq
 }
 
 # :command.parse_requirements
