@@ -1,5 +1,5 @@
 HOST=${args["host"]}
-curl --no-progress-meter -X 'POST' \
+liferay-curl -X 'POST' \
   'http://localhost:8080/o/headless-portal-instances/v1.0/portal-instances' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
@@ -7,5 +7,4 @@ curl --no-progress-meter -X 'POST' \
   "domain": "liferay.com",
   "portalInstanceId": "'$HOST'",
   "virtualHost": "'$HOST'"
-}' \
--u 'test@liferay.com:test' | jq
+}'

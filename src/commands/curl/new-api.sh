@@ -1,11 +1,7 @@
 cliferay curl new-object
-
-curl --no-progress-meter -X "DELETE" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application" \
-     -u 'test@liferay.com:test' | jq
-
-curl --no-progress-meter -X "POST" "http://localhost:8080/o/headless-builder/applications" \
+liferay-curl -X "DELETE" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application"
+liferay-curl -X "POST" "http://localhost:8080/o/headless-builder/applications" \
      -H 'Content-Type: application/json' \
-     -u 'test@liferay.com:test' \
      -d $'{
   "baseURL": "my-application",
   "title": "My application",
@@ -36,11 +32,6 @@ curl --no-progress-meter -X "POST" "http://localhost:8080/o/headless-builder/app
       ]
     }
   ]
-}' | jq
-
-curl --no-progress-meter -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/my-schema/responseAPISchemaToAPIEndpoints/my-endpoint" \
-     -H 'Content-Type: application/json' \
-     -u 'test@liferay.com:test' | jq
-
-curl --no-progress-meter "http://localhost:8080/o/c/my-application/my-endpoint" \
-     -u 'test@liferay.com:test' | jq
+}'
+liferay-curl -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/my-schema/responseAPISchemaToAPIEndpoints/my-endpoint"
+liferay-curl "http://localhost:8080/o/c/my-application/my-endpoint"
