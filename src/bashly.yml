@@ -120,3 +120,5 @@ commands:
       - cliferay curl new-instance www.able.com
   - name: new-api
     help: Create a new API Builder API
+  - name: new-object
+    help: Create a new object definition with some entries
