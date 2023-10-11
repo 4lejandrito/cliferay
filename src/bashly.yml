@@ -60,10 +60,20 @@ commands:
 - name: changed-modules
   alias: cm
   help: List changed modules
+  flags:
+  - long: --branch
+    short: -b
+    arg: branch
+    help: Branch to compare to
   group: Module
 - name: super-deploy
   alias: sd
   help: Deploy changed modules
+  flags:
+  - long: --branch
+    short: -b
+    arg: branch
+    help: Branch to compare to
   group: Module
 - name: format-source
   alias: sf
