@@ -867,10 +867,12 @@ function get-module() {
 }
 
 function run-stdin() {
+	set +e
 	while read line
 	do
 		echo "" | (cd $(cliferay folder)/$line; $*)
 	done
+	set -e
 }
 
 function liferay-get-modules() {
@@ -1100,7 +1102,7 @@ cliferay_super_deploy_command() {
   # src/commands/super-deploy.sh
   cd $(cliferay folder)
   cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
-
+  cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
 }
 
 # :command.function
