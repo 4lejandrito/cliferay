@@ -48,6 +48,7 @@ Commands:
   folder            Print the source folder
   completions       Print completions script
   curl              Send predefined HTTP requests to a running portal
+  backport          Backport commits to other branches
 
 Options:
   --help, -h

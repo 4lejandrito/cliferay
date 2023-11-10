@@ -132,3 +132,15 @@ commands:
     help: Create a new API Builder API
   - name: new-object
     help: Create a new object definition with some entries
+- name: backport
+  alias: b
+  help: Backport commits to other branches
+  args:
+  - name: text
+    help: Text to filter commits by (LPS-12345).
+    required: true
+  flags:
+  - long: --branch
+    short: -b
+    arg: branch
+    help: Source branch

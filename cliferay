@@ -64,6 +64,7 @@ cliferay_usage() {
   printf "  %s   Print the source folder\n" "folder         "
   printf "  %s   Print completions script\n" "completions    "
   printf "  %s   Send predefined HTTP requests to a running portal\n" "curl           "
+  printf "  %s   Backport commits to other branches\n" "backport       "
   echo
 
   # :command.long_usage
@@ -801,6 +802,52 @@ cliferay_curl_new_object_usage() {
   fi
 }
 
+# :command.usage
+cliferay_backport_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay backport - Backport commits to other branches\n"
+    echo
+
+  else
+    printf "cliferay backport - Backport commits to other branches\n"
+    echo
+
+  fi
+
+  printf "Alias: b\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay backport TEXT [OPTIONS]\n"
+  printf "  cliferay backport --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--branch, -b BRANCH"
+    printf "    Source branch\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "TEXT"
+    printf "    Text to filter commits by (LPS-12345).\n"
+    echo
+
+  fi
+}
+
 # :command.normalize_input
 normalize_input() {
   local arg flags
@@ -919,19 +966,19 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl new-object\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'changed-modules\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'tomcat-folder\'*)'
+  echo $'    \'curl new-object\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'format-source\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'tomcat-folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -947,11 +994,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'morning\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'    \'backport\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'deploy\'*)'
+  echo $'    \'morning\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -959,15 +1006,19 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'deploy\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'build\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'brian\'*)'
+  echo $'    \'poshi\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'poshi\'*)'
+  echo $'    \'brian\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -987,11 +1038,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'ant\'*)'
+  echo $'    \'run\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'run\'*)'
+  echo $'    \'ant\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1019,8 +1070,12 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'b\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant brian build changed-modules cm completions curl d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm completions curl d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1304,6 +1359,37 @@ cliferay_curl_new_object_command() {
     }'
 }
 
+# :command.function
+cliferay_backport_command() {
+  # src/commands/backport.sh
+  WHITE='\033[00;97m'
+  BOLD_WHITE='\033[01;97m'
+  NC='\033[0m' # No Color
+
+  TEXT=${args["text"]}
+  SOURCE_BRANCH=${args["branch"]:-ce/master}
+
+  COMMITS=$(git log $SOURCE_BRANCH --format="%H" --grep=^$TEXT | tac)
+
+  echo -e "${BOLD_WHITE}Commits in chronological order:${NC}"
+  echo ""
+
+  git --no-pager show --no-patch --oneline $COMMITS
+  echo ""
+
+  echo -n -e "${BOLD_WHITE}Do you want to cherry pick all these commits? (y/n)${WHITE} "
+  read answer
+  echo -e "${NC}"
+
+  if [[ "$answer" == "y" ]]; then
+      git checkout -b $(git rev-parse --abbrev-ref HEAD)-$TEXT
+      git cherry-pick $COMMITS
+  else
+      echo "No problem. Try some other time."
+  fi
+
+}
+
 # :command.parse_requirements
 parse_requirements() {
   # :command.fixed_flags_filter
@@ -1479,6 +1565,13 @@ parse_requirements() {
       action="curl"
       shift
       cliferay_curl_parse_requirements "$@"
+      shift $#
+      ;;
+
+    backport | b)
+      action="backport"
+      shift
+      cliferay_backport_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2608,6 +2701,76 @@ cliferay_curl_new_object_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+cliferay_backport_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_backport_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="backport"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --branch | -b)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+
+          args['--branch']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+          exit 1
+        fi
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['text']+x} ]]; then
+
+          args['text']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['text']+x} ]]; then
+    printf "missing required argument: TEXT\nusage: cliferay backport TEXT [OPTIONS]\n" >&2
+    exit 1
+  fi
+
+}
+
 # :command.user_hooks
 before_hook() {
   # src/before.sh
@@ -2657,6 +2820,7 @@ run() {
     "curl new-instance") cliferay_curl_new_instance_command ;;
     "curl new-api") cliferay_curl_new_api_command ;;
     "curl new-object") cliferay_curl_new_object_command ;;
+    "backport") cliferay_backport_command ;;
   esac
 }
 
