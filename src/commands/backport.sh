@@ -18,7 +18,7 @@ read answer
 echo -e "${NC}"
 
 if [[ "$answer" == "y" ]]; then
-    git checkout -b $(git rev-parse --abbrev-ref HEAD)-$TEXT
+    git checkout -B $(git rev-parse --abbrev-ref HEAD)-$TEXT
     git cherry-pick $COMMITS
 else
     echo "No problem. Try some other time."
