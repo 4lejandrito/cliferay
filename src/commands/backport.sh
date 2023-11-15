@@ -3,7 +3,7 @@ BOLD_WHITE='\033[01;97m'
 NC='\033[0m' # No Color
 
 TEXT=${args["text"]}
-SOURCE_BRANCH=${args["branch"]:-ce/master}
+SOURCE_BRANCH=${args["--branch"]:-ce/master}
 
 COMMITS=$(git log $SOURCE_BRANCH --format="%H" --grep=^$TEXT | tac)
 
