@@ -39,6 +39,7 @@ cliferay_usage() {
   printf "%s\n" "Git Commands:"
   printf "  %s   Sync fork and local copy with upstream\n" "sync           "
   printf "  %s   Forward an existing PR to Brian and close it\n" "brian          "
+  printf "  %s   Set the LPS ticket on your local commits\n" "set-lps        "
   echo
   printf "%s\n" "Build Commands:"
   printf "  %s   Run ant all\n" "build          "
@@ -161,6 +162,54 @@ cliferay_brian_usage() {
     # :command.usage_examples
     printf "%s\n" "Examples:"
     printf "  cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_set_lps_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay set-lps - Set the LPS ticket on your local commits\n"
+    echo
+
+  else
+    printf "cliferay set-lps - Set the LPS ticket on your local commits\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay set-lps LPS [OPTIONS]\n"
+  printf "  cliferay set-lps --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--branch, -b BRANCH"
+    printf "    Source branch\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "LPS"
+    printf "    The LPS ticket reference.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay set-lps LPS-XXXXX\n"
     echo
 
   fi
@@ -998,11 +1047,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'morning\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'    \'set-lps\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'folder\'*)'
+  echo $'    \'morning\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1010,11 +1059,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'build\'*)'
+  echo $'    \'folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'poshi\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'build\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1030,11 +1083,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'kill\'*)'
+  echo $'    \'nuke\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'nuke\'*)'
+  echo $'    \'kill\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1046,12 +1099,16 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sf\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'    \'cm\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'sd\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'sf\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'gw\'*)'
@@ -1060,10 +1117,6 @@ send_completions() {
   echo $''
   echo $'    \'ij\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'cm\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'d\'*)'
@@ -1075,7 +1128,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm completions curl d deploy folder format-source gw ij kill morning nuke poshi run sd sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm completions curl d deploy folder format-source gw ij kill morning nuke poshi run sd set-lps sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1115,6 +1168,14 @@ cliferay_brian_command() {
   gh pr comment $PR --body "$BRIAN_PR"
   gh pr close $PR
   echo $BRIAN_PR
+}
+
+# :command.function
+cliferay_set_lps_command() {
+  # src/commands/set-lps.sh
+  cd $(cliferay folder)
+  FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "s/(LPS-([0-9]*) )|^/'${args["lps"]}' /g"' ${args["--branch"]:-master}..HEAD
+
 }
 
 # :command.function
@@ -1452,6 +1513,13 @@ parse_requirements() {
       shift $#
       ;;
 
+    set-lps)
+      action="set-lps"
+      shift
+      cliferay_set_lps_parse_requirements "$@"
+      shift $#
+      ;;
+
     build)
       action="build"
       shift
@@ -1709,6 +1777,76 @@ cliferay_brian_parse_requirements() {
   # :command.required_args_filter
   if [[ -z ${args['pr']+x} ]]; then
     printf "missing required argument: PR\nusage: cliferay brian PR\n" >&2
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
+cliferay_set_lps_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_set_lps_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="set-lps"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --branch | -b)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+
+          args['--branch']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+          exit 1
+        fi
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['lps']+x} ]]; then
+
+          args['lps']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['lps']+x} ]]; then
+    printf "missing required argument: LPS\nusage: cliferay set-lps LPS [OPTIONS]\n" >&2
     exit 1
   fi
 
@@ -2803,6 +2941,7 @@ run() {
   case "$action" in
     "sync") cliferay_sync_command ;;
     "brian") cliferay_brian_command ;;
+    "set-lps") cliferay_set_lps_command ;;
     "build") cliferay_build_command ;;
     "ij") cliferay_ij_command ;;
     "gw") cliferay_gw_command ;;
