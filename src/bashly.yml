@@ -126,6 +126,8 @@ commands:
   help: Print the source folder
 - name: completions
   help: Print completions script
+- name: aliases
+  help: Print aliases script
 
 - name: curl
   help: Send predefined HTTP requests to a running portal

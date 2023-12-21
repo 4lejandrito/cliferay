@@ -48,6 +48,7 @@ Commands:
   morning           Sync, build, ij and run
   folder            Print the source folder
   completions       Print completions script
+  aliases           Print aliases script
   curl              Send predefined HTTP requests to a running portal
   backport          Backport commits to other branches
 
@@ -79,6 +80,10 @@ Environment Variables:
 4. If you want to enable bash completions add this to your `.bash_profile`, `.zshrc` or similar:
     ```bash
     eval "$(cliferay completions)"
+    ```
+4. If you want to enable aliases (like gw) add this to your `.bash_profile`, `.zshrc` or similar:
+    ```bash
+    eval "$(cliferay aliases)"
     ```
 
 ## Contributing
