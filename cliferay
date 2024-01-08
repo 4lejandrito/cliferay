@@ -1344,7 +1344,7 @@ cliferay_completions_command() {
 cliferay_aliases_command() {
   # src/commands/aliases.sh
   echo 'alias gw="cliferay gw"'
-
+  echo 'alias cdl="cd $(cliferay folder)"'
 }
 
 # :command.function
