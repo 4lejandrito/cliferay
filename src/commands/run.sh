@@ -1,1 +1,36 @@
+BUNDLES=$(realpath $(cliferay folder)/../bundles)
+echo "
+# This file was created by cliferay $(cliferay --version).
+# Please do not alter it.
+# Put your custom properties in the portal-custom.properties file instead.
+
+admin.email.from.address=test@liferay.com
+admin.email.from.name=Test Test
+default.admin.email.address.prefix=test
+
+company.default.locale=en_US
+company.default.time.zone=UTC
+company.default.web.id=liferay.com
+
+jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver
+jdbc.default.password=root
+jdbc.default.url=jdbc:mysql://localhost/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+jdbc.default.username=root
+
+liferay.home=$BUNDLES
+
+setup.wizard.enabled=false
+terms.of.use.required=false
+passwords.default.policy.change.required=false
+users.reminder.queries.required=false
+
+feature.flag.ui.visible[dev]=true
+
+include-and-override=portal-custom.properties
+" > $BUNDLES/portal-ext.properties
+
+if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
+    echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-cliferay.properties
+fi
+
 $(cliferay tomcat-folder)/bin/catalina.sh jpda run
