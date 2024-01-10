@@ -67,7 +67,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'morning\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --no-nuke -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'aliases\'*)'

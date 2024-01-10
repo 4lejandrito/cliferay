@@ -45,7 +45,7 @@ Server Commands:
   tomcat-folder     Print the current tomcat folder
 
 Commands:
-  morning           Sync, build, ij and run
+  morning           Sync, build, ij, nuke and run
   folder            Print the source folder
   completions       Print completions script
   aliases           Print aliases script

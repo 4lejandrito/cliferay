@@ -121,7 +121,10 @@ commands:
   group: Server
 
 - name: morning
-  help: Sync, build, ij and run
+  help: Sync, build, ij, nuke and run
+  flags:
+  - long: --no-nuke
+    help: Skip nuke
 - name: folder
   help: Print the source folder
 - name: completions
