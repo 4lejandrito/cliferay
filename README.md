@@ -47,8 +47,6 @@ Server Commands:
 Commands:
   morning           Sync, build, ij, nuke and run
   folder            Print the source folder
-  completions       Print completions script
-  aliases           Print aliases script
   curl              Send predefined HTTP requests to a running portal
   backport          Backport commits to other branches
 
