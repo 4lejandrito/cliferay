@@ -125,6 +125,9 @@ commands:
   flags:
   - long: --no-nuke
     help: Skip nuke
+  - long: --force
+    short: -f
+    help: Force cleanup by running git clean -fdx
 - name: folder
   help: Print the source folder
 - name: completions

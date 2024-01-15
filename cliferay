@@ -657,6 +657,11 @@ cliferay_morning_usage() {
     printf "    Skip nuke\n"
     echo
 
+    # :flag.usage
+    printf "  %s\n" "--force, -f"
+    printf "    Force cleanup by running git clean -fdx\n"
+    echo
+
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
@@ -1084,7 +1089,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'morning\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --no-nuke -h")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'aliases\'*)'
@@ -1297,7 +1302,7 @@ cliferay_run_command() {
   echo "
   # This file was created by cliferay $(cliferay --version).
   # Please do not alter it.
-  # Place your custom properties in the portal-custom.properties file instead.
+  # Put your custom properties in the portal-custom.properties file instead.
 
   admin.email.from.address=test@liferay.com
   admin.email.from.name=Test Test
@@ -1357,6 +1362,9 @@ cliferay_tomcat_folder_command() {
 cliferay_morning_command() {
   # src/commands/morning.sh
   cliferay sync
+  if [[ ${args["--force"]} = 1 ]]; then
+      cd $(cliferay folder) && git clean -fdx
+  fi
   cliferay build
   cliferay ij
   if [[ ${args["--no-nuke"]} != 1 ]]; then
@@ -2598,6 +2606,14 @@ cliferay_morning_parse_requirements() {
 
         # :flag.case_no_arg
         args['--no-nuke']=1
+        shift
+        ;;
+
+      # :flag.case
+      --force | -f)
+
+        # :flag.case_no_arg
+        args['--force']=1
         shift
         ;;
 
