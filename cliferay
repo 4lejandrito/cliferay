@@ -1355,6 +1355,8 @@ cliferay_tomcat_folder_command() {
 # :command.function
 cliferay_morning_command() {
   # src/commands/morning.sh
+  git stash
+  git checkout master
   cliferay sync
   if [[ ${args["--force"]} = 1 ]]; then
       cd $(cliferay folder) && git clean -fdx

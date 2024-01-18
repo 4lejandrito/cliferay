@@ -1,3 +1,5 @@
+git stash
+git checkout master
 cliferay sync
 if [[ ${args["--force"]} = 1 ]]; then
     cd $(cliferay folder) && git clean -fdx
