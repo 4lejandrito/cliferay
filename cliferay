@@ -1217,6 +1217,7 @@ cliferay_set_lps_command() {
 cliferay_build_command() {
   # src/commands/build.sh
   cd $(cliferay folder)
+  cliferay ant setup-profile-dxp
   cliferay ant all
 
 }
