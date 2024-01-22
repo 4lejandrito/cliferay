@@ -23,6 +23,8 @@ setup.wizard.enabled=false
 terms.of.use.required=false
 passwords.default.policy.change.required=false
 users.reminder.queries.required=false
+users.reminder.queries.enabled=false
+enterprise.product.notification.enabled=false
 
 feature.flag.ui.visible[dev]=true
 
