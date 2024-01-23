@@ -1178,6 +1178,8 @@ send_completions() {
 cliferay_sync_command() {
   # src/commands/sync.sh
   cd $(cliferay folder)
+  git stash
+  git checkout master
   gh repo sync $(gh repo view --json nameWithOwner -q ".nameWithOwner")
   gh repo sync
   git push
@@ -1358,8 +1360,6 @@ cliferay_tomcat_folder_command() {
 # :command.function
 cliferay_morning_command() {
   # src/commands/morning.sh
-  git stash
-  git checkout master
   cliferay sync
   if [[ ${args["--force"]} = 1 ]]; then
       cd $(cliferay folder) && git clean -fdx
