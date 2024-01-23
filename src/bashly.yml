@@ -41,14 +41,14 @@ commands:
   - name: pr
     help: Link to the GitHub PR.
     required: true
-- name: set-lps
-  help: Set the LPS ticket on your local commits
+- name: set-ticket
+  help: Set the Jira ticket on your local commits
   group: Git
   examples:
-    - cliferay set-lps LPS-XXXXX
+    - cliferay set-ticket LPD-XXXX
   args:
-  - name: lps
-    help: The LPS ticket reference.
+  - name: ticket
+    help: The ticket reference.
     required: true
   flags:
   - long: --branch
@@ -161,7 +161,7 @@ commands:
   help: Backport commits to other branches
   args:
   - name: text
-    help: Text to filter commits by (LPS-12345).
+    help: Text to filter commits by (LPD-1234).
     required: true
   flags:
   - long: --branch

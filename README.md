@@ -23,7 +23,7 @@ Usage:
 Git Commands:
   sync              Sync fork and local copy with upstream
   brian             Forward an existing PR to Brian and close it
-  set-lps           Set the LPS ticket on your local commits
+  set-ticket        Set the Jira ticket on your local commits
 
 Build Commands:
   build             Run ant all

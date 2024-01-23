@@ -39,7 +39,7 @@ cliferay_usage() {
   printf "%s\n" "Git Commands:"
   printf "  %s   Sync fork and local copy with upstream\n" "sync           "
   printf "  %s   Forward an existing PR to Brian and close it\n" "brian          "
-  printf "  %s   Set the LPS ticket on your local commits\n" "set-lps        "
+  printf "  %s   Set the Jira ticket on your local commits\n" "set-ticket     "
   echo
   printf "%s\n" "Build Commands:"
   printf "  %s   Run ant all\n" "build          "
@@ -167,20 +167,20 @@ cliferay_brian_usage() {
 }
 
 # :command.usage
-cliferay_set_lps_usage() {
+cliferay_set_ticket_usage() {
   if [[ -n $long_usage ]]; then
-    printf "cliferay set-lps - Set the LPS ticket on your local commits\n"
+    printf "cliferay set-ticket - Set the Jira ticket on your local commits\n"
     echo
 
   else
-    printf "cliferay set-lps - Set the LPS ticket on your local commits\n"
+    printf "cliferay set-ticket - Set the Jira ticket on your local commits\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  cliferay set-lps LPS [OPTIONS]\n"
-  printf "  cliferay set-lps --help | -h\n"
+  printf "  cliferay set-ticket TICKET [OPTIONS]\n"
+  printf "  cliferay set-ticket --help | -h\n"
   echo
 
   # :command.long_usage
@@ -202,13 +202,13 @@ cliferay_set_lps_usage() {
     printf "%s\n" "Arguments:"
 
     # :argument.usage
-    printf "  %s\n" "LPS"
-    printf "    The LPS ticket reference.\n"
+    printf "  %s\n" "TICKET"
+    printf "    The ticket reference.\n"
     echo
 
     # :command.usage_examples
     printf "%s\n" "Examples:"
-    printf "  cliferay set-lps LPS-XXXXX\n"
+    printf "  cliferay set-ticket LPD-XXXX\n"
     echo
 
   fi
@@ -930,7 +930,7 @@ cliferay_backport_usage() {
 
     # :argument.usage
     printf "  %s\n" "TEXT"
-    printf "    Text to filter commits by (LPS-12345).\n"
+    printf "    Text to filter commits by (LPD-1234).\n"
     echo
 
   fi
@@ -1054,12 +1054,12 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'changed-modules\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'curl new-object\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'changed-modules\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'tomcat-folder\'*)'
@@ -1078,11 +1078,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'backport\'*)'
+  echo $'    \'set-ticket\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'set-lps\'*)'
+  echo $'    \'backport\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1163,7 +1163,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy folder format-source gw ij kill morning nuke poshi run sd set-lps sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy folder format-source gw ij kill morning nuke poshi run sd set-ticket sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1208,10 +1208,10 @@ cliferay_brian_command() {
 }
 
 # :command.function
-cliferay_set_lps_command() {
-  # src/commands/set-lps.sh
+cliferay_set_ticket_command() {
+  # src/commands/set-ticket.sh
   cd $(cliferay folder)
-  FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "1 s/(^LPS-([0-9]*) )|^/'${args["lps"]}' /"' ${args["--branch"]:-master}..HEAD
+  FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "1 s/(^([A-Z]+)-([0-9]*) )|^/'${args["ticket"]}' /"' ${args["--branch"]:-master}..HEAD
 
 }
 
@@ -1606,10 +1606,10 @@ parse_requirements() {
       shift $#
       ;;
 
-    set-lps)
-      action="set-lps"
+    set-ticket)
+      action="set-ticket"
       shift
-      cliferay_set_lps_parse_requirements "$@"
+      cliferay_set_ticket_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1883,13 +1883,13 @@ cliferay_brian_parse_requirements() {
 }
 
 # :command.parse_requirements
-cliferay_set_lps_parse_requirements() {
+cliferay_set_ticket_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
     case "${1:-}" in
       --help | -h)
         long_usage=yes
-        cliferay_set_lps_usage
+        cliferay_set_ticket_usage
         exit
         ;;
 
@@ -1901,7 +1901,7 @@ cliferay_set_lps_parse_requirements() {
   done
 
   # :command.command_filter
-  action="set-lps"
+  action="set-ticket"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1930,9 +1930,9 @@ cliferay_set_lps_parse_requirements() {
       *)
         # :command.parse_requirements_case
         # :command.parse_requirements_case_simple
-        if [[ -z ${args['lps']+x} ]]; then
+        if [[ -z ${args['ticket']+x} ]]; then
 
-          args['lps']=$1
+          args['ticket']=$1
           shift
         else
           printf "invalid argument: %s\n" "$key" >&2
@@ -1945,8 +1945,8 @@ cliferay_set_lps_parse_requirements() {
   done
 
   # :command.required_args_filter
-  if [[ -z ${args['lps']+x} ]]; then
-    printf "missing required argument: LPS\nusage: cliferay set-lps LPS [OPTIONS]\n" >&2
+  if [[ -z ${args['ticket']+x} ]]; then
+    printf "missing required argument: TICKET\nusage: cliferay set-ticket TICKET [OPTIONS]\n" >&2
     exit 1
   fi
 
@@ -3100,7 +3100,7 @@ run() {
   case "$action" in
     "sync") cliferay_sync_command ;;
     "brian") cliferay_brian_command ;;
-    "set-lps") cliferay_set_lps_command ;;
+    "set-ticket") cliferay_set_ticket_command ;;
     "build") cliferay_build_command ;;
     "ij") cliferay_ij_command ;;
     "gw") cliferay_gw_command ;;
