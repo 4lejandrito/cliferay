@@ -1331,7 +1331,7 @@ cliferay_run_command() {
   " > $BUNDLES/portal-ext.properties
 
   if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
-      echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-cliferay.properties
+      echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
   fi
 
   $(cliferay tomcat-folder)/bin/catalina.sh jpda run
