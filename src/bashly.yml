@@ -119,6 +119,9 @@ commands:
 - name: tomcat-folder
   help: Print the current tomcat folder
   group: Server
+- name: elastic-search
+  help: Open the Elastic Search index
+  group: Server
 
 - name: morning
   help: Sync, build, ij, nuke and run

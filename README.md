@@ -43,6 +43,7 @@ Server Commands:
   kill              Kill the server
   nuke              Delete all persisted data
   tomcat-folder     Print the current tomcat folder
+  elastic-search    Open the Elastic Search index
 
 Commands:
   morning           Sync, build, ij, nuke and run
