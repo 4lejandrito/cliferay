@@ -50,6 +50,7 @@ Commands:
   folder            Print the source folder
   curl              Send predefined HTTP requests to a running portal
   backport          Backport commits to other branches
+  jira              Open a Jira ticket
 
 Options:
   --help, -h

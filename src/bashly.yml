@@ -171,3 +171,9 @@ commands:
     short: -b
     arg: branch
     help: Source branch
+- name: jira
+  help: Open a Jira ticket
+  args:
+  - name: ticket
+    help: The ticket reference (LPD-1234).
+    required: true

@@ -1,0 +1,1 @@
+open "https://liferay.atlassian.net/browse/${args["ticket"]}"

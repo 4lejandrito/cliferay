@@ -66,6 +66,7 @@ cliferay_usage() {
   printf "  %s   Print the source folder\n" "folder         "
   printf "  %s   Send predefined HTTP requests to a running portal\n" "curl           "
   printf "  %s   Backport commits to other branches\n" "backport       "
+  printf "  %s   Open a Jira ticket\n" "jira           "
   echo
 
   # :command.long_usage
@@ -966,6 +967,43 @@ cliferay_backport_usage() {
   fi
 }
 
+# :command.usage
+cliferay_jira_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay jira - Open a Jira ticket\n"
+    echo
+
+  else
+    printf "cliferay jira - Open a Jira ticket\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay jira TICKET\n"
+  printf "  cliferay jira --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "TICKET"
+    printf "    The ticket reference (LPD-1234).\n"
+    echo
+
+  fi
+}
+
 # :command.normalize_input
 normalize_input() {
   local arg flags
@@ -1046,6 +1084,10 @@ function liferay-get-modules() {
 
 function liferay-curl() {
 	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
+}
+
+function open() {
+	npx -y open-cli $*
 }
 
 # src/lib/send_completions.sh
@@ -1152,7 +1194,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'nuke\'*)'
+  echo $'    \'jira\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1160,11 +1202,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'run\'*)'
+  echo $'    \'nuke\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'ant\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'run\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1197,7 +1243,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy elastic-search folder format-source gw ij kill morning nuke poshi run sd set-ticket sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy elastic-search folder format-source gw ij jira kill morning nuke poshi run sd set-ticket sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1396,7 +1442,7 @@ cliferay_tomcat_folder_command() {
 # :command.function
 cliferay_elastic_search_command() {
   # src/commands/elastic-search.sh
-  npx -y open-cli http://localhost:9201/*/_search?pretty=true&size=10000
+  open http://localhost:9201/*/_search?pretty=true&size=10000
 }
 
 # :command.function
@@ -1587,6 +1633,12 @@ cliferay_backport_command() {
       echo "No problem. Try some other time."
   fi
 
+}
+
+# :command.function
+cliferay_jira_command() {
+  # src/commands/jira.sh
+  open "https://liferay.atlassian.net/browse/${args["ticket"]}"
 }
 
 # :command.parse_requirements
@@ -1792,6 +1844,13 @@ parse_requirements() {
       action="backport"
       shift
       cliferay_backport_parse_requirements "$@"
+      shift $#
+      ;;
+
+    jira)
+      action="jira"
+      shift
+      cliferay_jira_parse_requirements "$@"
       shift $#
       ;;
 
@@ -3164,6 +3223,62 @@ cliferay_backport_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+cliferay_jira_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_jira_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="jira"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['ticket']+x} ]]; then
+
+          args['ticket']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['ticket']+x} ]]; then
+    printf "missing required argument: TICKET\nusage: cliferay jira TICKET\n" >&2
+    exit 1
+  fi
+
+}
+
 # :command.user_hooks
 before_hook() {
   # src/before.sh
@@ -3217,6 +3332,7 @@ run() {
     "curl new-api") cliferay_curl_new_api_command ;;
     "curl new-object") cliferay_curl_new_object_command ;;
     "backport") cliferay_backport_command ;;
+    "jira") cliferay_jira_command ;;
   esac
 }
 
