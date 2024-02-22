@@ -28,7 +28,7 @@ enterprise.product.notification.enabled=false
 
 feature.flag.ui.visible[dev]=true
 
-include-and-override=portal-custom.properties
+include-and-override=\${liferay.home}/portal-custom.properties
 " > $BUNDLES/portal-ext.properties
 
 if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
