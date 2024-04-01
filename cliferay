@@ -527,7 +527,7 @@ cliferay_run_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  cliferay run\n"
+  printf "  cliferay run [COMMAND]\n"
   printf "  cliferay run --help | -h\n"
   echo
 
@@ -538,6 +538,14 @@ cliferay_run_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "COMMAND"
+    printf "    Tomcat command (jpda by default)\n"
     echo
 
   fi
@@ -1415,7 +1423,7 @@ cliferay_run_command() {
       echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
   fi
 
-  $(cliferay tomcat-folder)/bin/catalina.sh jpda run
+  $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
 
 }
 
@@ -2543,8 +2551,14 @@ cliferay_run_parse_requirements() {
       *)
         # :command.parse_requirements_case
         # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
+        if [[ -z ${args['command']+x} ]]; then
+
+          args['command']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
 
         ;;
 

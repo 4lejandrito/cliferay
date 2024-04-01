@@ -110,6 +110,10 @@ commands:
 - name: run
   help: Start the server
   group: Server
+  args:
+  - name: command
+    help: Tomcat command (jpda by default)
+    required: false
 - name: kill
   help: Kill the server
   group: Server
