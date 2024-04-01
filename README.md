@@ -40,6 +40,7 @@ Module Commands:
 
 Server Commands:
   run               Start the server
+  gogo              Opens the Gogo Shell
   kill              Kill the server
   nuke              Delete all persisted data
   tomcat-folder     Print the current tomcat folder

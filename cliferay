@@ -56,6 +56,7 @@ cliferay_usage() {
   echo
   printf "%s\n" "Server Commands:"
   printf "  %s   Start the server\n" "run            "
+  printf "  %s   Opens the Gogo Shell\n" "gogo           "
   printf "  %s   Kill the server\n" "kill           "
   printf "  %s   Delete all persisted data\n" "nuke           "
   printf "  %s   Print the current tomcat folder\n" "tomcat-folder  "
@@ -546,6 +547,35 @@ cliferay_run_usage() {
     # :argument.usage
     printf "  %s\n" "COMMAND"
     printf "    Tomcat command (jpda by default)\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_gogo_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay gogo - Opens the Gogo Shell\n"
+    echo
+
+  else
+    printf "cliferay gogo - Opens the Gogo Shell\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay gogo\n"
+  printf "  cliferay gogo --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
     echo
 
   fi
@@ -1134,12 +1164,12 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl new-object\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'changed-modules\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl new-object\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'elastic-search\'*)'
@@ -1182,10 +1212,6 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'poshi\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'build\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -1194,19 +1220,27 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h new-api new-instance new-object")" -- "$cur" )'
+  echo $'    \'poshi\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'    \'curl\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h new-api new-instance new-object")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'jira\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'sync\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'kill\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'gogo\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1251,7 +1285,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy elastic-search folder format-source gw ij jira kill morning nuke poshi run sd set-ticket sf super-deploy sync tomcat-folder")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport brian build changed-modules cm curl d deploy elastic-search folder format-source gogo gw ij jira kill morning nuke poshi run sd set-ticket sf super-deploy sync tomcat-folder")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1416,6 +1450,8 @@ cliferay_run_command() {
 
   feature.flag.ui.visible[dev]=true
 
+  module.framework.properties.osgi.console=11311
+
   include-and-override=\${liferay.home}/portal-custom.properties
   " > $BUNDLES/portal-ext.properties
 
@@ -1424,6 +1460,13 @@ cliferay_run_command() {
   fi
 
   $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
+
+}
+
+# :command.function
+cliferay_gogo_command() {
+  # src/commands/gogo.sh
+  telnet localhost 11311
 
 }
 
@@ -1783,6 +1826,13 @@ parse_requirements() {
       action="run"
       shift
       cliferay_run_parse_requirements "$@"
+      shift $#
+      ;;
+
+    gogo)
+      action="gogo"
+      shift
+      cliferay_gogo_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2568,6 +2618,50 @@ cliferay_run_parse_requirements() {
 }
 
 # :command.parse_requirements
+cliferay_gogo_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_gogo_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="gogo"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 cliferay_kill_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -3334,6 +3428,7 @@ run() {
     "deploy") cliferay_deploy_command ;;
     "poshi") cliferay_poshi_command ;;
     "run") cliferay_run_command ;;
+    "gogo") cliferay_gogo_command ;;
     "kill") cliferay_kill_command ;;
     "nuke") cliferay_nuke_command ;;
     "tomcat-folder") cliferay_tomcat_folder_command ;;

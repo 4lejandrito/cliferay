@@ -28,6 +28,8 @@ enterprise.product.notification.enabled=false
 
 feature.flag.ui.visible[dev]=true
 
+module.framework.properties.osgi.console=11311
+
 include-and-override=\${liferay.home}/portal-custom.properties
 " > $BUNDLES/portal-ext.properties
 

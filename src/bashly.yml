@@ -114,6 +114,9 @@ commands:
   - name: command
     help: Tomcat command (jpda by default)
     required: false
+- name: gogo
+  help: Opens the Gogo Shell
+  group: Server
 - name: kill
   help: Kill the server
   group: Server
