@@ -8,6 +8,7 @@ admin.email.from.address=test@liferay.com
 admin.email.from.name=Test Test
 default.admin.email.address.prefix=test
 
+company.security.strangers.verify=false
 company.default.locale=en_US
 company.default.time.zone=UTC
 company.default.web.id=liferay.com
