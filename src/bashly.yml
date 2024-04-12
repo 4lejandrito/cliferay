@@ -55,7 +55,26 @@ commands:
     short: -b
     arg: branch
     help: Source branch
-
+- name: stats
+  help: Calculate different Git stats
+  group: Git
+  commands:
+  - name: years
+    help: Shows commit count per year
+    args:
+    - name: emails
+      help: The emails of the commit authors.
+      repeatable: true
+    examples:
+      - cliferay stats years alejandro.tardin@liferay.com
+  - name: tickets
+    help: Shows tickets worked on based on commits
+    args:
+    - name: emails
+      help: The emails of the commit authors.
+      repeatable: true
+    examples:
+      - cliferay stats tickets alejandro.tardin@liferay.com
 - name: build
   help: Run ant all
   group: Build

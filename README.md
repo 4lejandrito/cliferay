@@ -24,6 +24,7 @@ Git Commands:
   sync              Sync fork and local copy with upstream
   brian             Forward an existing PR to Brian and close it
   set-ticket        Set the Jira ticket on your local commits
+  stats             Calculate different Git stats
 
 Build Commands:
   build             Run ant all
