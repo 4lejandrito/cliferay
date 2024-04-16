@@ -67,6 +67,14 @@ commands:
       repeatable: true
     examples:
       - cliferay stats years alejandro.tardin@liferay.com
+  - name: ranking
+    help: Shows commit ranking
+    args:
+    - name: emails
+      help: The emails of the commit authors.
+      repeatable: true
+    examples:
+      - cliferay stats ranking alejandro.tardin@liferay.com
   - name: tickets
     help: Shows tickets worked on based on commits
     args:

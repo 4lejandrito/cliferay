@@ -1,0 +1,2 @@
+emails=${args[emails]:-}
+git log --since='1 year ago' --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
