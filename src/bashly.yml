@@ -55,6 +55,11 @@ commands:
     short: -b
     arg: branch
     help: Source branch
+- name: tickets
+  help: Gets all Jira tickets from the output of git log
+  group: Git
+  examples:
+    - git log | cliferay tickets
 - name: stats
   help: Calculate different Git stats
   group: Git
