@@ -274,6 +274,8 @@ cliferay_stats_usage() {
   printf "  %s   Shows commit count per year\n" "years  "
   printf "  %s   Shows commit ranking\n" "ranking"
   printf "  %s   Shows tickets worked on based on commits\n" "tickets"
+  printf "  %s   Prints the commits for the emails\n" "commits"
+  printf "  %s   Writes a review based on git stats\n" "review "
   echo
 
   # :command.long_usage
@@ -409,6 +411,90 @@ cliferay_stats_tickets_usage() {
     # :command.usage_examples
     printf "%s\n" "Examples:"
     printf "  cliferay stats tickets alejandro.tardin@liferay.com\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_stats_commits_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay stats commits - Prints the commits for the emails\n"
+    echo
+
+  else
+    printf "cliferay stats commits - Prints the commits for the emails\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay stats commits [EMAILS...]\n"
+  printf "  cliferay stats commits --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "EMAILS..."
+    printf "    The emails of the commit authors.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay stats commits alejandro.tardin@liferay.com\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_stats_review_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "cliferay stats review - Writes a review based on git stats\n"
+    echo
+
+  else
+    printf "cliferay stats review - Writes a review based on git stats\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay stats review [EMAILS...]\n"
+  printf "  cliferay stats review --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "EMAILS..."
+    printf "    The emails of the person to be reviewed.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay stats review alejandro.tardin@liferay.com\n"
     echo
 
   fi
@@ -1373,15 +1459,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'format-source\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'stats tickets\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'tomcat-folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1389,12 +1467,28 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl new-api\'*)'
+  echo $'    \'tomcat-folder\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'stats commits\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'format-source\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'super-deploy\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl new-api\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'stats review\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'stats years\'*)'
@@ -1417,11 +1511,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'deploy\'*)'
+  echo $'    \'folder\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'folder\'*)'
+  echo $'    \'deploy\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1430,7 +1524,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'stats\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h ranking tickets years")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h commits ranking review tickets years")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'brian\'*)'
@@ -1441,11 +1535,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'jira\'*)'
+  echo $'    \'nuke\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'gogo\'*)'
+  echo $'    \'jira\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1453,15 +1547,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h new-api new-instance new-object")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'nuke\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'sync\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'kill\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'gogo\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1481,16 +1575,16 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'cm\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'ij\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'gw\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'cm\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'d\'*)'
@@ -1582,6 +1676,27 @@ cliferay_stats_tickets_command() {
   cd $(cliferay folder)
   emails=${args[emails]:-}
   git log --since="2024-01-01" --until="2024-04-01" --pretty=format:'%h %s' $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
+}
+
+# :command.function
+cliferay_stats_commits_command() {
+  # src/commands/stats/commits.sh
+  cd $(cliferay folder)
+  emails=${args[emails]:-}
+  git log --since="2024-01-01" --until="2024-04-01" --oneline $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g')
+}
+
+# :command.function
+cliferay_stats_review_command() {
+  # src/commands/stats/review.sh
+  cd $(cliferay folder)
+  echo "This quarter ${args[emails]} has:"
+  echo ""
+  echo "Contributed code for $(cliferay stats tickets $(echo ${args[emails]}) | wc -l) different Jira tickets:"
+  echo "$(cliferay stats tickets $(echo ${args[emails]}) | sed 's/^/  /')"
+  echo "With a total of $(cliferay stats commits $(echo ${args[emails]}) | wc -l) commits to master."
+  echo "Reaching $(cliferay stats years $(echo ${args[emails]}) | awk '{current=$1; if (NR>1) last=current/prev*100; prev=$1} END{print last "%"}') of their total commits from last whole year."
+  echo "Worked directly or indirectly on XX LPP tickets."
 }
 
 # :command.function
@@ -2470,6 +2585,20 @@ cliferay_stats_parse_requirements() {
       shift $#
       ;;
 
+    commits)
+      action="commits"
+      shift
+      cliferay_stats_commits_parse_requirements "$@"
+      shift $#
+      ;;
+
+    review)
+      action="review"
+      shift
+      cliferay_stats_review_parse_requirements "$@"
+      shift $#
+      ;;
+
     # :command.command_fallback
     "")
       cliferay_stats_usage >&2
@@ -2626,6 +2755,106 @@ cliferay_stats_tickets_parse_requirements() {
 
   # :command.command_filter
   action="stats tickets"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_repeatable
+
+        if [[ -z ${args['emails']+x} ]]; then
+          args['emails']="\"$1\""
+          shift
+        else
+          args['emails']="${args[emails]} \"$1\""
+          shift
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_stats_commits_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_stats_commits_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="stats commits"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_repeatable
+
+        if [[ -z ${args['emails']+x} ]]; then
+          args['emails']="\"$1\""
+          shift
+        else
+          args['emails']="${args[emails]} \"$1\""
+          shift
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_stats_review_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        cliferay_stats_review_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="stats review"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -3960,6 +4189,8 @@ run() {
     "stats years") cliferay_stats_years_command ;;
     "stats ranking") cliferay_stats_ranking_command ;;
     "stats tickets") cliferay_stats_tickets_command ;;
+    "stats commits") cliferay_stats_commits_command ;;
+    "stats review") cliferay_stats_review_command ;;
     "build") cliferay_build_command ;;
     "ij") cliferay_ij_command ;;
     "gw") cliferay_gw_command ;;

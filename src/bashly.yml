@@ -88,6 +88,22 @@ commands:
       repeatable: true
     examples:
       - cliferay stats tickets alejandro.tardin@liferay.com
+  - name: commits
+    help: Prints the commits for the emails
+    args:
+    - name: emails
+      help: The emails of the commit authors.
+      repeatable: true
+    examples:
+      - cliferay stats commits alejandro.tardin@liferay.com
+  - name: review
+    help: Writes a review based on git stats
+    args:
+    - name: emails
+      help: The emails of the person to be reviewed.
+      repeatable: true
+    examples:
+      - cliferay stats review alejandro.tardin@liferay.com
 - name: build
   help: Run ant all
   group: Build
