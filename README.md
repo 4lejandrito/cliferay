@@ -47,6 +47,7 @@ Server Commands:
   nuke              Delete all persisted data
   tomcat-folder     Print the current tomcat folder
   elastic-search    Open the Elastic Search index
+  db-name           Prints the database name (lportal)
 
 Commands:
   morning           Sync, build, ij, nuke and run

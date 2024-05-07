@@ -15,7 +15,7 @@ company.default.web.id=liferay.com
 
 jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver
 jdbc.default.password=root
-jdbc.default.url=jdbc:mysql://localhost/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+jdbc.default.url=jdbc:mysql://localhost/$(cliferay db-name)?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
 jdbc.default.username=root
 
 liferay.home=$BUNDLES

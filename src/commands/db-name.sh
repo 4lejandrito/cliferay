@@ -1,0 +1,1 @@
+[[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
