@@ -1,1 +1,1 @@
-open "http://localhost:9201/*/_search?pretty=true&size=10000"
+liferay-curl "http://localhost:9201/*/_search?pretty=true&size=10000"

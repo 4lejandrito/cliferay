@@ -1891,7 +1891,7 @@ cliferay_tomcat_folder_command() {
 # :command.function
 cliferay_elastic_search_command() {
   # src/commands/elastic-search.sh
-  open "http://localhost:9201/*/_search?pretty=true&size=10000"
+  liferay-curl "http://localhost:9201/*/_search?pretty=true&size=10000"
 }
 
 # :command.function
