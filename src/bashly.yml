@@ -175,7 +175,7 @@ commands:
   help: Print the current tomcat folder
   group: Server
 - name: elastic-search
-  help: Open the Elastic Search index
+  help: Queries the Elastic Search index
   group: Server
 - name: db-name
   help: Prints the database name (lportal)

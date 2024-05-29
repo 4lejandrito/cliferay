@@ -62,7 +62,7 @@ cliferay_usage() {
   printf "  %s   Kill the server\n" "kill           "
   printf "  %s   Delete all persisted data\n" "nuke           "
   printf "  %s   Print the current tomcat folder\n" "tomcat-folder  "
-  printf "  %s   Open the Elastic Search index\n" "elastic-search "
+  printf "  %s   Queries the Elastic Search index\n" "elastic-search "
   printf "  %s   Prints the database name (lportal)\n" "db-name        "
   echo
   printf "%s\n" "Commands:"
@@ -955,11 +955,11 @@ cliferay_tomcat_folder_usage() {
 # :command.usage
 cliferay_elastic_search_usage() {
   if [[ -n $long_usage ]]; then
-    printf "cliferay elastic-search - Open the Elastic Search index\n"
+    printf "cliferay elastic-search - Queries the Elastic Search index\n"
     echo
 
   else
-    printf "cliferay elastic-search - Open the Elastic Search index\n"
+    printf "cliferay elastic-search - Queries the Elastic Search index\n"
     echo
 
   fi

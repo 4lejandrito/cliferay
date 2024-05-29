@@ -46,7 +46,7 @@ Server Commands:
   kill              Kill the server
   nuke              Delete all persisted data
   tomcat-folder     Print the current tomcat folder
-  elastic-search    Open the Elastic Search index
+  elastic-search    Queries the Elastic Search index
   db-name           Prints the database name (lportal)
 
 Commands:
