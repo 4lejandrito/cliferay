@@ -177,6 +177,10 @@ commands:
 - name: elastic-search
   help: Queries the Elastic Search index
   group: Server
+  dependencies:
+    jq:
+      command: [jq]
+      help: install it from https://jqlang.github.io/jq
 - name: db-name
   help: Prints the database name (lportal)
   group: Server
