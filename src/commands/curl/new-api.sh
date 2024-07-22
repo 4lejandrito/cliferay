@@ -1,17 +1,24 @@
-cliferay curl new-object
-liferay-curl -X "DELETE" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/my-application"
+liferay-curl -X "DELETE" "http://localhost:8080/o/headless-builder/applications/by-external-reference-code/headless-builder-test"
 liferay-curl -X "POST" "http://localhost:8080/o/headless-builder/applications" \
      -H 'Content-Type: application/json' \
      -d $'{
-  "baseURL": "my-application",
-  "title": "My application",
-  "externalReferenceCode": "my-application",
+  "baseURL": "headless-builder-test",
+  "title": "API Builder Test",
+  "externalReferenceCode": "headless-builder-test",
   "apiApplicationToAPIEndpoints": [
     {
-      "path": "/my-endpoint",
+      "path": "/test1",
       "scope": "company",
-      "externalReferenceCode": "my-endpoint",
-      "name": "name",
+      "externalReferenceCode": "test-endpoint-1",
+      "name": "Test 1",
+      "description": "description",
+      "httpMethod": "get"
+    },
+    {
+      "path": "/test2",
+      "scope": "company",
+      "externalReferenceCode": "test-endpoint-2",
+      "name": "Test 2",
       "description": "description",
       "httpMethod": "get"
     }
@@ -19,19 +26,20 @@ liferay-curl -X "POST" "http://localhost:8080/o/headless-builder/applications" \
   "applicationStatus": "published",
   "apiApplicationToAPISchemas": [
     {
-      "externalReferenceCode": "my-schema",
-      "mainObjectDefinitionERC": "University",
+      "externalReferenceCode": "test-schema",
+      "mainObjectDefinitionERC": "L_API_ENDPOINT",
       "description": "description",
-      "name": "MySchema",
+      "name": "Test Schema",
       "apiSchemaToAPIProperties": [
         {
-          "objectFieldERC": "university-name",
-          "name": "name",
+          "objectFieldERC": "PATH",
+          "name": "path",
           "description": "description"
         }
       ]
     }
   ]
 }'
-liferay-curl -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/my-schema/responseAPISchemaToAPIEndpoints/my-endpoint"
-liferay-curl "http://localhost:8080/o/c/my-application/my-endpoint"
+liferay-curl -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/test-schema/responseAPISchemaToAPIEndpoints/test-endpoint-1"
+liferay-curl -X "PUT" "http://localhost:8080/o/headless-builder/schemas/by-external-reference-code/test-schema/responseAPISchemaToAPIEndpoints/test-endpoint-2"
+liferay-curl "http://localhost:8080/o/c/headless-builder-test/test1"
