@@ -29,3 +29,26 @@ function liferay-curl() {
 function open() {
 	npx -y open-cli $*
 }
+
+function get_current_quarter() {
+	current_year=$(date '+%Y')
+    month=$(date '+%m')
+    case $month in
+        01|02|03)
+            since="${current_year}-01-01"
+            until="${current_year}-04-01"
+            ;;
+        04|05|06)
+            since="${current_year}-04-01"
+            until="${current_year}-07-01"
+            ;;
+        07|08|09)
+            since="${current_year}-07-01"
+            until="${current_year}-10-01"
+            ;;
+        10|11|12)
+            since="${current_year}-10-01"
+            until="$(($current_year + 1))-01-01"
+            ;;
+    esac
+}

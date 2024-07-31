@@ -1441,6 +1441,29 @@ function open() {
 	npx -y open-cli $*
 }
 
+function get_current_quarter() {
+	current_year=$(date '+%Y')
+    month=$(date '+%m')
+    case $month in
+        01|02|03)
+            since="${current_year}-01-01"
+            until="${current_year}-04-01"
+            ;;
+        04|05|06)
+            since="${current_year}-04-01"
+            until="${current_year}-07-01"
+            ;;
+        07|08|09)
+            since="${current_year}-07-01"
+            until="${current_year}-10-01"
+            ;;
+        10|11|12)
+            since="${current_year}-10-01"
+            until="$(($current_year + 1))-01-01"
+            ;;
+    esac
+}
+
 # src/lib/send_completions.sh
 send_completions() {
   echo $'# cliferay completion                                      -*- shell-script -*-'
@@ -1701,7 +1724,8 @@ cliferay_stats_ranking_command() {
   # src/commands/stats/ranking.sh
   cd $(cliferay folder)
   emails=${args[emails]:-}
-  git log --since="2024-04-01" --until="2024-07-01" --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
+  get_current_quarter
+  git log --since="$since" --until="$until" --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
 }
 
 # :command.function
@@ -1709,7 +1733,8 @@ cliferay_stats_tickets_command() {
   # src/commands/stats/tickets.sh
   cd $(cliferay folder)
   emails=${args[emails]:-}
-  git log --since="2024-04-01" --until="2024-07-01" --pretty=format:'%h %s' $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
+  get_current_quarter
+  git log --since="$since" --until="$until" --pretty=format:'%h %s' $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
 }
 
 # :command.function
@@ -1717,7 +1742,8 @@ cliferay_stats_commits_command() {
   # src/commands/stats/commits.sh
   cd $(cliferay folder)
   emails=${args[emails]:-}
-  git log --since="2024-04-01" --until="2024-07-01" --oneline $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g')
+  get_current_quarter
+  git log --since="$since" --until="$until" --oneline $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g')
 }
 
 # :command.function
