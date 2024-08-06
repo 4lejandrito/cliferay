@@ -1903,7 +1903,7 @@ cliferay_kill_command() {
 cliferay_nuke_command() {
   # src/commands/nuke.sh
   cd $(cliferay folder)
-  rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/state .$(cliferay tomcat-folder)/work/Catalina
+  rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/state $(cliferay tomcat-folder)/work/Catalina
   echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
 }
 
@@ -1923,7 +1923,8 @@ cliferay_elastic_search_command() {
 # :command.function
 cliferay_db_name_command() {
   # src/commands/db-name.sh
-  [[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
+  [[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportal" || echo "lportal"
+
 }
 
 # :command.function
