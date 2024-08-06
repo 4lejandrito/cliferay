@@ -40,6 +40,7 @@ if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
     echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
 fi
 
+mkdir -p $BUNDLES/osgi/configs
 echo 'maxChallenges=I"-1"' > $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
 
 $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
