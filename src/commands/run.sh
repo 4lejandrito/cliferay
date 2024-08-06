@@ -8,6 +8,8 @@ admin.email.from.address=test@liferay.com
 admin.email.from.name=Test Test
 default.admin.email.address.prefix=test
 
+captcha.enforce.disabled=true
+
 company.security.strangers.verify=false
 company.default.locale=en_US
 company.default.time.zone=UTC
@@ -37,5 +39,7 @@ include-and-override=\${liferay.home}/portal-custom.properties
 if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
     echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
 fi
+
+echo 'maxChallenges=I"-1"' > $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
 
 $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
