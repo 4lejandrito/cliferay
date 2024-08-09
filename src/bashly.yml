@@ -164,6 +164,18 @@ commands:
     required: false
 - name: gogo
   help: Opens the Gogo Shell
+  examples:
+    - cliferay gogo
+    - cliferay gogo unsatisfied
+    - cliferay gogo jaxrs:check
+  catch_all:
+    label: Command
+    help: Optional Gogo shell command to run
+  completions:
+    - diag
+    - unsatisfied
+    - scr:list
+    - jaxrs:check
   group: Server
 - name: kill
   help: Kill the server

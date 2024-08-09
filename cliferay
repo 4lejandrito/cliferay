@@ -671,7 +671,7 @@ cliferay_gogo_usage() {
   printf "cliferay gogo - Opens the Gogo Shell\n\n"
 
   printf "%s\n" "Usage:"
-  printf "  cliferay gogo\n"
+  printf "  cliferay gogo [--] [COMMAND...]\n"
   printf "  cliferay gogo --help | -h\n"
   echo
 
@@ -682,6 +682,20 @@ cliferay_gogo_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    echo "  COMMAND..."
+    printf "    Optional Gogo shell command to run\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay gogo\n"
+    printf "  cliferay gogo unsatisfied\n"
+    printf "  cliferay gogo jaxrs:check\n"
     echo
 
   fi
@@ -1334,7 +1348,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'gogo\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'run\'*)'
@@ -1615,7 +1629,20 @@ cliferay_run_command() {
 # :command.function
 cliferay_gogo_command() {
   # src/commands/gogo.sh
-  telnet localhost 11311
+  if [ ${#other_args[@]} -eq 0 ]; then
+      telnet localhost 11311
+  else
+  expect <<EOF
+spawn telnet localhost 11311
+expect "g! "
+send "${other_args[*]}\r"
+expect "g! "
+send "disconnect\r"
+expect "Disconnect from console? (y/n; default=y)"
+send "y\r"
+expect eof
+EOF
+  fi
 
 }
 
@@ -3223,16 +3250,22 @@ cliferay_gogo_parse_requirements() {
     key="$1"
     case "$key" in
 
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
+
       -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
+        other_args+=("$1")
+        shift
         ;;
 
       *)
         # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
+        # :command.parse_requirements_case_catch_all
+        other_args+=("$1")
+        shift
 
         ;;
 
