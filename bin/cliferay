@@ -2144,7 +2144,7 @@ cliferay() {
     # src/commands/ij.sh
     cd $(cliferay folder)
     if [ ! -d "../liferay-intellij" ]; then
-        gh repo clone holatuwol/liferay-intellij "../liferay-intellij"
+        git clone https://github.com/holatuwol/liferay-intellij.git "../liferay-intellij"
     fi
     (cd ../liferay-intellij; git pull)
     ../liferay-intellij/intellij
@@ -2534,7 +2534,7 @@ EOF
 
     # src/commands/tomcat-folder.sh
     cd $(cliferay folder)/../bundles
-    ls -d "$PWD/"** | grep tomcat | sort --version-sort | tail -n 1
+    ls -d "$PWD/"** | grep tomcat | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n 1
   }
 
   # :command.function

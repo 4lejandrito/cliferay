@@ -1,6 +1,6 @@
 cd $(cliferay folder)
 if [ ! -d "../liferay-intellij" ]; then
-    gh repo clone holatuwol/liferay-intellij "../liferay-intellij"
+    git clone https://github.com/holatuwol/liferay-intellij.git "../liferay-intellij"
 fi
 (cd ../liferay-intellij; git pull)
 ../liferay-intellij/intellij
