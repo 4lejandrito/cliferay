@@ -1560,7 +1560,7 @@ cliferay_gw_command() {
 # :command.function
 cliferay_ant_command() {
   # src/commands/ant.sh
-  ANT_OPTS=-Xmx4096m ant ${other_args[*]}
+  ANT_OPTS=-Xmx8192m ant ${other_args[*]}
 }
 
 # :command.function
