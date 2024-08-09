@@ -20,6 +20,9 @@ Usage:
   cliferay [COMMAND] --help | -h
   cliferay --version | -v
 
+cliferay Commands:
+  update            Update cliferay to the latest version
+
 Git Commands:
   sync              Sync fork and local copy with upstream
   brian             Forward an existing PR to Brian and close it

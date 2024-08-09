@@ -29,6 +29,10 @@ dependencies:
 
 commands:
 
+- name: update
+  help: Update cliferay to the latest version
+  group: cliferay
+
 - name: sync
   help: Sync fork and local copy with upstream
   group: Git
