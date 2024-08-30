@@ -1850,6 +1850,7 @@ cliferay_curl_new_object_command() {
               "indexedAsKeyword": false
             }
           ],
+          "panelCategoryKey": "control_panel.object",
           "pluralLabel": {
             "en-US": "Universities"
           },

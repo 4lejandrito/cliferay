@@ -23,6 +23,7 @@ JSON=$(
             "indexedAsKeyword": false
           }
         ],
+        "panelCategoryKey": "control_panel.object",
         "pluralLabel": {
           "en-US": "Universities"
         },
