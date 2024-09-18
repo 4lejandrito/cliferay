@@ -257,4 +257,3 @@ commands:
   args:
   - name: ticket
     help: The ticket reference (LPD-1234).
-    required: true
