@@ -149,6 +149,9 @@ commands:
   alias: d
   help: Deploy the current folder
   group: Module
+- name: baseline
+  help: Run baseline in the current folder
+  group: Module
 - name: poshi
   help: Run a Poshi test
   group: Module

@@ -41,6 +41,7 @@ Module Commands:
   super-deploy      Deploy changed modules
   format-source     Run SF globally
   deploy            Deploy the current folder
+  baseline          Run baseline in the current folder
   poshi             Run a Poshi test
 
 Server Commands:
