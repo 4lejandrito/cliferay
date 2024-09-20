@@ -26,10 +26,6 @@ function liferay-curl() {
 	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
 }
 
-function open() {
-	npx -y open-cli $*
-}
-
 function get_current_quarter() {
 	current_year=$(date '+%Y')
     month=$(date '+%m')

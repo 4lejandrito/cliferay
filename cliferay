@@ -1110,7 +1110,7 @@ cliferay_jira_usage() {
 
     # :argument.usage
     printf "  %s\n" "TICKET"
-    printf "    The ticket reference (LPD-1234).\n"
+    printf "    The ticket reference (LPD-1234). If not present it will be extracted from\n    the git branch name.\n"
     echo
 
   fi
@@ -1216,10 +1216,6 @@ function liferay-get-modules() {
 
 function liferay-curl() {
 	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
-}
-
-function open() {
-	npx -y open-cli $*
 }
 
 function get_current_quarter() {
@@ -1953,18 +1949,12 @@ cliferay_backport_command() {
 # :command.function
 cliferay_jira_command() {
   # src/commands/jira.sh
-  TICKET=${args["ticket"]:-$(git rev-parse --abbrev-ref HEAD | grep -oE 'LP[A-Z]-[0-9]+' || true)}
-
-  # var validation
-  if [[ -z "$TICKET" ]]; then
-    printf "mising regex pattern 'LP[A-Z]-[0-9]' in the current git branch\n" >&2
-    printf "missing argment: TICKET\nusage: cliferay jira TICKET\n" >&2\
-
-    exit 1
+  TICKETS=$(echo "${args["ticket"]:-$(git rev-parse --abbrev-ref HEAD)}" | cliferay tickets)
+  if [ -n "$TICKETS" ]; then
+      echo "$TICKETS" | xargs npx -y open-cli
+  else
+      cliferay jira --help
   fi
-
-  echo "opening 🌏 https://liferay.atlassian.net/browse/$TICKET"
-  open "https://liferay.atlassian.net/browse/$TICKET"
 }
 
 # :command.parse_requirements
