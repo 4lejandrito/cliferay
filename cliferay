@@ -1882,6 +1882,25 @@ cliferay_curl_new_object_command() {
               "indexedAsKeyword": false
             }
           ],
+          "objectValidationRules": [
+            {
+              "engineLabel": "Expression Builder",
+              "active": true,
+              "outputType": "fullValidation",
+              "script": "universityName != \\"Harvard\\"",
+              "externalReferenceCode": "f78318aa-e87f-06c2-821c-0275455fcd1f",
+              "objectDefinitionExternalReferenceCode": "University",
+              "system": false,
+              "engine": "ddm",
+              "objectValidationRuleSettings": [],
+              "name": {
+                  "en_US": "Test"
+              },
+              "errorLabel": {
+                  "en_US": "We do not like Harvard"
+              }
+            }
+          ],
           "panelCategoryKey": "control_panel.object",
           "pluralLabel": {
             "en-US": "Universities"
