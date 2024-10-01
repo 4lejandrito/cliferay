@@ -240,6 +240,8 @@ commands:
     help: Create a new API Builder API
   - name: new-object
     help: Create a new object definition with some entries
+  - name: batch-import
+    help: Import a new object entry with batch
 - name: backport
   alias: b
   help: Backport commits to other branches
