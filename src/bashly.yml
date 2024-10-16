@@ -68,14 +68,32 @@ commands:
   help: Calculate different Git stats
   group: Git
   commands:
+  - name: users
+    help: Get info about users
+    commands:
+    - name: jira
+      help: Shows the jira id
+      args:
+      - name: user
+        help: The user handle.
+        required: true
+      examples:
+        - cliferay stats users jira alejandro.tardin
+    - name: emails
+      help: Shows the user git emails
+      args:
+      - name: user
+        help: The user handle.
+        required: true
+      examples:
+        - cliferay stats users emails alejandro.tardin
   - name: years
     help: Shows commit count per year
     args:
-    - name: emails
-      help: The emails of the commit authors.
-      repeatable: true
+    - name: user
+      help: The user.
     examples:
-      - cliferay stats years alejandro.tardin@liferay.com
+      - cliferay stats years alejandro.tardin
   - name: ranking
     help: Shows commit ranking
     args:
@@ -87,27 +105,32 @@ commands:
   - name: tickets
     help: Shows tickets worked on based on commits
     args:
-    - name: emails
-      help: The emails of the commit authors.
-      repeatable: true
+    - name: user
+      help: The user.
     examples:
-      - cliferay stats tickets alejandro.tardin@liferay.com
+      - cliferay stats tickets alejandro.tardin
   - name: commits
-    help: Prints the commits for the emails
+    help: Prints the commits for the user
     args:
-    - name: emails
-      help: The emails of the commit authors.
-      repeatable: true
+    - name: user
+      help: The user.
     examples:
       - cliferay stats commits alejandro.tardin@liferay.com
   - name: review
-    help: Writes a review based on git stats
+    help: Writes a review based on git and jira stats
     args:
-    - name: emails
-      help: The emails of the person to be reviewed.
-      repeatable: true
+    - name: user
+      help: The user to be reviewed.
     examples:
       - cliferay stats review alejandro.tardin@liferay.com
+  - name: assigned
+    help: Shows tickets assigned during the quarter
+    args:
+    - name: user
+      help: The user.
+    examples:
+      - cliferay stats assigned alejandro.tardin
+  
 - name: build
   help: Run ant all
   group: Build
@@ -259,3 +282,14 @@ commands:
   args:
   - name: ticket
     help: The ticket reference (LPD-1234). If not present it will be extracted from the git branch name.
+- name: init
+  help: Initialize cliferay
+  dependencies:
+    jira:
+      command: [jira]
+      help: install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
+  flags:
+  - long: --email
+    arg: email
+    help: Your Liferay email
+    required: true

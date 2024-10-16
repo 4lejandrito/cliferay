@@ -1,0 +1,1 @@
+grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{for (i=3; i<=NF; i++) print $i}'
