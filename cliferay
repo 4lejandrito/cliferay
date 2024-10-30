@@ -2161,7 +2161,7 @@ cliferay_curl_new_object_command() {
 # :command.function
 cliferay_curl_batch_import_command() {
   # src/commands/curl/batch-import.sh
-  liferay-curl -X POST -u test@liferay.com:test -H "Content-Type: application/json" -d '[{"universityName": "UAM"}]' http://localhost:8080/o/c/universities/batch | jq -r '.id' | xargs -I {} curl -X GET -u test@liferay.com:test -H "Content-Type: application/json" http://localhost:8080/o/headless-batch-engine/v1.0/import-task/\{\} | jq
+  liferay-curl -X POST -H "Content-Type: application/json" -d '[{"universityName": "UAM"}]' http://localhost:8080/o/c/universities/batch | jq -r '.id' | xargs -I {} curl -X GET -u test@liferay.com:test -H "Content-Type: application/json" http://localhost:8080/o/headless-batch-engine/v1.0/import-task/\{\} | jq
 }
 
 # :command.function
