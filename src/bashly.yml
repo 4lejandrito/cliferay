@@ -184,6 +184,11 @@ commands:
   - name: test
     help: The test to run.
     required: true
+- name: build-rest
+  help: Run buildREST globally
+  group: Module
+  examples:
+    - cliferay build-rest
 
 - name: run
   help: Start the server

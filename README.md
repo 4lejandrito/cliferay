@@ -43,6 +43,7 @@ Module Commands:
   deploy            Deploy the current folder
   baseline          Run baseline in the current folder
   poshi             Run a Poshi test
+  build-rest        Run buildREST globally
 
 Server Commands:
   run               Start the server
