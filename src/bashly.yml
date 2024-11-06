@@ -59,6 +59,15 @@ commands:
     short: -b
     arg: branch
     help: Source branch
+- name: owner
+  help: Output the owner of a path based on CODEOWNERS
+  group: Git
+  examples:
+    - cliferay owner modules/apps/headless/headless-builder
+  args:
+  - name: path
+    help: The path to check
+    default: .
 - name: tickets
   help: Gets all Jira tickets from the output of git log
   group: Git

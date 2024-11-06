@@ -27,6 +27,7 @@ Git Commands:
   sync              Sync fork and local copy with upstream
   brian             Forward an existing PR to Brian and close it
   set-ticket        Set the Jira ticket on your local commits
+  owner             Output the owner of a path based on CODEOWNERS
   tickets           Gets all Jira tickets from the output of git log
   stats             Calculate different Git stats
 
