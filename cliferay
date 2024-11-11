@@ -53,7 +53,6 @@ cliferay_usage() {
   printf "  %s   Run SF globally\n" "format-source  "
   printf "  %s   Deploy the current folder\n" "deploy         "
   printf "  %s   Run baseline in the current folder\n" "baseline       "
-  printf "  %s   Run a Poshi test\n" "poshi          "
   printf "  %s   Run buildREST globally\n" "build-rest     "
   echo
   printf "%s\n" "Server Commands:"
@@ -72,6 +71,10 @@ cliferay_usage() {
   printf "  %s   Backport commits to other branches\n" "backport       "
   printf "  %s   Open a Jira ticket\n" "jira           "
   printf "  %s   Initialize cliferay\n" "init           "
+  echo
+  printf "%s\n" "Test Commands:"
+  printf "  %s   Run a Poshi test\n" "poshi          "
+  printf "  %s   Playwright utils\n" "playwright     "
   echo
 
   # :command.long_usage
@@ -818,40 +821,6 @@ cliferay_baseline_usage() {
 }
 
 # :command.usage
-cliferay_poshi_usage() {
-  printf "cliferay poshi - Run a Poshi test\n\n"
-
-  printf "%s\n" "Usage:"
-  printf "  cliferay poshi TEST\n"
-  printf "  cliferay poshi --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-    # :command.usage_args
-    printf "%s\n" "Arguments:"
-
-    # :argument.usage
-    printf "  %s\n" "TEST"
-    printf "    The test to run.\n"
-    echo
-
-    # :command.usage_examples
-    printf "%s\n" "Examples:"
-    printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
-    echo
-
-  fi
-}
-
-# :command.usage
 cliferay_build_rest_usage() {
   printf "cliferay build-rest - Run buildREST globally\n\n"
 
@@ -1359,6 +1328,147 @@ cliferay_init_usage() {
   fi
 }
 
+# :command.usage
+cliferay_poshi_usage() {
+  printf "cliferay poshi - Run a Poshi test\n\n"
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay poshi TEST\n"
+  printf "  cliferay poshi --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "TEST"
+    printf "    The test to run.\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_playwright_usage() {
+  printf "cliferay playwright - Playwright utils\n\n"
+  printf "Alias: pw\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay playwright COMMAND\n"
+  printf "  cliferay playwright [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "Commands:"
+  printf "  %s   Install npm dependencies in playwright\n" "install"
+  printf "  %s   Run test, pass the options you need for playwright test command https://playwright.dev/docs/test-cli\n" "test   "
+  printf "  %s   Launch the playwright ui mode https://playwright.dev/docs/test-ui-mode\n" "ui     "
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_playwright_install_usage() {
+  printf "cliferay playwright install - Install npm dependencies in playwright\n\n"
+  printf "Alias: i\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay playwright install\n"
+  printf "  cliferay playwright install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_playwright_test_usage() {
+  printf "cliferay playwright test - Run test, pass the options you need for playwright test command https://playwright.dev/docs/test-cli\n\n"
+  printf "Alias: t\n"
+  echo
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay playwright test [--] [...]\n"
+  printf "  cliferay playwright test --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay playwright run --project blogs-web --list\n"
+    printf "  cliferay playwright run -g \"@LPD-26659\" --reporter list\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_playwright_ui_usage() {
+  printf "cliferay playwright ui - Launch the playwright ui mode https://playwright.dev/docs/test-ui-mode\n\n"
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay playwright ui\n"
+  printf "  cliferay playwright ui --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay playwright ui\n"
+    echo
+
+  fi
+}
+
 # :command.normalize_input
 # :command.normalize_input_function
 normalize_input() {
@@ -1516,6 +1626,10 @@ send_completions() {
   echo $'  local compline="${compwords[*]}"'
   echo $''
   echo $'  case "$compline" in'
+  echo $'    \'playwright install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'stats users emails\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
@@ -1536,15 +1650,19 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'playwright test\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'changed-modules\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats assigned\'*)'
+  echo $'    \'elastic-search\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'elastic-search\'*)'
+  echo $'    \'stats assigned\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1552,11 +1670,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats ranking\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'stats tickets\'*)'
+  echo $'    \'playwright ui\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1564,7 +1678,27 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'stats tickets\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'stats ranking\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'tomcat-folder\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'stats review\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'playwright i\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'playwright t\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1572,11 +1706,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats review\'*)'
+  echo $'    \'curl new-api\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl new-api\'*)'
+  echo $'    \'stats years\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1584,16 +1718,20 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats years\'*)'
+  echo $'    \'build-rest\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'pw install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'playwright\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h i install t test ui")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'set-ticket\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'build-rest\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'baseline\'*)'
@@ -1604,7 +1742,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'pw test\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'tickets\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'db-name\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1612,15 +1758,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'db-name\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
   echo $'    \'deploy\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'folder\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1628,19 +1766,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'build\'*)'
+  echo $'    \'folder\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits ranking review tickets users years")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'owner\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'brian\'*)'
+  echo $'    \'pw ui\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1648,16 +1778,24 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'jira\'*)'
+  echo $'    \'brian\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'init\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--email --help -h")" -- "$cur")'
+  echo $'    \'owner\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'stats\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits ranking review tickets users years")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'build\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'nuke\'*)'
@@ -1668,11 +1806,27 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'sync\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'gogo\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'sync\'*)'
+  echo $'    \'jira\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'init\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--email --help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'pw t\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'pw i\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1682,6 +1836,10 @@ send_completions() {
   echo $''
   echo $'    \'ant\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'pw\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h i install t test ui")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'sf\'*)'
@@ -1704,16 +1862,16 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'d\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
   echo $'    \'b\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'d\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d db-name deploy elastic-search folder format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets tomcat-folder update")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d db-name deploy elastic-search folder format-source gogo gw ij init jira kill morning nuke owner playwright poshi pw run sd set-ticket sf stats super-deploy sync tickets tomcat-folder update")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1981,14 +2139,6 @@ cliferay_baseline_command() {
 }
 
 # :command.function
-cliferay_poshi_command() {
-
-  # src/commands/poshi.sh
-  cd $(cliferay folder)
-  HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
-}
-
-# :command.function
 cliferay_build_rest_command() {
 
   # src/commands/build-rest.sh
@@ -2122,6 +2272,7 @@ cliferay_morning_command() {
   if [[ ${args["--no-nuke"]} != 1 ]]; then
       cliferay nuke
   fi
+  cliferay playwright install
   cliferay run
 
 }
@@ -2363,6 +2514,38 @@ cliferay_init_command() {
 
 }
 
+# :command.function
+cliferay_poshi_command() {
+
+  # src/commands/poshi.sh
+  cd $(cliferay folder)
+  HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
+}
+
+# :command.function
+cliferay_playwright_install_command() {
+
+  # src/commands/playwright/install.sh
+  cd $(cliferay folder)/modules/test/playwright
+  npm install
+}
+
+# :command.function
+cliferay_playwright_test_command() {
+
+  # src/commands/playwright/test.sh
+  cd $(cliferay folder)/modules/test/playwright
+  npm run playwright test -- ${other_args[*]}
+}
+
+# :command.function
+cliferay_playwright_ui_command() {
+
+  # src/commands/playwright/ui.sh
+  cd $(cliferay folder)/modules/test/playwright
+  npm run playwright test -- --ui
+}
+
 # :command.parse_requirements
 parse_requirements() {
   # :command.fixed_flags_filter
@@ -2523,13 +2706,6 @@ parse_requirements() {
       shift $#
       ;;
 
-    poshi)
-      action="poshi"
-      shift
-      cliferay_poshi_parse_requirements "$@"
-      shift $#
-      ;;
-
     build-rest)
       action="build-rest"
       shift
@@ -2639,6 +2815,20 @@ parse_requirements() {
       action="init"
       shift
       cliferay_init_parse_requirements "$@"
+      shift $#
+      ;;
+
+    poshi)
+      action="poshi"
+      shift
+      cliferay_poshi_parse_requirements "$@"
+      shift $#
+      ;;
+
+    playwright | pw)
+      action="playwright"
+      shift
+      cliferay_playwright_parse_requirements "$@"
       shift $#
       ;;
 
@@ -4048,64 +4238,6 @@ cliferay_baseline_parse_requirements() {
 }
 
 # :command.parse_requirements
-cliferay_poshi_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-      --help | -h)
-        long_usage=yes
-        cliferay_poshi_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="poshi"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        # :argument.case
-        if [[ -z ${args['test']+x} ]]; then
-          args['test']=$1
-          shift
-        else
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-        fi
-
-        ;;
-
-    esac
-  done
-
-  # :command.required_args_filter
-  if [[ -z ${args['test']+x} ]]; then
-    printf "missing required argument: TEST\nusage: cliferay poshi TEST\n" >&2
-
-    exit 1
-  fi
-
-}
-
-# :command.parse_requirements
 cliferay_build_rest_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -5167,6 +5299,287 @@ cliferay_init_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+cliferay_poshi_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_poshi_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="poshi"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['test']+x} ]]; then
+          args['test']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['test']+x} ]]; then
+    printf "missing required argument: TEST\nusage: cliferay poshi TEST\n" >&2
+
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
+cliferay_playwright_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_playwright_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install | i)
+      action="install"
+      shift
+      cliferay_playwright_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    test | t)
+      action="test"
+      shift
+      cliferay_playwright_test_parse_requirements "$@"
+      shift $#
+      ;;
+
+    ui)
+      action="ui"
+      shift
+      cliferay_playwright_ui_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      cliferay_playwright_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_playwright_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_playwright_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="playwright install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_playwright_test_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_playwright_test_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="playwright test"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      --)
+        shift
+        other_args+=("$@")
+        break
+        ;;
+
+      -?*)
+        other_args+=("$1")
+        shift
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_catch_all
+        other_args+=("$1")
+        shift
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+cliferay_playwright_ui_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_playwright_ui_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="playwright ui"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
 # :command.user_hooks
 before_hook() {
   # src/before.sh
@@ -5220,7 +5633,6 @@ run() {
     "format-source") cliferay_format_source_command ;;
     "deploy") cliferay_deploy_command ;;
     "baseline") cliferay_baseline_command ;;
-    "poshi") cliferay_poshi_command ;;
     "build-rest") cliferay_build_rest_command ;;
     "run") cliferay_run_command ;;
     "gogo") cliferay_gogo_command ;;
@@ -5241,6 +5653,11 @@ run() {
     "backport") cliferay_backport_command ;;
     "jira") cliferay_jira_command ;;
     "init") cliferay_init_command ;;
+    "poshi") cliferay_poshi_command ;;
+    "playwright") cliferay_playwright_command ;;
+    "playwright install") cliferay_playwright_install_command ;;
+    "playwright test") cliferay_playwright_test_command ;;
+    "playwright ui") cliferay_playwright_ui_command ;;
   esac
 }
 
