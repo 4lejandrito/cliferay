@@ -25,7 +25,7 @@ environment_variables:
 dependencies:
   gh:
     command: [gh]
-    help: install it from https://cli.github.com
+    help: Install it from https://cli.github.com
 
 commands:
 
@@ -236,7 +236,7 @@ commands:
   dependencies:
     jq:
       command: [jq]
-      help: install it from https://jqlang.github.io/jq
+      help: Install it from https://jqlang.github.io/jq
 - name: db-name
   help: Print the database name (lportal)
   group: Server
@@ -263,7 +263,7 @@ commands:
   dependencies:
     jq:
       command: [jq]
-      help: install it from https://jqlang.github.io/jq
+      help: Install it from https://jqlang.github.io/jq
   commands:
   - name: new-instance
     help: Create a new instance
@@ -301,7 +301,7 @@ commands:
   dependencies:
     jira:
       command: [jira]
-      help: install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
+      help: Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
   flags:
   - long: --email
     arg: email

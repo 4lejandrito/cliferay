@@ -2402,7 +2402,7 @@ parse_requirements() {
     deps['gh']="$(command -v gh | head -n1)"
   else
     printf "missing dependency: gh\n" >&2
-    printf "%s\n" "install it from https://cli.github.com" >&2
+    printf "%s\n" "Install it from https://cli.github.com" >&2
     exit 1
   fi
 
@@ -4412,7 +4412,7 @@ cliferay_elastic_search_parse_requirements() {
     deps['jq']="$(command -v jq | head -n1)"
   else
     printf "missing dependency: jq\n" >&2
-    printf "%s\n" "install it from https://jqlang.github.io/jq" >&2
+    printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
     exit 1
   fi
 
@@ -4706,7 +4706,7 @@ cliferay_curl_parse_requirements() {
     deps['jq']="$(command -v jq | head -n1)"
   else
     printf "missing dependency: jq\n" >&2
-    printf "%s\n" "install it from https://jqlang.github.io/jq" >&2
+    printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
     exit 1
   fi
 
@@ -5119,7 +5119,7 @@ cliferay_init_parse_requirements() {
     deps['jira']="$(command -v jira | head -n1)"
   else
     printf "missing dependency: jira\n" >&2
-    printf "%s\n" "install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation" >&2
+    printf "%s\n" "Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation" >&2
     exit 1
   fi
 
