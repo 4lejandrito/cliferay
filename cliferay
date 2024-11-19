@@ -38,7 +38,7 @@ cliferay_usage() {
   printf "  %s   Forward an existing PR to Brian and close it\n" "brian          "
   printf "  %s   Set the Jira ticket on your local commits\n" "set-ticket     "
   printf "  %s   Output the owner of a path based on CODEOWNERS\n" "owner          "
-  printf "  %s   Gets all Jira tickets from the output of git log\n" "tickets        "
+  printf "  %s   Get all Jira tickets from the output of git log\n" "tickets        "
   printf "  %s   Calculate different Git stats\n" "stats          "
   echo
   printf "%s\n" "Build Commands:"
@@ -58,12 +58,12 @@ cliferay_usage() {
   echo
   printf "%s\n" "Server Commands:"
   printf "  %s   Start the server\n" "run            "
-  printf "  %s   Opens the Gogo Shell\n" "gogo           "
+  printf "  %s   Open the Gogo Shell\n" "gogo           "
   printf "  %s   Kill the server\n" "kill           "
   printf "  %s   Delete all persisted data\n" "nuke           "
   printf "  %s   Print the current tomcat folder\n" "tomcat-folder  "
-  printf "  %s   Queries the Elastic Search index\n" "elastic-search "
-  printf "  %s   Prints the database name (lportal)\n" "db-name        "
+  printf "  %s   Query the Elastic Search index\n" "elastic-search "
+  printf "  %s   Print the database name (lportal)\n" "db-name        "
   echo
   printf "%s\n" "Commands:"
   printf "  %s   Sync, build, ij, nuke and run\n" "morning        "
@@ -255,7 +255,7 @@ cliferay_owner_usage() {
 
 # :command.usage
 cliferay_tickets_usage() {
-  printf "cliferay tickets - Gets all Jira tickets from the output of git log\n\n"
+  printf "cliferay tickets - Get all Jira tickets from the output of git log\n\n"
 
   printf "%s\n" "Usage:"
   printf "  cliferay tickets\n"
@@ -293,7 +293,7 @@ cliferay_stats_usage() {
   printf "  %s   Shows commit count per year\n" "years   "
   printf "  %s   Shows commit ranking\n" "ranking "
   printf "  %s   Shows tickets worked on based on commits\n" "tickets "
-  printf "  %s   Prints the commits for the user\n" "commits "
+  printf "  %s   Print the commits for the user\n" "commits "
   printf "  %s   Writes a review based on git and jira stats\n" "review  "
   printf "  %s   Shows tickets assigned during the quarter\n" "assigned"
   echo
@@ -508,7 +508,7 @@ cliferay_stats_tickets_usage() {
 
 # :command.usage
 cliferay_stats_commits_usage() {
-  printf "cliferay stats commits - Prints the commits for the user\n\n"
+  printf "cliferay stats commits - Print the commits for the user\n\n"
 
   printf "%s\n" "Usage:"
   printf "  cliferay stats commits [USER]\n"
@@ -908,7 +908,7 @@ cliferay_run_usage() {
 
 # :command.usage
 cliferay_gogo_usage() {
-  printf "cliferay gogo - Opens the Gogo Shell\n\n"
+  printf "cliferay gogo - Open the Gogo Shell\n\n"
 
   printf "%s\n" "Usage:"
   printf "  cliferay gogo [--] [COMMAND...]\n"
@@ -1006,7 +1006,7 @@ cliferay_tomcat_folder_usage() {
 
 # :command.usage
 cliferay_elastic_search_usage() {
-  printf "cliferay elastic-search - Queries the Elastic Search index\n\n"
+  printf "cliferay elastic-search - Query the Elastic Search index\n\n"
 
   printf "%s\n" "Usage:"
   printf "  cliferay elastic-search\n"
@@ -1027,7 +1027,7 @@ cliferay_elastic_search_usage() {
 
 # :command.usage
 cliferay_db_name_usage() {
-  printf "cliferay db-name - Prints the database name (lportal)\n\n"
+  printf "cliferay db-name - Print the database name (lportal)\n\n"
 
   printf "%s\n" "Usage:"
   printf "  cliferay db-name\n"

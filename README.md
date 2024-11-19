@@ -28,7 +28,7 @@ Git Commands:
   brian             Forward an existing PR to Brian and close it
   set-ticket        Set the Jira ticket on your local commits
   owner             Output the owner of a path based on CODEOWNERS
-  tickets           Gets all Jira tickets from the output of git log
+  tickets           Get all Jira tickets from the output of git log
   stats             Calculate different Git stats
 
 Build Commands:
@@ -48,12 +48,12 @@ Module Commands:
 
 Server Commands:
   run               Start the server
-  gogo              Opens the Gogo Shell
+  gogo              Open the Gogo Shell
   kill              Kill the server
   nuke              Delete all persisted data
   tomcat-folder     Print the current tomcat folder
-  elastic-search    Queries the Elastic Search index
-  db-name           Prints the database name (lportal)
+  elastic-search    Query the Elastic Search index
+  db-name           Print the database name (lportal)
 
 Commands:
   morning           Sync, build, ij, nuke and run
