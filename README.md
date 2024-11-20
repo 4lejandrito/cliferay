@@ -43,7 +43,6 @@ Module Commands:
   format-source     Run SF globally
   deploy            Deploy the current folder
   baseline          Run baseline in the current folder
-  poshi             Run a Poshi test
   build-rest        Run buildREST globally
 
 Server Commands:
@@ -62,6 +61,10 @@ Commands:
   backport          Backport commits to other branches
   jira              Open a Jira ticket
   init              Initialize cliferay
+
+Test Commands:
+  poshi             Run a Poshi test
+  playwright        Playwright utils
 
 Options:
   --help, -h

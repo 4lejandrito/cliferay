@@ -184,15 +184,6 @@ commands:
 - name: baseline
   help: Run baseline in the current folder
   group: Module
-- name: poshi
-  help: Run a Poshi test
-  group: Module
-  examples:
-    - cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint
-  args:
-  - name: test
-    help: The test to run.
-    required: true
 - name: build-rest
   help: Run buildREST globally
   group: Module
@@ -307,3 +298,33 @@ commands:
     arg: email
     help: Your Liferay email
     required: true
+
+- name: poshi
+  help: Run a Poshi test
+  group: Test
+  examples:
+    - cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint
+  args:
+  - name: test
+    help: The test to run.
+    required: true
+- name: playwright
+  alias: pw
+  help: Playwright utils
+  group: Test
+  commands:
+  - name: install
+    alias: i
+    help: Install npm dependencies in playwright
+  - name: test
+    alias: t
+    help: Run test, pass the options you need for playwright 
+      test command https://playwright.dev/docs/test-cli
+    catch_all: true
+    examples:
+      - cliferay playwright run --project blogs-web --list
+      - cliferay playwright run -g "@LPD-26659" --reporter list
+  - name: ui
+    help: Launch the playwright ui mode https://playwright.dev/docs/test-ui-mode
+    examples:
+      - cliferay playwright ui
