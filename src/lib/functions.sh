@@ -23,7 +23,7 @@ function liferay-get-modules() {
 }
 
 function liferay-curl() {
-	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
+	curl --no-progress-meter -u 'test@liferay.com:test' "$@"
 }
 
 function get_current_quarter() {

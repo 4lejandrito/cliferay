@@ -1155,6 +1155,7 @@ cliferay_curl_usage() {
   printf "  %s   Create a new API Builder API\n" "new-api     "
   printf "  %s   Create a new object definition with some entries\n" "new-object  "
   printf "  %s   Import a new object entry with batch\n" "batch-import"
+  printf "  %s   Run a curl based on a prompt\n" "ai          "
   echo
 
   # :command.long_usage
@@ -1261,6 +1262,55 @@ cliferay_curl_batch_import_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+cliferay_curl_ai_usage() {
+  printf "cliferay curl ai - Run a curl based on a prompt\n\n"
+
+  printf "%s\n" "Usage:"
+  printf "  cliferay curl ai PROMPT [OPTIONS]\n"
+  printf "  cliferay curl ai --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--generate, -g"
+    printf "    Output the command, do not run it\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "PROMPT"
+    printf "    The prompt.\n"
+    echo
+
+    # :command.usage_environment_variables
+    printf "%s\n" "Environment Variables:"
+
+    # :environment_variable.usage
+    printf "  %s\n" "OPENAI_API_KEY (required)"
+    printf "    Your OpenAI API Key\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  cliferay curl ai \"create a sample blog posting\"\n"
+    printf "  cliferay curl ai \"list all object definitions\"\n"
     echo
 
   fi
@@ -1458,7 +1508,7 @@ function liferay-get-modules() {
 }
 
 function liferay-curl() {
-	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
+	curl --no-progress-meter -u 'test@liferay.com:test' "$@"
 }
 
 function get_current_quarter() {
@@ -1532,12 +1582,12 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'curl new-object\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
   echo $'    \'changed-modules\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl new-object\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'stats assigned\'*)'
@@ -1548,15 +1598,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'format-source\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'stats ranking\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'stats tickets\'*)'
+  echo $'    \'tomcat-folder\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1564,15 +1606,15 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'tomcat-folder\'*)'
+  echo $'    \'stats tickets\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'super-deploy\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+  echo $'    \'stats ranking\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats review\'*)'
+  echo $'    \'format-source\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1580,20 +1622,28 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'stats users\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
+  echo $'    \'stats review\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'super-deploy\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'stats years\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'set-ticket\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+  echo $'    \'stats users\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'build-rest\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'set-ticket\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'baseline\'*)'
@@ -1602,6 +1652,10 @@ send_completions() {
   echo $''
   echo $'    \'backport\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'curl ai\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--generate --help -g -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'tickets\'*)'
@@ -1649,7 +1703,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'curl\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h ai batch-import new-api new-instance new-object")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'jira\'*)'
@@ -2309,6 +2363,102 @@ cliferay_curl_batch_import_command() {
 
   # src/commands/curl/batch-import.sh
   liferay-curl -X POST -H "Content-Type: application/json" -d '[{"universityName": "UAM"}]' http://localhost:8080/o/c/universities/batch | jq -r '.id' | xargs -I {} curl -X GET -u test@liferay.com:test -H "Content-Type: application/json" http://localhost:8080/o/headless-batch-engine/v1.0/import-task/\{\} | jq
+}
+
+# :command.function
+cliferay_curl_ai_command() {
+
+  # src/commands/curl/ai.sh
+  OPENAPI_FILE=$(mktemp)
+  OPENAI_REQUEST_FILE=$(mktemp)
+
+  jq -n --arg input "${args[prompt]}" --arg openapis "$(liferay-curl -s "http://localhost:8080/o/openapi")" \
+    '{
+      "model": "gpt-4o",
+      "messages": [
+        {"role": "system", "content": "You are a helpful assistant that will select the most relevant OpenAPI URL based on the prompt. Here are the available OpenAPIs:\n\n\($openapis)"},
+        {"role": "user", "content": "\($input)"}
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "strict": true,
+            "name": "select_openapi",
+            "description": "Return the OpenAPI URL.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "The OpenAPI URL."
+                }
+              },
+              "additionalProperties": false,
+              "required": ["url"]
+            }
+          }
+        }
+      ],
+      "tool_choice": {"type": "function", "function": {"name": "select_openapi"}}
+  }' >$OPENAI_REQUEST_FILE
+
+  OPENAPI_URL=$(curl -s -X POST "https://api.openai.com/v1/chat/completions" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.tool_calls[0].function.arguments' | jq -r '.url')
+
+  curl -s "$OPENAPI_URL" -u test@liferay.com:test >$OPENAPI_FILE
+
+  jq -n --arg input "${args[prompt]}" --rawfile openapi $OPENAPI_FILE \
+    '{
+      "model": "gpt-4o",
+      "messages": [
+        {"role": "system", "content": "You are a helpful assistant that transforms user instructions into curl commands based on the given OpenAPI specification."},
+        {"role": "system", "content": "Here is the OpenAPI specification:\n\n\($openapi)"},
+        {"role": "system", "content": "If a site id or scope key is needed use 20117"},
+        {"role": "system", "content": "For object definition and field labels and plural labels use a json like: en_US: ..."},
+        {"role": "system", "content": "For object definition panelCategoryKey use control_panel.object unless told otherwise"},
+        {"role": "system", "content": "For object definition scope use company unless told otherwise"},
+        {"role": "system", "content": "For object definitions always add at least one field"},
+        {"role": "system", "content": "Object definition names must start with uppercase"},
+        {"role": "system", "content": "Use this credentials -u test@liferay.com:test"},
+        {"role": "user", "content": "\($input)"}
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "strict": true,
+            "name": "generate_curl_command",
+            "description": "Generate a curl command based on user input and OpenAPI specification.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "curl_command": {
+                  "type": "string",
+                  "description": "The generated curl command."
+                }
+              },
+              "additionalProperties": false,
+              "required": ["curl_command"]
+            }
+          }
+        }
+      ],
+      "tool_choice": {"type": "function", "function": {"name": "generate_curl_command"}}
+  }' >$OPENAI_REQUEST_FILE
+
+  CURL_COMMAND=$(curl -s -X POST "https://api.openai.com/v1/chat/completions" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.tool_calls[0].function.arguments' | jq -r '.curl_command')
+
+  if [[ ${args[--generate]} -eq 1 ]]; then
+    echo "$CURL_COMMAND"
+  else
+    eval "$CURL_COMMAND"
+  fi
 }
 
 # :command.function
@@ -4744,6 +4894,13 @@ cliferay_curl_parse_requirements() {
       shift $#
       ;;
 
+    ai)
+      action="ai"
+      shift
+      cliferay_curl_ai_parse_requirements "$@"
+      shift $#
+      ;;
+
     # :command.command_fallback
     "")
       cliferay_curl_usage >&2
@@ -4970,6 +5127,79 @@ cliferay_curl_batch_import_parse_requirements() {
 
     esac
   done
+
+}
+
+# :command.parse_requirements
+cliferay_curl_ai_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        cliferay_curl_ai_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.environment_variables_filter
+
+  env_var_names+=("OPENAI_API_KEY")
+  if [[ -z "${OPENAI_API_KEY:-}" ]]; then
+    printf "missing required environment variable: OPENAI_API_KEY\n" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="curl ai"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --generate | -g)
+
+        # :flag.case_no_arg
+        args['--generate']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['prompt']+x} ]]; then
+          args['prompt']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['prompt']+x} ]]; then
+    printf "missing required argument: PROMPT\nusage: cliferay curl ai PROMPT [OPTIONS]\n" >&2
+
+    exit 1
+  fi
 
 }
 
@@ -5239,6 +5469,7 @@ run() {
     "curl new-api") cliferay_curl_new_api_command ;;
     "curl new-object") cliferay_curl_new_object_command ;;
     "curl batch-import") cliferay_curl_batch_import_command ;;
+    "curl ai") cliferay_curl_ai_command ;;
     "backport") cliferay_backport_command ;;
     "jira") cliferay_jira_command ;;
     "init") cliferay_init_command ;;
