@@ -1,3 +1,4 @@
+target_dir: bin
 commands_dir: commands
 usage_colors:
   caption: bold

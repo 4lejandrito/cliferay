@@ -80,9 +80,9 @@ Environment Variables:
 
 ## Installation
 1. Clone this repo.
-2. Add it to your path:
+2. Add the bin folder to your path:
     ```bash
-    export PATH=/path/to/cliferay:$PATH
+    export PATH=/path/to/cliferay/bin:$PATH
     ```
 3. Run it!
     ```bash
