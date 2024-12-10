@@ -15,9 +15,6 @@ help: >
 version: 1.0.0
 
 environment_variables:
-  - name: LIFERAY_HOME
-    help: Location of your main liferay-portal clone
-    required: true
   - name: DEBUG
     help: Set to true to enable echoing of all the commands being run
     default: false
@@ -251,6 +248,12 @@ commands:
     help: Force cleanup by running git clean -fdx
 - name: folder
   help: Print the source folder
+- name: home
+  help: Print the default Liferay home folder
+  environment_variables:
+  - name: LIFERAY_HOME
+    help: Location of your main liferay-portal clone
+    required: true
 - name: completions
   help: Print completions script
   private: true

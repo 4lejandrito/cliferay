@@ -64,6 +64,7 @@ cliferay() {
     printf "%s\n" "$(bold "Commands:")"
     printf "  %s   Sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
     printf "  %s   Print the source folder\n" "$(green_bold "folder")         "
+    printf "  %s   Print the default Liferay home folder\n" "$(green_bold "home")           "
     printf "  %s   Send predefined HTTP requests to a running portal\n" "$(green_bold "curl")           "
     printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
     printf "  %s   Open a Jira ticket\n" "$(green_bold "jira")           "
@@ -84,11 +85,6 @@ cliferay() {
 
       # :command.usage_environment_variables
       printf "%s\n" "$(bold "Environment Variables:")"
-
-      # :environment_variable.usage
-      printf "  %s\n" "LIFERAY_HOME (required)"
-      printf "    Location of your main liferay-portal clone\n"
-      echo
 
       # :environment_variable.usage
       printf "  %s\n" "DEBUG"
@@ -1096,6 +1092,35 @@ cliferay() {
   }
 
   # :command.usage
+  cliferay_home_usage() {
+    printf "cliferay home - Print the default Liferay home folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay home\n"
+    printf "  cliferay home --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "LIFERAY_HOME (required)"
+      printf "    Location of your main liferay-portal clone\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
   cliferay_completions_usage() {
     printf "cliferay completions - Print completions script\n\n"
 
@@ -1689,6 +1714,10 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'home\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'jira\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
@@ -1750,7 +1779,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d db-name deploy elastic-search folder format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets tomcat-folder update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d db-name deploy elastic-search folder format-source gogo gw home ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets tomcat-folder update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2172,9 +2201,16 @@ EOF
     if [[ $root == *liferay-portal* ]]; then
         echo $root
     else
-        echo $LIFERAY_HOME
+        cliferay home
     fi
 
+  }
+
+  # :command.function
+  cliferay_home_command() {
+
+    # src/commands/home.sh
+    echo $LIFERAY_HOME
   }
 
   # :command.function
@@ -2427,12 +2463,7 @@ EOF
 
     # :command.environment_variables_filter
 
-    env_var_names+=("LIFERAY_HOME")
     env_var_names+=("DEBUG")
-    if [[ -z "${LIFERAY_HOME:-}" ]]; then
-      printf "missing required environment variable: LIFERAY_HOME\n" >&2
-      exit 1
-    fi
 
     # :command.dependencies_filter
     if command -v gh >/dev/null 2>&1; then
@@ -2635,6 +2666,13 @@ EOF
         action="folder"
         shift
         cliferay_folder_parse_requirements "$@"
+        shift $#
+        ;;
+
+      home)
+        action="home"
+        shift
+        cliferay_home_parse_requirements "$@"
         shift $#
         ;;
 
@@ -4630,6 +4668,59 @@ EOF
   }
 
   # :command.parse_requirements
+  cliferay_home_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_home_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.environment_variables_filter
+
+    env_var_names+=("LIFERAY_HOME")
+    if [[ -z "${LIFERAY_HOME:-}" ]]; then
+      printf "missing required environment variable: LIFERAY_HOME\n" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action="home"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
   cliferay_completions_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -5269,6 +5360,7 @@ EOF
       "db-name") cliferay_db_name_command ;;
       "morning") cliferay_morning_command ;;
       "folder") cliferay_folder_command ;;
+      "home") cliferay_home_command ;;
       "completions") cliferay_completions_command ;;
       "aliases") cliferay_aliases_command ;;
       "curl") cliferay_curl_command ;;

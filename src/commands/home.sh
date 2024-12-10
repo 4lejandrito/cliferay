@@ -1,0 +1,1 @@
+echo $LIFERAY_HOME

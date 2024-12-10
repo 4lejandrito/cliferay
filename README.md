@@ -58,6 +58,7 @@ Server Commands:
 Commands:
   morning           Sync, build, ij, nuke and run
   folder            Print the source folder
+  home              Print the default Liferay home folder
   curl              Send predefined HTTP requests to a running portal
   backport          Backport commits to other branches
   jira              Open a Jira ticket
@@ -71,9 +72,6 @@ Options:
     Show version number
 
 Environment Variables:
-  LIFERAY_HOME (required)
-    Location of your main liferay-portal clone
-
   DEBUG
     Set to true to enable echoing of all the commands being run
 ```
