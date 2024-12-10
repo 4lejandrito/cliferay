@@ -103,14 +103,14 @@ Environment Variables:
 
 ### Modify an existing command
 1. Make the change inside `src/commands`.
-2. Run `./generate.sh`.
+2. Run `make`.
 3. Test it `cliferay [COMMAND] ...`
 4. Submit a pull request!
 
 ### Add a new command
 1. Modify `src/bashly.yml` with your new command.
-2. Run `./generate.sh`.
+2. Run `make`.
 3. Implement your command inside `src/commands`.
-4. Run `./generate.sh` again.
+4. Run `make` again.
 5. Test it `cliferay [COMMAND] ...`
 6. Submit a pull request!
