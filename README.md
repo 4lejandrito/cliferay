@@ -21,48 +21,44 @@ Usage:
   cliferay --version | -v
 
 cliferay Commands:
+  init              Initialize cliferay
   update            Update cliferay to the latest version
 
-Git Commands:
-  sync              Sync fork and local copy with upstream
-  brian             Forward an existing PR to Brian and close it
-  set-ticket        Set the Jira ticket on your local commits
-  owner             Output the owner of a path based on CODEOWNERS
-  tickets           Get all Jira tickets from the output of git log
-  stats             Calculate different Git stats
-
 Build Commands:
-  build             Run ant all
-  ij                Run liferay-intellij
-  gw                Run gradlew
   ant               Run ant
-
-Module Commands:
-  changed-modules   List changed modules
-  super-deploy      Deploy changed modules
-  format-source     Run SF globally
-  deploy            Deploy the current folder
-  baseline          Run baseline in the current folder
-  poshi             Run a Poshi test
-  build-rest        Run buildREST globally
+  build             Run ant all
+  gw                Run gradlew
+  ij                Run liferay-intellij
+  morning           Sync, build, ij, nuke and run
 
 Server Commands:
-  run               Start the server
+  curl              Send HTTP requests to the server
+  elastic-search    Query the Elastic Search index
   gogo              Open the Gogo Shell
   kill              Kill the server
   nuke              Delete all persisted data
-  tomcat-folder     Print the current tomcat folder
-  elastic-search    Query the Elastic Search index
-  db-name           Print the database name (lportal)
+  run               Start the server
 
-Commands:
-  morning           Sync, build, ij, nuke and run
-  folder            Print the source folder
-  home              Print the default Liferay home folder
-  curl              Send predefined HTTP requests to a running portal
+Code Commands:
+  baseline          Run baseline in the current folder
+  build-rest        Run buildREST globally
+  changed-modules   List changed modules
+  deploy            Deploy the current folder
+  format-source     Run SF globally
+  owner             Output the owner of a path based on CODEOWNERS
+  poshi             Run a Poshi test
+  super-deploy      Deploy changed modules
+
+Git Commands:
+  brian             Forward an existing PR to Brian and close it
   backport          Backport commits to other branches
-  jira              Open a Jira ticket
-  init              Initialize cliferay
+  set-ticket        Set the Jira ticket on your local commits
+  stats             Calculate different Git stats
+  sync              Sync fork and local copy with upstream
+  tickets           Get all Jira tickets from the output of git log
+
+Jira Commands:
+  jira              Open a Jira ticket in the browser
 
 Options:
   --help, -h

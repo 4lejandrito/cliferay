@@ -1,312 +1,349 @@
 name: cliferay
-help: > 
-  Daily scripts to work with Liferay
-
-
-  The scripts can be run from any folder:
-    - If the folder is outside the repo it will use LIFERAY_HOME.
-    - If the folder is inside the repo it will use that repo. 
-    
-  For example every day I open my terminal and type:
-  
-    > cliferay morning
-  
-  and it will just work no matter which folder I am in.
+help: "Daily scripts to work with Liferay\n\nThe scripts can be run from any folder:\n  - If the folder is outside the repo it will use LIFERAY_HOME.\n  - If the folder is inside the repo it will use that repo. \n  \nFor example every day I open my terminal and type:\n\n  > cliferay morning\n\nand it will just work no matter which folder I am in.\n"
 version: 1.0.0
-
 environment_variables:
   - name: DEBUG
     help: Set to true to enable echoing of all the commands being run
     default: false
-
 dependencies:
   gh:
     command: [gh]
     help: Install it from https://cli.github.com
-
 commands:
 
-- name: update
-  help: Update cliferay to the latest version
-  group: cliferay
-
-- name: sync
-  help: Sync fork and local copy with upstream
-  group: Git
-- name: brian
-  help: Forward an existing PR to Brian and close it
-  group: Git
-  examples:
-    - cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433
-  args:
-  - name: pr
-    help: Link to the GitHub PR.
-    required: true
-- name: set-ticket
-  help: Set the Jira ticket on your local commits
-  group: Git
-  examples:
-    - cliferay set-ticket LPD-XXXX
-  args:
-  - name: ticket
-    help: The ticket reference.
-    required: true
-  flags:
-  - long: --branch
-    short: -b
-    arg: branch
-    help: Source branch
-- name: owner
-  help: Output the owner of a path based on CODEOWNERS
-  group: Git
-  examples:
-    - cliferay owner modules/apps/headless/headless-builder
-  args:
-  - name: path
-    help: The path to check
-    default: .
-- name: tickets
-  help: Get all Jira tickets from the output of git log
-  group: Git
-  examples:
-    - git log | cliferay tickets
-- name: stats
-  help: Calculate different Git stats
-  group: Git
-  commands:
-  - name: users
-    help: Get info about users
-    commands:
-    - name: jira
-      help: Shows the jira id
-      args:
-      - name: user
-        help: The user handle.
-        required: true
-      examples:
-        - cliferay stats users jira alejandro.tardin
-    - name: emails
-      help: Shows the user git emails
-      args:
-      - name: user
-        help: The user handle.
-        required: true
-      examples:
-        - cliferay stats users emails alejandro.tardin
-  - name: years
-    help: Shows commit count per year
-    args:
-    - name: user
-      help: The user.
-    examples:
-      - cliferay stats years alejandro.tardin
-  - name: ranking
-    help: Shows commit ranking
-    args:
-    - name: emails
-      help: The emails of the commit authors.
-      repeatable: true
-    examples:
-      - cliferay stats ranking alejandro.tardin@liferay.com
-  - name: tickets
-    help: Shows tickets worked on based on commits
-    args:
-    - name: user
-      help: The user.
-    examples:
-      - cliferay stats tickets alejandro.tardin
-  - name: commits
-    help: Print the commits for the user
-    args:
-    - name: user
-      help: The user.
-    examples:
-      - cliferay stats commits alejandro.tardin@liferay.com
-  - name: review
-    help: Writes a review based on git and jira stats
-    args:
-    - name: user
-      help: The user to be reviewed.
-    examples:
-      - cliferay stats review alejandro.tardin@liferay.com
-  - name: assigned
-    help: Shows tickets assigned during the quarter
-    args:
-    - name: user
-      help: The user.
-    examples:
-      - cliferay stats assigned alejandro.tardin
+  # cliferay
   
-- name: build
-  help: Run ant all
-  group: Build
-- name: ij
-  help: Run liferay-intellij
-  group: Build
-- name: gw
-  help: Run gradlew
-  catch_all: true
-  group: Build
-- name: ant
-  help: Run ant
-  catch_all: true
-  group: Build
+  - name: aliases
+    help: Print aliases script
+    private: true
+    group: cliferay
 
-- name: changed-modules
-  alias: cm
-  help: List changed modules
-  flags:
-  - long: --branch
-    short: -b
-    arg: branch
-    help: Branch to compare to
-  group: Module
-- name: super-deploy
-  alias: sd
-  help: Deploy changed modules
-  flags:
-  - long: --branch
-    short: -b
-    arg: branch
-    help: Branch to compare to
-  group: Module
-- name: format-source
-  alias: sf
-  help: Run SF globally
-  group: Module
-- name: deploy
-  alias: d
-  help: Deploy the current folder
-  group: Module
-- name: baseline
-  help: Run baseline in the current folder
-  group: Module
-- name: poshi
-  help: Run a Poshi test
-  group: Module
-  examples:
-    - cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint
-  args:
-  - name: test
-    help: The test to run.
-    required: true
-- name: build-rest
-  help: Run buildREST globally
-  group: Module
-  examples:
-    - cliferay build-rest
+  - name: completions
+    help: Print completions script
+    private: true
+    group: cliferay
+  
+  - name: init
+    help: Initialize cliferay
+    dependencies:
+      jira:
+        command: [jira]
+        help: Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
+    flags:
+      - long: --email
+        arg: email
+        help: Your Liferay email
+        required: true
+    group: cliferay
 
-- name: run
-  help: Start the server
-  group: Server
-  args:
-  - name: command
-    help: Tomcat command (jpda by default)
-    required: false
-- name: gogo
-  help: Open the Gogo Shell
-  examples:
-    - cliferay gogo
-    - cliferay gogo unsatisfied
-    - cliferay gogo jaxrs:check
-  catch_all:
-    label: Command
-    help: Optional Gogo shell command to run
-  completions:
-    - diag
-    - unsatisfied
-    - scr:list
-    - jaxrs:check
-  group: Server
-- name: kill
-  help: Kill the server
-  group: Server
-- name: nuke
-  help: Delete all persisted data
-  group: Server
-- name: tomcat-folder
-  help: Print the current tomcat folder
-  group: Server
-- name: elastic-search
-  help: Query the Elastic Search index
-  group: Server
-  dependencies:
-    jq:
-      command: [jq]
-      help: Install it from https://jqlang.github.io/jq
-- name: db-name
-  help: Print the database name (lportal)
-  group: Server
+  - name: update
+    help: Update cliferay to the latest version
+    group: cliferay
 
-- name: morning
-  help: Sync, build, ij, nuke and run
-  flags:
-  - long: --no-nuke
-    help: Skip nuke
-  - long: --force
-    short: -f
-    help: Force cleanup by running git clean -fdx
-- name: folder
-  help: Print the source folder
-- name: home
-  help: Print the default Liferay home folder
-  environment_variables:
-  - name: LIFERAY_HOME
-    help: Location of your main liferay-portal clone
-    required: true
-- name: completions
-  help: Print completions script
-  private: true
-- name: aliases
-  help: Print aliases script
-  private: true
+  # Build
 
-- name: curl
-  help: Send predefined HTTP requests to a running portal
-  dependencies:
-    jq:
-      command: [jq]
-      help: Install it from https://jqlang.github.io/jq
-  commands:
-  - name: new-instance
-    help: Create a new instance
-    args:
-    - name: host
-      help: The virtual host.
-      required: true
+  - name: ant
+    help: Run ant
+    catch_all: true
+    group: Build
+
+  - name: build
+    help: Run ant all
+    group: Build
+
+  - name: gw
+    help: Run gradlew
+    catch_all: true
+    group: Build
+
+  - name: ij
+    help: Run liferay-intellij
+    group: Build
+
+  - name: morning
+    help: Sync, build, ij, nuke and run
+    flags:
+      - long: --no-nuke
+        help: Skip nuke
+      - long: --force
+        short: -f
+        help: Force cleanup by running git clean -fdx
+    group: Build
+
+  # Server
+
+  - name: curl
+    help: Send HTTP requests to the server
+    dependencies:
+      jq:
+        command: [jq]
+        help: Install it from https://jqlang.github.io/jq
+    commands:
+      - name: new-instance
+        help: Create a new instance
+        args:
+          - name: host
+            help: The virtual host.
+            required: true
+        examples:
+          - cliferay curl new-instance www.able.com
+      - name: new-api
+        help: Create a new API Builder API
+      - name: new-object
+        help: Create a new object definition with some entries
+      - name: batch-import
+        help: Import a new object entry with batch
+    group: Server
+
+  - name: db-name
+    help: Print the database name (lportal)
+    group: Server
+    private: true
+
+  - name: elastic-search
+    help: Query the Elastic Search index
+    group: Server
+    dependencies:
+      jq:
+        command: [jq]
+        help: Install it from https://jqlang.github.io/jq
+
+  - name: gogo
+    help: Open the Gogo Shell
     examples:
-      - cliferay curl new-instance www.able.com
-  - name: new-api
-    help: Create a new API Builder API
-  - name: new-object
-    help: Create a new object definition with some entries
-  - name: batch-import
-    help: Import a new object entry with batch
-- name: backport
-  alias: b
-  help: Backport commits to other branches
-  args:
-  - name: text
-    help: Text to filter commits by (LPD-1234).
-    required: true
-  flags:
-  - long: --branch
-    short: -b
-    arg: branch
-    help: Source branch
-- name: jira
-  help: Open a Jira ticket
-  args:
-  - name: ticket
-    help: The ticket reference (LPD-1234). If not present it will be extracted from the git branch name.
-- name: init
-  help: Initialize cliferay
-  dependencies:
-    jira:
-      command: [jira]
-      help: Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
-  flags:
-  - long: --email
-    arg: email
-    help: Your Liferay email
-    required: true
+      - cliferay gogo
+      - cliferay gogo unsatisfied
+      - cliferay gogo jaxrs:check
+    catch_all:
+      label: Command
+      help: Optional Gogo shell command to run
+    completions:
+      - diag
+      - unsatisfied
+      - scr:list
+      - jaxrs:check
+    group: Server
+
+  - name: kill
+    help: Kill the server
+    group: Server
+
+  - name: nuke
+    help: Delete all persisted data
+    group: Server
+
+  - name: run
+    help: Start the server
+    group: Server
+    args:
+      - name: command
+        help: Tomcat command (jpda by default)
+        required: false
+
+  - name: tomcat-folder
+    help: Print the current tomcat folder
+    group: Server
+    private: true
+
+  # Code
+
+  - name: baseline
+    help: Run baseline in the current folder
+    group: Code
+
+  - name: build-rest
+    help: Run buildREST globally
+    group: Code
+    examples:
+      - cliferay build-rest
+
+  - name: changed-modules
+    alias: cm
+    help: List changed modules
+    flags:
+      - long: --branch
+        short: -b
+        arg: branch
+        help: Branch to compare to
+    group: Code
+
+  - name: deploy
+    alias: d
+    help: Deploy the current folder
+    group: Code
+
+  - name: folder
+    help: Print the current Liferay home folder
+    group: Code
+    private: true
+
+  - name: format-source
+    alias: sf
+    help: Run SF globally
+    group: Code
+
+  - name: home
+    help: Print the default Liferay home folder
+    environment_variables:
+      - name: LIFERAY_HOME
+        help: Location of your main liferay-portal clone
+        required: true
+    private: true
+    group: Code
+
+  - name: owner
+    help: Output the owner of a path based on CODEOWNERS
+    examples:
+      - cliferay owner modules/apps/headless/headless-builder
+    args:
+      - name: path
+        help: The path to check
+        default: .
+    group: Code
+
+  - name: poshi
+    help: Run a Poshi test
+    group: Code
+    examples:
+      - cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint
+    args:
+      - name: test
+        help: The test to run.
+        required: true
+
+  - name: super-deploy
+    alias: sd
+    help: Deploy changed modules
+    flags:
+      - long: --branch
+        short: -b
+        arg: branch
+        help: Branch to compare to
+    group: Code
+
+  # Git
+
+  - name: brian
+    help: Forward an existing PR to Brian and close it
+    group: Git
+    examples:
+      - cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433
+    args:
+      - name: pr
+        help: Link to the GitHub PR.
+        required: true
+
+  - name: backport
+    alias: b
+    help: Backport commits to other branches
+    args:
+      - name: text
+        help: Text to filter commits by (LPD-1234).
+        required: true
+    flags:
+      - long: --branch
+        short: -b
+        arg: branch
+        help: Source branch
+    group: Git
+
+  - name: set-ticket
+    help: Set the Jira ticket on your local commits
+    group: Git
+    examples:
+      - cliferay set-ticket LPD-XXXX
+    args:
+      - name: ticket
+        help: The ticket reference.
+        required: true
+    flags:
+      - long: --branch
+        short: -b
+        arg: branch
+        help: Source branch
+
+  - name: stats
+    help: Calculate different Git stats
+    group: Git
+    commands:
+      - name: users
+        help: Get info about users
+        commands:
+          - name: jira
+            help: Shows the jira id
+            args:
+              - name: user
+                help: The user handle.
+                required: true
+            examples:
+              - cliferay stats users jira alejandro.tardin
+          - name: emails
+            help: Shows the user git emails
+            args:
+              - name: user
+                help: The user handle.
+                required: true
+            examples:
+              - cliferay stats users emails alejandro.tardin
+      - name: years
+        help: Shows commit count per year
+        args:
+          - name: user
+            help: The user.
+        examples:
+          - cliferay stats years alejandro.tardin
+      - name: ranking
+        help: Shows commit ranking
+        args:
+          - name: emails
+            help: The emails of the commit authors.
+            repeatable: true
+        examples:
+          - cliferay stats ranking alejandro.tardin@liferay.com
+      - name: tickets
+        help: Shows tickets worked on based on commits
+        args:
+          - name: user
+            help: The user.
+        examples:
+          - cliferay stats tickets alejandro.tardin
+      - name: commits
+        help: Print the commits for the user
+        args:
+          - name: user
+            help: The user.
+        examples:
+          - cliferay stats commits alejandro.tardin@liferay.com
+      - name: review
+        help: Writes a review based on git and jira stats
+        args:
+          - name: user
+            help: The user to be reviewed.
+        examples:
+          - cliferay stats review alejandro.tardin@liferay.com
+      - name: assigned
+        help: Shows tickets assigned during the quarter
+        args:
+          - name: user
+            help: The user.
+        examples:
+          - cliferay stats assigned alejandro.tardin
+
+  - name: sync
+    help: Sync fork and local copy with upstream
+    group: Git
+
+  - name: tickets
+    help: Get all Jira tickets from the output of git log
+    group: Git
+    examples:
+      - git log | cliferay tickets
+
+  # Jira
+
+  - name: jira
+    help: Open a Jira ticket in the browser
+    args:
+      - name: ticket
+        help: The ticket reference (LPD-1234). If not present it will be extracted from the git branch name.
+    group: Jira

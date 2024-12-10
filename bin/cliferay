@@ -27,48 +27,44 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "cliferay Commands:")"
+    printf "  %s   Initialize cliferay\n" "$(green_bold "init")           "
     printf "  %s   Update cliferay to the latest version\n" "$(green_bold "update")         "
     echo
-    printf "%s\n" "$(bold "Git Commands:")"
-    printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
-    printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
-    printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
-    printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
-    printf "  %s   Get all Jira tickets from the output of git log\n" "$(green_bold "tickets")        "
-    printf "  %s   Calculate different Git stats\n" "$(green_bold "stats")          "
-    echo
     printf "%s\n" "$(bold "Build Commands:")"
-    printf "  %s   Run ant all\n" "$(green_bold "build")          "
-    printf "  %s   Run liferay-intellij\n" "$(green_bold "ij")             "
-    printf "  %s   Run gradlew\n" "$(green_bold "gw")             "
     printf "  %s   Run ant\n" "$(green_bold "ant")            "
-    echo
-    printf "%s\n" "$(bold "Module Commands:")"
-    printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
-    printf "  %s   Deploy changed modules\n" "$(green_bold "super-deploy")   "
-    printf "  %s   Run SF globally\n" "$(green_bold "format-source")  "
-    printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
-    printf "  %s   Run baseline in the current folder\n" "$(green_bold "baseline")       "
-    printf "  %s   Run a Poshi test\n" "$(green_bold "poshi")          "
-    printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
+    printf "  %s   Run ant all\n" "$(green_bold "build")          "
+    printf "  %s   Run gradlew\n" "$(green_bold "gw")             "
+    printf "  %s   Run liferay-intellij\n" "$(green_bold "ij")             "
+    printf "  %s   Sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
     echo
     printf "%s\n" "$(bold "Server Commands:")"
-    printf "  %s   Start the server\n" "$(green_bold "run")            "
+    printf "  %s   Send HTTP requests to the server\n" "$(green_bold "curl")           "
+    printf "  %s   Query the Elastic Search index\n" "$(green_bold "elastic-search") "
     printf "  %s   Open the Gogo Shell\n" "$(green_bold "gogo")           "
     printf "  %s   Kill the server\n" "$(green_bold "kill")           "
     printf "  %s   Delete all persisted data\n" "$(green_bold "nuke")           "
-    printf "  %s   Print the current tomcat folder\n" "$(green_bold "tomcat-folder")  "
-    printf "  %s   Query the Elastic Search index\n" "$(green_bold "elastic-search") "
-    printf "  %s   Print the database name (lportal)\n" "$(green_bold "db-name")        "
+    printf "  %s   Start the server\n" "$(green_bold "run")            "
     echo
-    printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
-    printf "  %s   Print the source folder\n" "$(green_bold "folder")         "
-    printf "  %s   Print the default Liferay home folder\n" "$(green_bold "home")           "
-    printf "  %s   Send predefined HTTP requests to a running portal\n" "$(green_bold "curl")           "
+    printf "%s\n" "$(bold "Code Commands:")"
+    printf "  %s   Run baseline in the current folder\n" "$(green_bold "baseline")       "
+    printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
+    printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
+    printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
+    printf "  %s   Run SF globally\n" "$(green_bold "format-source")  "
+    printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
+    printf "  %s   Run a Poshi test\n" "$(green_bold "poshi")          "
+    printf "  %s   Deploy changed modules\n" "$(green_bold "super-deploy")   "
+    echo
+    printf "%s\n" "$(bold "Git Commands:")"
+    printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
     printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
-    printf "  %s   Open a Jira ticket\n" "$(green_bold "jira")           "
-    printf "  %s   Initialize cliferay\n" "$(green_bold "init")           "
+    printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
+    printf "  %s   Calculate different Git stats\n" "$(green_bold "stats")          "
+    printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
+    printf "  %s   Get all Jira tickets from the output of git log\n" "$(green_bold "tickets")        "
+    echo
+    printf "%s\n" "$(bold "Jira Commands:")"
+    printf "  %s   Open a Jira ticket in the browser\n" "$(green_bold "jira")           "
     echo
 
     # :command.long_usage
@@ -89,6 +85,75 @@ cliferay() {
       # :environment_variable.usage
       printf "  %s\n" "DEBUG"
       printf "    Set to true to enable echoing of all the commands being run\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_aliases_usage() {
+    printf "cliferay aliases - Print aliases script\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay aliases\n"
+    printf "  cliferay aliases --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_completions_usage() {
+    printf "cliferay completions - Print completions script\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay completions\n"
+    printf "  cliferay completions --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_init_usage() {
+    printf "cliferay init - Initialize cliferay\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay init [OPTIONS]\n"
+    printf "  cliferay init --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--email EMAIL (required)"
+      printf "    Your Liferay email\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
       echo
 
     fi
@@ -116,17 +181,676 @@ cliferay() {
   }
 
   # :command.usage
-  cliferay_sync_usage() {
-    printf "cliferay sync - Sync fork and local copy with upstream\n\n"
+  cliferay_ant_usage() {
+    printf "cliferay ant - Run ant\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay sync\n"
-    printf "  cliferay sync --help | -h\n"
+    printf "  cliferay ant [--] [...]\n"
+    printf "  cliferay ant --help | -h\n"
     echo
 
     # :command.long_usage
     if [[ -n "$long_usage" ]]; then
       printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_build_usage() {
+    printf "cliferay build - Run ant all\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay build\n"
+    printf "  cliferay build --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_gw_usage() {
+    printf "cliferay gw - Run gradlew\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay gw [--] [...]\n"
+    printf "  cliferay gw --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_ij_usage() {
+    printf "cliferay ij - Run liferay-intellij\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay ij\n"
+    printf "  cliferay ij --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_morning_usage() {
+    printf "cliferay morning - Sync, build, ij, nuke and run\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay morning [OPTIONS]\n"
+    printf "  cliferay morning --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--no-nuke"
+      printf "    Skip nuke\n"
+      echo
+
+      # :flag.usage
+      printf "  %s\n" "--force, -f"
+      printf "    Force cleanup by running git clean -fdx\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_usage() {
+    printf "cliferay curl - Send HTTP requests to the server\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl COMMAND\n"
+    printf "  cliferay curl [COMMAND] --help | -h\n"
+    echo
+    # :command.usage_commands
+    printf "%s\n" "$(bold "Commands:")"
+    printf "  %s   Create a new instance\n" "$(green_bold "new-instance")"
+    printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")     "
+    printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")  "
+    printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_new_instance_usage() {
+    printf "cliferay curl new-instance - Create a new instance\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl new-instance HOST\n"
+    printf "  cliferay curl new-instance --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "HOST"
+      printf "    The virtual host.\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay curl new-instance www.able.com\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_new_api_usage() {
+    printf "cliferay curl new-api - Create a new API Builder API\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl new-api\n"
+    printf "  cliferay curl new-api --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_new_object_usage() {
+    printf "cliferay curl new-object - Create a new object definition with some entries\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl new-object\n"
+    printf "  cliferay curl new-object --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_batch_import_usage() {
+    printf "cliferay curl batch-import - Import a new object entry with batch\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl batch-import\n"
+    printf "  cliferay curl batch-import --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_db_name_usage() {
+    printf "cliferay db-name - Print the database name (lportal)\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay db-name\n"
+    printf "  cliferay db-name --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_elastic_search_usage() {
+    printf "cliferay elastic-search - Query the Elastic Search index\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay elastic-search\n"
+    printf "  cliferay elastic-search --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_gogo_usage() {
+    printf "cliferay gogo - Open the Gogo Shell\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay gogo [--] [COMMAND...]\n"
+    printf "  cliferay gogo --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      echo "  COMMAND..."
+      printf "    Optional Gogo shell command to run\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay gogo\n"
+      printf "  cliferay gogo unsatisfied\n"
+      printf "  cliferay gogo jaxrs:check\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_kill_usage() {
+    printf "cliferay kill - Kill the server\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay kill\n"
+    printf "  cliferay kill --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_nuke_usage() {
+    printf "cliferay nuke - Delete all persisted data\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay nuke\n"
+    printf "  cliferay nuke --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_run_usage() {
+    printf "cliferay run - Start the server\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay run [COMMAND]\n"
+    printf "  cliferay run --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "COMMAND"
+      printf "    Tomcat command (jpda by default)\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_tomcat_folder_usage() {
+    printf "cliferay tomcat-folder - Print the current tomcat folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay tomcat-folder\n"
+    printf "  cliferay tomcat-folder --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_baseline_usage() {
+    printf "cliferay baseline - Run baseline in the current folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay baseline\n"
+    printf "  cliferay baseline --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_build_rest_usage() {
+    printf "cliferay build-rest - Run buildREST globally\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay build-rest\n"
+    printf "  cliferay build-rest --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay build-rest\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_changed_modules_usage() {
+    printf "cliferay changed-modules - List changed modules\n\n"
+    printf "Alias: cm\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay changed-modules [OPTIONS]\n"
+    printf "  cliferay changed-modules --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--branch, -b BRANCH"
+      printf "    Branch to compare to\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_deploy_usage() {
+    printf "cliferay deploy - Deploy the current folder\n\n"
+    printf "Alias: d\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay deploy\n"
+    printf "  cliferay deploy --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_folder_usage() {
+    printf "cliferay folder - Print the current Liferay home folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay folder\n"
+    printf "  cliferay folder --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_format_source_usage() {
+    printf "cliferay format-source - Run SF globally\n\n"
+    printf "Alias: sf\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay format-source\n"
+    printf "  cliferay format-source --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_home_usage() {
+    printf "cliferay home - Print the default Liferay home folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay home\n"
+    printf "  cliferay home --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "LIFERAY_HOME (required)"
+      printf "    Location of your main liferay-portal clone\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_owner_usage() {
+    printf "cliferay owner - Output the owner of a path based on CODEOWNERS\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay owner [PATH]\n"
+    printf "  cliferay owner --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "PATH"
+      printf "    The path to check\n"
+      printf "    %s\n" "Default: ."
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay owner modules/apps/headless/headless-builder\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_poshi_usage() {
+    printf "cliferay poshi - Run a Poshi test\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay poshi TEST\n"
+    printf "  cliferay poshi --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "TEST"
+      printf "    The test to run.\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_super_deploy_usage() {
+    printf "cliferay super-deploy - Deploy changed modules\n\n"
+    printf "Alias: sd\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay super-deploy [OPTIONS]\n"
+    printf "  cliferay super-deploy --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--branch, -b BRANCH"
+      printf "    Branch to compare to\n"
+      echo
 
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
@@ -171,6 +895,43 @@ cliferay() {
   }
 
   # :command.usage
+  cliferay_backport_usage() {
+    printf "cliferay backport - Backport commits to other branches\n\n"
+    printf "Alias: b\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay backport TEXT [OPTIONS]\n"
+    printf "  cliferay backport --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--branch, -b BRANCH"
+      printf "    Source branch\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "TEXT"
+      printf "    Text to filter commits by (LPD-1234).\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
   cliferay_set_ticket_usage() {
     printf "cliferay set-ticket - Set the Jira ticket on your local commits\n\n"
 
@@ -205,67 +966,6 @@ cliferay() {
       # :command.usage_examples
       printf "%s\n" "$(bold "Examples:")"
       printf "  cliferay set-ticket LPD-XXXX\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_owner_usage() {
-    printf "cliferay owner - Output the owner of a path based on CODEOWNERS\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay owner [PATH]\n"
-    printf "  cliferay owner --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "PATH"
-      printf "    The path to check\n"
-      printf "    %s\n" "Default: ."
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay owner modules/apps/headless/headless-builder\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_tickets_usage() {
-    printf "cliferay tickets - Get all Jira tickets from the output of git log\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay tickets\n"
-    printf "  cliferay tickets --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  git log | cliferay tickets\n"
       echo
 
     fi
@@ -601,12 +1301,12 @@ cliferay() {
   }
 
   # :command.usage
-  cliferay_build_usage() {
-    printf "cliferay build - Run ant all\n\n"
+  cliferay_sync_usage() {
+    printf "cliferay sync - Sync fork and local copy with upstream\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay build\n"
-    printf "  cliferay build --help | -h\n"
+    printf "  cliferay sync\n"
+    printf "  cliferay sync --help | -h\n"
     echo
 
     # :command.long_usage
@@ -622,234 +1322,12 @@ cliferay() {
   }
 
   # :command.usage
-  cliferay_ij_usage() {
-    printf "cliferay ij - Run liferay-intellij\n\n"
+  cliferay_tickets_usage() {
+    printf "cliferay tickets - Get all Jira tickets from the output of git log\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay ij\n"
-    printf "  cliferay ij --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_gw_usage() {
-    printf "cliferay gw - Run gradlew\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay gw [--] [...]\n"
-    printf "  cliferay gw --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_ant_usage() {
-    printf "cliferay ant - Run ant\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay ant [--] [...]\n"
-    printf "  cliferay ant --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_changed_modules_usage() {
-    printf "cliferay changed-modules - List changed modules\n\n"
-    printf "Alias: cm\n"
-    echo
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay changed-modules [OPTIONS]\n"
-    printf "  cliferay changed-modules --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--branch, -b BRANCH"
-      printf "    Branch to compare to\n"
-      echo
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_super_deploy_usage() {
-    printf "cliferay super-deploy - Deploy changed modules\n\n"
-    printf "Alias: sd\n"
-    echo
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay super-deploy [OPTIONS]\n"
-    printf "  cliferay super-deploy --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--branch, -b BRANCH"
-      printf "    Branch to compare to\n"
-      echo
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_format_source_usage() {
-    printf "cliferay format-source - Run SF globally\n\n"
-    printf "Alias: sf\n"
-    echo
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay format-source\n"
-    printf "  cliferay format-source --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_deploy_usage() {
-    printf "cliferay deploy - Deploy the current folder\n\n"
-    printf "Alias: d\n"
-    echo
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay deploy\n"
-    printf "  cliferay deploy --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_baseline_usage() {
-    printf "cliferay baseline - Run baseline in the current folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay baseline\n"
-    printf "  cliferay baseline --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_poshi_usage() {
-    printf "cliferay poshi - Run a Poshi test\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay poshi TEST\n"
-    printf "  cliferay poshi --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "TEST"
-      printf "    The test to run.\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_build_rest_usage() {
-    printf "cliferay build-rest - Run buildREST globally\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay build-rest\n"
-    printf "  cliferay build-rest --help | -h\n"
+    printf "  cliferay tickets\n"
+    printf "  cliferay tickets --help | -h\n"
     echo
 
     # :command.long_usage
@@ -863,462 +1341,7 @@ cliferay() {
 
       # :command.usage_examples
       printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay build-rest\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_run_usage() {
-    printf "cliferay run - Start the server\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay run [COMMAND]\n"
-    printf "  cliferay run --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "COMMAND"
-      printf "    Tomcat command (jpda by default)\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_gogo_usage() {
-    printf "cliferay gogo - Open the Gogo Shell\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay gogo [--] [COMMAND...]\n"
-    printf "  cliferay gogo --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      echo "  COMMAND..."
-      printf "    Optional Gogo shell command to run\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay gogo\n"
-      printf "  cliferay gogo unsatisfied\n"
-      printf "  cliferay gogo jaxrs:check\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_kill_usage() {
-    printf "cliferay kill - Kill the server\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay kill\n"
-    printf "  cliferay kill --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_nuke_usage() {
-    printf "cliferay nuke - Delete all persisted data\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay nuke\n"
-    printf "  cliferay nuke --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_tomcat_folder_usage() {
-    printf "cliferay tomcat-folder - Print the current tomcat folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay tomcat-folder\n"
-    printf "  cliferay tomcat-folder --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_elastic_search_usage() {
-    printf "cliferay elastic-search - Query the Elastic Search index\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay elastic-search\n"
-    printf "  cliferay elastic-search --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_db_name_usage() {
-    printf "cliferay db-name - Print the database name (lportal)\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay db-name\n"
-    printf "  cliferay db-name --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_morning_usage() {
-    printf "cliferay morning - Sync, build, ij, nuke and run\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay morning [OPTIONS]\n"
-    printf "  cliferay morning --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--no-nuke"
-      printf "    Skip nuke\n"
-      echo
-
-      # :flag.usage
-      printf "  %s\n" "--force, -f"
-      printf "    Force cleanup by running git clean -fdx\n"
-      echo
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_folder_usage() {
-    printf "cliferay folder - Print the source folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay folder\n"
-    printf "  cliferay folder --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_home_usage() {
-    printf "cliferay home - Print the default Liferay home folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay home\n"
-    printf "  cliferay home --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_environment_variables
-      printf "%s\n" "$(bold "Environment Variables:")"
-
-      # :environment_variable.usage
-      printf "  %s\n" "LIFERAY_HOME (required)"
-      printf "    Location of your main liferay-portal clone\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_completions_usage() {
-    printf "cliferay completions - Print completions script\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay completions\n"
-    printf "  cliferay completions --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_aliases_usage() {
-    printf "cliferay aliases - Print aliases script\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay aliases\n"
-    printf "  cliferay aliases --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_curl_usage() {
-    printf "cliferay curl - Send predefined HTTP requests to a running portal\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl COMMAND\n"
-    printf "  cliferay curl [COMMAND] --help | -h\n"
-    echo
-    # :command.usage_commands
-    printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Create a new instance\n" "$(green_bold "new-instance")"
-    printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")     "
-    printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")  "
-    printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_curl_new_instance_usage() {
-    printf "cliferay curl new-instance - Create a new instance\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl new-instance HOST\n"
-    printf "  cliferay curl new-instance --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "HOST"
-      printf "    The virtual host.\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay curl new-instance www.able.com\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_curl_new_api_usage() {
-    printf "cliferay curl new-api - Create a new API Builder API\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl new-api\n"
-    printf "  cliferay curl new-api --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_curl_new_object_usage() {
-    printf "cliferay curl new-object - Create a new object definition with some entries\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl new-object\n"
-    printf "  cliferay curl new-object --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_curl_batch_import_usage() {
-    printf "cliferay curl batch-import - Import a new object entry with batch\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl batch-import\n"
-    printf "  cliferay curl batch-import --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_backport_usage() {
-    printf "cliferay backport - Backport commits to other branches\n\n"
-    printf "Alias: b\n"
-    echo
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay backport TEXT [OPTIONS]\n"
-    printf "  cliferay backport --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--branch, -b BRANCH"
-      printf "    Source branch\n"
-      echo
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "TEXT"
-      printf "    Text to filter commits by (LPD-1234).\n"
+      printf "  git log | cliferay tickets\n"
       echo
 
     fi
@@ -1326,7 +1349,7 @@ cliferay() {
 
   # :command.usage
   cliferay_jira_usage() {
-    printf "cliferay jira - Open a Jira ticket\n\n"
+    printf "cliferay jira - Open a Jira ticket in the browser\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay jira [TICKET]\n"
@@ -1348,33 +1371,6 @@ cliferay() {
       # :argument.usage
       printf "  %s\n" "TICKET"
       printf "    The ticket reference (LPD-1234). If not present it will be extracted from\n    the git branch name.\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_init_usage() {
-    printf "cliferay init - Initialize cliferay\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay init [OPTIONS]\n"
-    printf "  cliferay init --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--email EMAIL (required)"
-      printf "    Your Liferay email\n"
-      echo
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
       echo
 
     fi
@@ -1594,15 +1590,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-object\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'changed-modules\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats assigned\'*)'
+    echo $'    \'curl new-object\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1610,7 +1602,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'format-source\'*)'
+    echo $'    \'stats assigned\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1626,15 +1618,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'tomcat-folder\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats review\'*)'
+    echo $'    \'format-source\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1642,12 +1626,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats users\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
+    echo $'    \'stats review\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats years\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats users\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'set-ticket\'*)'
@@ -1658,15 +1650,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'baseline\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'tickets\'*)'
+    echo $'    \'baseline\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1674,7 +1662,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'db-name\'*)'
+    echo $'    \'tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1682,27 +1670,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'folder\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'build\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits ranking review tickets users years")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'owner\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1710,12 +1682,16 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
+    echo $'    \'build\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'home\'*)'
+    echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits ranking review tickets users years")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'jira\'*)'
@@ -1726,23 +1702,23 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--email --help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'nuke\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'kill\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'curl\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-import new-api new-instance new-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'gogo\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'kill\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'sync\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'run\'*)'
+    echo $'    \'nuke\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1750,19 +1726,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'sf\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'sd\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'cm\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'gw\'*)'
+    echo $'    \'run\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1770,16 +1734,32 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'d\'*)'
+    echo $'    \'gw\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sd\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sf\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'cm\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'b\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'d\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d db-name deploy elastic-search folder format-source gogo gw home ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets tomcat-folder update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -1791,6 +1771,31 @@ cliferay() {
 
   # :command.command_functions
   # :command.function
+  cliferay_aliases_command() {
+
+    # src/commands/aliases.sh
+    echo 'alias gw="cliferay gw"'
+    echo 'alias cdl="cd $(cliferay folder)"'
+    echo 'alias c="cliferay"'
+  }
+
+  # :command.function
+  cliferay_completions_command() {
+
+    # src/commands/completions.sh
+    send_completions
+  }
+
+  # :command.function
+  cliferay_init_command() {
+
+    # src/commands/init.sh
+    #gh auth login --hostname github.com
+    jira init --force --installation cloud --server "https://liferay.atlassian.net" --project LPD --board None --login "${args["--email"]}"
+
+  }
+
+  # :command.function
   cliferay_update_command() {
 
     # src/commands/update.sh
@@ -1800,151 +1805,10 @@ cliferay() {
   }
 
   # :command.function
-  cliferay_sync_command() {
+  cliferay_ant_command() {
 
-    # src/commands/sync.sh
-    cd $(cliferay folder)
-    git add .
-    git stash
-    git checkout master
-    gh repo sync $(gh repo view --json nameWithOwner -q ".nameWithOwner")
-    gh repo sync
-    git push
-
-  }
-
-  # :command.function
-  cliferay_brian_command() {
-
-    # src/commands/brian.sh
-    PR=${args["pr"]}
-    echo "Checking out $PR"
-    gh pr checkout -f $PR
-    echo "Creating Brian's PR from $PR"
-    BRANCH=$(git rev-parse --abbrev-ref HEAD)-brian
-    git branch -D $BRANCH &>/dev/null || true
-    git checkout -b $BRANCH
-    git push -f origin $BRANCH
-    git branch -u origin/$BRANCH
-    BRIAN_PR=$(gh pr create --title "$(gh pr view $PR --json title --jq .title)" --body "$(gh pr view $PR --json body --jq .body)" -R brianchandotcom/liferay-portal)
-    sleep 2
-    gh pr comment $BRIAN_PR --body "ci:reopen"
-    echo "Closing $PR"
-    gh pr comment $PR --body "$BRIAN_PR"
-    gh pr close $PR
-    echo $BRIAN_PR
-  }
-
-  # :command.function
-  cliferay_set_ticket_command() {
-
-    # src/commands/set-ticket.sh
-    cd $(cliferay folder)
-    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "1 s/(^([A-Z]+)-([0-9]*) )|^/'${args["ticket"]}' /"' ${args["--branch"]:-master}..HEAD
-
-  }
-
-  # :command.function
-  cliferay_owner_command() {
-
-    # src/commands/owner.sh
-    # oneliner: grep -v '^#' "$(git rev-parse --show-toplevel)/.github/CODEOWNERS" | awk '{print length, $0}' | sort -nr | cut -d' ' -f2- | while read -r line; do owned_path=$(echo $line | awk '{print $1}'); if [[ "$(realpath --relative-to=$(git rev-parse --show-toplevel) .)" == ${owned_path%/}* ]]; then echo $line | awk '{print $2}'; break; fi; done;
-    # Sort the CODEOWNERS file by the length of the paths in descending order
-    # and get the first one that is a prefix of the path received by argument
-
-    root_path=$(git rev-parse --show-toplevel)
-    check_path=$(realpath --relative-to=$root_path $(realpath --relative-to=$(pwd) ${args["path"]}))
-
-    grep -v '^#' "$root_path/.github/CODEOWNERS" | awk '{print length, $0}' | sort -nr | cut -d' ' -f2- | while read -r line; do
-        owned_path=$(echo $line | awk '{print $1}')
-        if [[ "$check_path" == ${owned_path%/}* ]]; then
-            echo $line | awk '{print $2}'
-            break
-        fi
-    done
-  }
-
-  # :command.function
-  cliferay_tickets_command() {
-
-    # src/commands/tickets.sh
-    grep -oE 'LP[PSD]-[0-9]+' | sort | uniq | sed 's/^/https:\/\/liferay.atlassian.net\/browse\//'
-  }
-
-  # :command.function
-  cliferay_stats_users_jira_command() {
-
-    # src/commands/stats/users/jira.sh
-    grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{print $2}'
-  }
-
-  # :command.function
-  cliferay_stats_users_emails_command() {
-
-    # src/commands/stats/users/emails.sh
-    grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{for (i=3; i<=NF; i++) print $i}'
-  }
-
-  # :command.function
-  cliferay_stats_years_command() {
-
-    # src/commands/stats/years.sh
-    cd $(cliferay folder)
-    git log --pretty=format:'%cd' --date=format:'%Y' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | sort | uniq -c
-  }
-
-  # :command.function
-  cliferay_stats_ranking_command() {
-
-    # src/commands/stats/ranking.sh
-    cd $(cliferay folder)
-    emails=${args[emails]:-}
-    get_current_quarter
-    git log --since="$since" --until="$until" --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
-  }
-
-  # :command.function
-  cliferay_stats_tickets_command() {
-
-    # src/commands/stats/tickets.sh
-    cd $(cliferay folder)
-    get_current_quarter
-    git log --since="$since" --until="$until" --pretty=format:'%h %s' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
-  }
-
-  # :command.function
-  cliferay_stats_commits_command() {
-
-    # src/commands/stats/commits.sh
-    cd $(cliferay folder)
-    get_current_quarter
-    git log --since="$since" --until="$until" --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
-  }
-
-  # :command.function
-  cliferay_stats_review_command() {
-
-    # src/commands/stats/review.sh
-    cd $(cliferay folder)
-    get_current_quarter
-    echo "This quarter ${args[user]} has:"
-    echo ""
-    echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
-    echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
-    echo "With a total of $(cliferay stats commits $(echo ${args[user]}) | wc -l) commits to master. Reaching $(cliferay stats years $(echo ${args[user]}) | awk '{current=$1; if (NR>1) last=current/prev*100; prev=$1} END{print last "%"}') of their total commits from last whole year."
-    echo "On average it took $(git log --since="$since" --until="$until" $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') --pretty=format:'%ad %cd' --date=unix | awk '{print ($2 - $1)/86400}' | awk '{ total += $1; count++ } END { print total/count }') days from commit to master."
-    LPPS=$(cliferay stats assigned ${args[user]} | grep LPP)
-    echo "Worked directly or indirectly on $(echo "$LPPS" | wc -l) LPPs:"
-    echo "$LPPS" | sed 's/^/  /'
-  }
-
-  # :command.function
-  cliferay_stats_assigned_command() {
-
-    # src/commands/stats/assigned.sh
-    get_current_quarter
-    jira issue list -q "assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY" | cliferay tickets
-
+    # src/commands/ant.sh
+    ANT_OPTS=-Xmx8192m ant ${other_args[*]}
   }
 
   # :command.function
@@ -1958,6 +1822,13 @@ cliferay() {
   }
 
   # :command.function
+  cliferay_gw_command() {
+
+    # src/commands/gw.sh
+    $(cliferay folder)/gradlew ${other_args[*]}
+  }
+
+  # :command.function
   cliferay_ij_command() {
 
     # src/commands/ij.sh
@@ -1968,212 +1839,6 @@ cliferay() {
     (cd ../liferay-intellij; git pull)
     ../liferay-intellij/intellij
 
-  }
-
-  # :command.function
-  cliferay_gw_command() {
-
-    # src/commands/gw.sh
-    $(cliferay folder)/gradlew ${other_args[*]}
-  }
-
-  # :command.function
-  cliferay_ant_command() {
-
-    # src/commands/ant.sh
-    ANT_OPTS=-Xmx8192m ant ${other_args[*]}
-  }
-
-  # :command.function
-  cliferay_changed_modules_command() {
-
-    # src/commands/changed-modules.sh
-    cd $(cliferay folder)
-    liferay-get-modules git diff --name-only ${args["--branch"]:-master}
-  }
-
-  # :command.function
-  cliferay_super_deploy_command() {
-
-    # src/commands/super-deploy.sh
-    cd $(cliferay folder)
-    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
-    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
-  }
-
-  # :command.function
-  cliferay_format_source_command() {
-
-    # src/commands/format-source.sh
-    cd $(cliferay folder)/portal-impl
-    ANT_OPTS=-Xmx4096m ant format-source-current-branch
-  }
-
-  # :command.function
-  cliferay_deploy_command() {
-
-    # src/commands/deploy.sh
-    if [[ "$PWD" = */portal-test ]]; then
-        cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
-    elif [[ "$PWD" = */portal-kernel ]]; then
-        cliferay ant deploy install-portal-snapshot
-    elif [[ "$PWD" = */portal-impl ]]; then
-        cliferay ant deploy install-portal-snapshot
-    elif [[ "$PWD" = *test-util ]]; then
-        cliferay gw -a depl
-        JAR=$( echo "$(realpath $PWD --relative-to $(cliferay folder))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
-        cp "$(cliferay folder)/../bundles/osgi/test/$JAR" "$(cliferay folder)/../bundles/osgi/modules/"
-    elif [[ "$PWD" = *gradle-plugins* ]]; then
-        cliferay gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit -m "DELETE ME"
-        cd $(cliferay folder)/modules/sdk/gradle-plugins && gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit --amend --no-edit
-        cd $(cliferay folder)/modules/sdk/gradle-plugins-defaults && gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit --amend --no-edit
-        cd $(cliferay folder) && cliferay ant setup-sdk
-    elif ! [[ "$PWD" = */*-test ]]; then
-        cliferay gw -a depl
-    fi
-  }
-
-  # :command.function
-  cliferay_baseline_command() {
-
-    # src/commands/baseline.sh
-    if [[ "$PWD" = */portal-kernel || "$PWD" = */portal-impl ]]; then
-        cliferay ant -Dbaseline.jar.report.level=persist clean jar
-    elif ! [[ "$PWD" = */*-test ]]; then
-        cliferay gw baseline
-    fi
-  }
-
-  # :command.function
-  cliferay_poshi_command() {
-
-    # src/commands/poshi.sh
-    cd $(cliferay folder)
-    HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
-  }
-
-  # :command.function
-  cliferay_build_rest_command() {
-
-    # src/commands/build-rest.sh
-    cd $(cliferay folder)/modules/apps && cliferay gw buildREST
-    cd $(cliferay folder)/modules/dxp/apps && cliferay gw buildREST
-    cd $(cliferay folder)/modules/util/portal-tools-rest-builder-test-impl && cliferay gw buildREST
-  }
-
-  # :command.function
-  cliferay_run_command() {
-
-    # src/commands/run.sh
-    BUNDLES=$(realpath $(cliferay folder)/../bundles)
-    echo "
-    # This file was created by cliferay $(cliferay --version).
-    # Please do not alter it.
-    # Put your custom properties in the portal-custom.properties file instead.
-
-    admin.email.from.address=test@liferay.com
-    admin.email.from.name=Test Test
-    default.admin.email.address.prefix=test
-
-    captcha.enforce.disabled=true
-
-    company.security.strangers.verify=false
-    company.default.locale=en_US
-    company.default.time.zone=UTC
-    company.default.web.id=liferay.com
-
-    jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver
-    jdbc.default.password=root
-    jdbc.default.url=jdbc:mysql://localhost/$(cliferay db-name)?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
-    jdbc.default.username=root
-
-    liferay.home=$BUNDLES
-
-    setup.wizard.enabled=false
-    terms.of.use.required=false
-    passwords.default.policy.change.required=false
-    users.reminder.queries.required=false
-    users.reminder.queries.enabled=false
-    enterprise.product.notification.enabled=false
-
-    feature.flag.ui.visible[dev]=true
-
-    module.framework.properties.osgi.console=11311
-
-    include-and-override=\${liferay.home}/portal-custom.properties
-    " > $BUNDLES/portal-ext.properties
-
-    if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
-        echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
-    fi
-
-    mkdir -p $BUNDLES/osgi/configs
-    echo 'maxChallenges=I"-1"' > $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
-
-    $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
-
-  }
-
-  # :command.function
-  cliferay_gogo_command() {
-
-    # src/commands/gogo.sh
-    if [ ${#other_args[@]} -eq 0 ]; then
-        telnet localhost 11311
-    else
-    expect <<EOF
-spawn telnet localhost 11311
-expect "g! "
-send "${other_args[*]}\r"
-expect "g! "
-send "disconnect\r"
-expect "Disconnect from console? (y/n; default=y)"
-send "y\r"
-expect eof
-EOF
-    fi
-
-  }
-
-  # :command.function
-  cliferay_kill_command() {
-
-    # src/commands/kill.sh
-    pgrep -f tomcat | xargs kill -9
-  }
-
-  # :command.function
-  cliferay_nuke_command() {
-
-    # src/commands/nuke.sh
-    cd $(cliferay folder)
-    rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/war ../bundles/osgi/state $(cliferay tomcat-folder)/work/Catalina
-    echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
-  }
-
-  # :command.function
-  cliferay_tomcat_folder_command() {
-
-    # src/commands/tomcat-folder.sh
-    cd $(cliferay folder)/../bundles
-    ls -d "$PWD/"** | grep tomcat | tail -n 1
-  }
-
-  # :command.function
-  cliferay_elastic_search_command() {
-
-    # src/commands/elastic-search.sh
-    liferay-curl "http://localhost:9201/*/_search?pretty=true&size=10000"
-  }
-
-  # :command.function
-  cliferay_db_name_command() {
-
-    # src/commands/db-name.sh
-    [[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
   }
 
   # :command.function
@@ -2191,42 +1856,6 @@ EOF
     fi
     cliferay run
 
-  }
-
-  # :command.function
-  cliferay_folder_command() {
-
-    # src/commands/folder.sh
-    root=$(git rev-parse --show-toplevel 2> /dev/null || true)
-    if [[ $root == *liferay-portal* ]]; then
-        echo $root
-    else
-        cliferay home
-    fi
-
-  }
-
-  # :command.function
-  cliferay_home_command() {
-
-    # src/commands/home.sh
-    echo $LIFERAY_HOME
-  }
-
-  # :command.function
-  cliferay_completions_command() {
-
-    # src/commands/completions.sh
-    send_completions
-  }
-
-  # :command.function
-  cliferay_aliases_command() {
-
-    # src/commands/aliases.sh
-    echo 'alias gw="cliferay gw"'
-    echo 'alias cdl="cd $(cliferay folder)"'
-    echo 'alias c="cliferay"'
   }
 
   # :command.function
@@ -2385,6 +2014,260 @@ EOF
   }
 
   # :command.function
+  cliferay_db_name_command() {
+
+    # src/commands/db-name.sh
+    [[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
+  }
+
+  # :command.function
+  cliferay_elastic_search_command() {
+
+    # src/commands/elastic-search.sh
+    liferay-curl "http://localhost:9201/*/_search?pretty=true&size=10000"
+  }
+
+  # :command.function
+  cliferay_gogo_command() {
+
+    # src/commands/gogo.sh
+    if [ ${#other_args[@]} -eq 0 ]; then
+        telnet localhost 11311
+    else
+    expect <<EOF
+spawn telnet localhost 11311
+expect "g! "
+send "${other_args[*]}\r"
+expect "g! "
+send "disconnect\r"
+expect "Disconnect from console? (y/n; default=y)"
+send "y\r"
+expect eof
+EOF
+    fi
+
+  }
+
+  # :command.function
+  cliferay_kill_command() {
+
+    # src/commands/kill.sh
+    pgrep -f tomcat | xargs kill -9
+  }
+
+  # :command.function
+  cliferay_nuke_command() {
+
+    # src/commands/nuke.sh
+    cd $(cliferay folder)
+    rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/war ../bundles/osgi/state $(cliferay tomcat-folder)/work/Catalina
+    echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
+  }
+
+  # :command.function
+  cliferay_run_command() {
+
+    # src/commands/run.sh
+    BUNDLES=$(realpath $(cliferay folder)/../bundles)
+    echo "
+    # This file was created by cliferay $(cliferay --version).
+    # Please do not alter it.
+    # Put your custom properties in the portal-custom.properties file instead.
+
+    admin.email.from.address=test@liferay.com
+    admin.email.from.name=Test Test
+    default.admin.email.address.prefix=test
+
+    captcha.enforce.disabled=true
+
+    company.security.strangers.verify=false
+    company.default.locale=en_US
+    company.default.time.zone=UTC
+    company.default.web.id=liferay.com
+
+    jdbc.default.driverClassName=com.mysql.cj.jdbc.Driver
+    jdbc.default.password=root
+    jdbc.default.url=jdbc:mysql://localhost/$(cliferay db-name)?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+    jdbc.default.username=root
+
+    liferay.home=$BUNDLES
+
+    setup.wizard.enabled=false
+    terms.of.use.required=false
+    passwords.default.policy.change.required=false
+    users.reminder.queries.required=false
+    users.reminder.queries.enabled=false
+    enterprise.product.notification.enabled=false
+
+    feature.flag.ui.visible[dev]=true
+
+    module.framework.properties.osgi.console=11311
+
+    include-and-override=\${liferay.home}/portal-custom.properties
+    " > $BUNDLES/portal-ext.properties
+
+    if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
+        echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
+    fi
+
+    mkdir -p $BUNDLES/osgi/configs
+    echo 'maxChallenges=I"-1"' > $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
+
+    $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
+
+  }
+
+  # :command.function
+  cliferay_tomcat_folder_command() {
+
+    # src/commands/tomcat-folder.sh
+    cd $(cliferay folder)/../bundles
+    ls -d "$PWD/"** | grep tomcat | tail -n 1
+  }
+
+  # :command.function
+  cliferay_baseline_command() {
+
+    # src/commands/baseline.sh
+    if [[ "$PWD" = */portal-kernel || "$PWD" = */portal-impl ]]; then
+        cliferay ant -Dbaseline.jar.report.level=persist clean jar
+    elif ! [[ "$PWD" = */*-test ]]; then
+        cliferay gw baseline
+    fi
+  }
+
+  # :command.function
+  cliferay_build_rest_command() {
+
+    # src/commands/build-rest.sh
+    cd $(cliferay folder)/modules/apps && cliferay gw buildREST
+    cd $(cliferay folder)/modules/dxp/apps && cliferay gw buildREST
+    cd $(cliferay folder)/modules/util/portal-tools-rest-builder-test-impl && cliferay gw buildREST
+  }
+
+  # :command.function
+  cliferay_changed_modules_command() {
+
+    # src/commands/changed-modules.sh
+    cd $(cliferay folder)
+    liferay-get-modules git diff --name-only ${args["--branch"]:-master}
+  }
+
+  # :command.function
+  cliferay_deploy_command() {
+
+    # src/commands/deploy.sh
+    if [[ "$PWD" = */portal-test ]]; then
+        cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
+    elif [[ "$PWD" = */portal-kernel ]]; then
+        cliferay ant deploy install-portal-snapshot
+    elif [[ "$PWD" = */portal-impl ]]; then
+        cliferay ant deploy install-portal-snapshot
+    elif [[ "$PWD" = *test-util ]]; then
+        cliferay gw -a depl
+        JAR=$( echo "$(realpath $PWD --relative-to $(cliferay folder))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
+        cp "$(cliferay folder)/../bundles/osgi/test/$JAR" "$(cliferay folder)/../bundles/osgi/modules/"
+    elif [[ "$PWD" = *gradle-plugins* ]]; then
+        cliferay gw installCache updateFileVersions
+        git add $(cliferay folder) && git commit -m "DELETE ME"
+        cd $(cliferay folder)/modules/sdk/gradle-plugins && gw installCache updateFileVersions
+        git add $(cliferay folder) && git commit --amend --no-edit
+        cd $(cliferay folder)/modules/sdk/gradle-plugins-defaults && gw installCache updateFileVersions
+        git add $(cliferay folder) && git commit --amend --no-edit
+        cd $(cliferay folder) && cliferay ant setup-sdk
+    elif ! [[ "$PWD" = */*-test ]]; then
+        cliferay gw -a depl
+    fi
+  }
+
+  # :command.function
+  cliferay_folder_command() {
+
+    # src/commands/folder.sh
+    root=$(git rev-parse --show-toplevel 2> /dev/null || true)
+    if [[ $root == *liferay-portal* ]]; then
+        echo $root
+    else
+        cliferay home
+    fi
+
+  }
+
+  # :command.function
+  cliferay_format_source_command() {
+
+    # src/commands/format-source.sh
+    cd $(cliferay folder)/portal-impl
+    ANT_OPTS=-Xmx4096m ant format-source-current-branch
+  }
+
+  # :command.function
+  cliferay_home_command() {
+
+    # src/commands/home.sh
+    echo $LIFERAY_HOME
+  }
+
+  # :command.function
+  cliferay_owner_command() {
+
+    # src/commands/owner.sh
+    # oneliner: grep -v '^#' "$(git rev-parse --show-toplevel)/.github/CODEOWNERS" | awk '{print length, $0}' | sort -nr | cut -d' ' -f2- | while read -r line; do owned_path=$(echo $line | awk '{print $1}'); if [[ "$(realpath --relative-to=$(git rev-parse --show-toplevel) .)" == ${owned_path%/}* ]]; then echo $line | awk '{print $2}'; break; fi; done;
+    # Sort the CODEOWNERS file by the length of the paths in descending order
+    # and get the first one that is a prefix of the path received by argument
+
+    root_path=$(git rev-parse --show-toplevel)
+    check_path=$(realpath --relative-to=$root_path $(realpath --relative-to=$(pwd) ${args["path"]}))
+
+    grep -v '^#' "$root_path/.github/CODEOWNERS" | awk '{print length, $0}' | sort -nr | cut -d' ' -f2- | while read -r line; do
+        owned_path=$(echo $line | awk '{print $1}')
+        if [[ "$check_path" == ${owned_path%/}* ]]; then
+            echo $line | awk '{print $2}'
+            break
+        fi
+    done
+  }
+
+  # :command.function
+  cliferay_poshi_command() {
+
+    # src/commands/poshi.sh
+    cd $(cliferay folder)
+    HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
+  }
+
+  # :command.function
+  cliferay_super_deploy_command() {
+
+    # src/commands/super-deploy.sh
+    cd $(cliferay folder)
+    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
+    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
+  }
+
+  # :command.function
+  cliferay_brian_command() {
+
+    # src/commands/brian.sh
+    PR=${args["pr"]}
+    echo "Checking out $PR"
+    gh pr checkout -f $PR
+    echo "Creating Brian's PR from $PR"
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)-brian
+    git branch -D $BRANCH &>/dev/null || true
+    git checkout -b $BRANCH
+    git push -f origin $BRANCH
+    git branch -u origin/$BRANCH
+    BRIAN_PR=$(gh pr create --title "$(gh pr view $PR --json title --jq .title)" --body "$(gh pr view $PR --json body --jq .body)" -R brianchandotcom/liferay-portal)
+    sleep 2
+    gh pr comment $BRIAN_PR --body "ci:reopen"
+    echo "Closing $PR"
+    gh pr comment $PR --body "$BRIAN_PR"
+    gh pr close $PR
+    echo $BRIAN_PR
+  }
+
+  # :command.function
   cliferay_backport_command() {
 
     # src/commands/backport.sh
@@ -2417,6 +2300,112 @@ EOF
   }
 
   # :command.function
+  cliferay_set_ticket_command() {
+
+    # src/commands/set-ticket.sh
+    cd $(cliferay folder)
+    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "1 s/(^([A-Z]+)-([0-9]*) )|^/'${args["ticket"]}' /"' ${args["--branch"]:-master}..HEAD
+
+  }
+
+  # :command.function
+  cliferay_stats_users_jira_command() {
+
+    # src/commands/stats/users/jira.sh
+    grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{print $2}'
+  }
+
+  # :command.function
+  cliferay_stats_users_emails_command() {
+
+    # src/commands/stats/users/emails.sh
+    grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{for (i=3; i<=NF; i++) print $i}'
+  }
+
+  # :command.function
+  cliferay_stats_years_command() {
+
+    # src/commands/stats/years.sh
+    cd $(cliferay folder)
+    git log --pretty=format:'%cd' --date=format:'%Y' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | sort | uniq -c
+  }
+
+  # :command.function
+  cliferay_stats_ranking_command() {
+
+    # src/commands/stats/ranking.sh
+    cd $(cliferay folder)
+    emails=${args[emails]:-}
+    get_current_quarter
+    git log --since="$since" --until="$until" --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
+  }
+
+  # :command.function
+  cliferay_stats_tickets_command() {
+
+    # src/commands/stats/tickets.sh
+    cd $(cliferay folder)
+    get_current_quarter
+    git log --since="$since" --until="$until" --pretty=format:'%h %s' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
+  }
+
+  # :command.function
+  cliferay_stats_commits_command() {
+
+    # src/commands/stats/commits.sh
+    cd $(cliferay folder)
+    get_current_quarter
+    git log --since="$since" --until="$until" --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
+  }
+
+  # :command.function
+  cliferay_stats_review_command() {
+
+    # src/commands/stats/review.sh
+    cd $(cliferay folder)
+    get_current_quarter
+    echo "This quarter ${args[user]} has:"
+    echo ""
+    echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
+    echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
+    echo "With a total of $(cliferay stats commits $(echo ${args[user]}) | wc -l) commits to master. Reaching $(cliferay stats years $(echo ${args[user]}) | awk '{current=$1; if (NR>1) last=current/prev*100; prev=$1} END{print last "%"}') of their total commits from last whole year."
+    echo "On average it took $(git log --since="$since" --until="$until" $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') --pretty=format:'%ad %cd' --date=unix | awk '{print ($2 - $1)/86400}' | awk '{ total += $1; count++ } END { print total/count }') days from commit to master."
+    LPPS=$(cliferay stats assigned ${args[user]} | grep LPP)
+    echo "Worked directly or indirectly on $(echo "$LPPS" | wc -l) LPPs:"
+    echo "$LPPS" | sed 's/^/  /'
+  }
+
+  # :command.function
+  cliferay_stats_assigned_command() {
+
+    # src/commands/stats/assigned.sh
+    get_current_quarter
+    jira issue list -q "assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY" | cliferay tickets
+
+  }
+
+  # :command.function
+  cliferay_sync_command() {
+
+    # src/commands/sync.sh
+    cd $(cliferay folder)
+    git add .
+    git stash
+    git checkout master
+    gh repo sync $(gh repo view --json nameWithOwner -q ".nameWithOwner")
+    gh repo sync
+    git push
+
+  }
+
+  # :command.function
+  cliferay_tickets_command() {
+
+    # src/commands/tickets.sh
+    grep -oE 'LP[PSD]-[0-9]+' | sort | uniq | sed 's/^/https:\/\/liferay.atlassian.net\/browse\//'
+  }
+
+  # :command.function
   cliferay_jira_command() {
 
     # src/commands/jira.sh
@@ -2426,15 +2415,6 @@ EOF
     else
         cliferay jira --help
     fi
-  }
-
-  # :command.function
-  cliferay_init_command() {
-
-    # src/commands/init.sh
-    #gh auth login --hostname github.com
-    jira init --force --installation cloud --server "https://liferay.atlassian.net" --project LPD --board None --login "${args["--email"]}"
-
   }
 
   # :command.parse_requirements
@@ -2480,73 +2460,31 @@ EOF
     case $action in
       -*) ;;
 
+      aliases)
+        action="aliases"
+        shift
+        cliferay_aliases_parse_requirements "$@"
+        shift $#
+        ;;
+
+      completions)
+        action="completions"
+        shift
+        cliferay_completions_parse_requirements "$@"
+        shift $#
+        ;;
+
+      init)
+        action="init"
+        shift
+        cliferay_init_parse_requirements "$@"
+        shift $#
+        ;;
+
       update)
         action="update"
         shift
         cliferay_update_parse_requirements "$@"
-        shift $#
-        ;;
-
-      sync)
-        action="sync"
-        shift
-        cliferay_sync_parse_requirements "$@"
-        shift $#
-        ;;
-
-      brian)
-        action="brian"
-        shift
-        cliferay_brian_parse_requirements "$@"
-        shift $#
-        ;;
-
-      set-ticket)
-        action="set-ticket"
-        shift
-        cliferay_set_ticket_parse_requirements "$@"
-        shift $#
-        ;;
-
-      owner)
-        action="owner"
-        shift
-        cliferay_owner_parse_requirements "$@"
-        shift $#
-        ;;
-
-      tickets)
-        action="tickets"
-        shift
-        cliferay_tickets_parse_requirements "$@"
-        shift $#
-        ;;
-
-      stats)
-        action="stats"
-        shift
-        cliferay_stats_parse_requirements "$@"
-        shift $#
-        ;;
-
-      build)
-        action="build"
-        shift
-        cliferay_build_parse_requirements "$@"
-        shift $#
-        ;;
-
-      ij)
-        action="ij"
-        shift
-        cliferay_ij_parse_requirements "$@"
-        shift $#
-        ;;
-
-      gw)
-        action="gw"
-        shift
-        cliferay_gw_parse_requirements "$@"
         shift $#
         ;;
 
@@ -2557,59 +2495,52 @@ EOF
         shift $#
         ;;
 
-      changed-modules | cm)
-        action="changed-modules"
+      build)
+        action="build"
         shift
-        cliferay_changed_modules_parse_requirements "$@"
+        cliferay_build_parse_requirements "$@"
         shift $#
         ;;
 
-      super-deploy | sd)
-        action="super-deploy"
+      gw)
+        action="gw"
         shift
-        cliferay_super_deploy_parse_requirements "$@"
+        cliferay_gw_parse_requirements "$@"
         shift $#
         ;;
 
-      format-source | sf)
-        action="format-source"
+      ij)
+        action="ij"
         shift
-        cliferay_format_source_parse_requirements "$@"
+        cliferay_ij_parse_requirements "$@"
         shift $#
         ;;
 
-      deploy | d)
-        action="deploy"
+      morning)
+        action="morning"
         shift
-        cliferay_deploy_parse_requirements "$@"
+        cliferay_morning_parse_requirements "$@"
         shift $#
         ;;
 
-      baseline)
-        action="baseline"
+      curl)
+        action="curl"
         shift
-        cliferay_baseline_parse_requirements "$@"
+        cliferay_curl_parse_requirements "$@"
         shift $#
         ;;
 
-      poshi)
-        action="poshi"
+      db-name)
+        action="db-name"
         shift
-        cliferay_poshi_parse_requirements "$@"
+        cliferay_db_name_parse_requirements "$@"
         shift $#
         ;;
 
-      build-rest)
-        action="build-rest"
+      elastic-search)
+        action="elastic-search"
         shift
-        cliferay_build_rest_parse_requirements "$@"
-        shift $#
-        ;;
-
-      run)
-        action="run"
-        shift
-        cliferay_run_parse_requirements "$@"
+        cliferay_elastic_search_parse_requirements "$@"
         shift $#
         ;;
 
@@ -2634,6 +2565,13 @@ EOF
         shift $#
         ;;
 
+      run)
+        action="run"
+        shift
+        cliferay_run_parse_requirements "$@"
+        shift $#
+        ;;
+
       tomcat-folder)
         action="tomcat-folder"
         shift
@@ -2641,24 +2579,31 @@ EOF
         shift $#
         ;;
 
-      elastic-search)
-        action="elastic-search"
+      baseline)
+        action="baseline"
         shift
-        cliferay_elastic_search_parse_requirements "$@"
+        cliferay_baseline_parse_requirements "$@"
         shift $#
         ;;
 
-      db-name)
-        action="db-name"
+      build-rest)
+        action="build-rest"
         shift
-        cliferay_db_name_parse_requirements "$@"
+        cliferay_build_rest_parse_requirements "$@"
         shift $#
         ;;
 
-      morning)
-        action="morning"
+      changed-modules | cm)
+        action="changed-modules"
         shift
-        cliferay_morning_parse_requirements "$@"
+        cliferay_changed_modules_parse_requirements "$@"
+        shift $#
+        ;;
+
+      deploy | d)
+        action="deploy"
+        shift
+        cliferay_deploy_parse_requirements "$@"
         shift $#
         ;;
 
@@ -2669,6 +2614,13 @@ EOF
         shift $#
         ;;
 
+      format-source | sf)
+        action="format-source"
+        shift
+        cliferay_format_source_parse_requirements "$@"
+        shift $#
+        ;;
+
       home)
         action="home"
         shift
@@ -2676,24 +2628,31 @@ EOF
         shift $#
         ;;
 
-      completions)
-        action="completions"
+      owner)
+        action="owner"
         shift
-        cliferay_completions_parse_requirements "$@"
+        cliferay_owner_parse_requirements "$@"
         shift $#
         ;;
 
-      aliases)
-        action="aliases"
+      poshi)
+        action="poshi"
         shift
-        cliferay_aliases_parse_requirements "$@"
+        cliferay_poshi_parse_requirements "$@"
         shift $#
         ;;
 
-      curl)
-        action="curl"
+      super-deploy | sd)
+        action="super-deploy"
         shift
-        cliferay_curl_parse_requirements "$@"
+        cliferay_super_deploy_parse_requirements "$@"
+        shift $#
+        ;;
+
+      brian)
+        action="brian"
+        shift
+        cliferay_brian_parse_requirements "$@"
         shift $#
         ;;
 
@@ -2704,17 +2663,38 @@ EOF
         shift $#
         ;;
 
+      set-ticket)
+        action="set-ticket"
+        shift
+        cliferay_set_ticket_parse_requirements "$@"
+        shift $#
+        ;;
+
+      stats)
+        action="stats"
+        shift
+        cliferay_stats_parse_requirements "$@"
+        shift $#
+        ;;
+
+      sync)
+        action="sync"
+        shift
+        cliferay_sync_parse_requirements "$@"
+        shift $#
+        ;;
+
+      tickets)
+        action="tickets"
+        shift
+        cliferay_tickets_parse_requirements "$@"
+        shift $#
+        ;;
+
       jira)
         action="jira"
         shift
         cliferay_jira_parse_requirements "$@"
-        shift $#
-        ;;
-
-      init)
-        action="init"
-        shift
-        cliferay_init_parse_requirements "$@"
         shift $#
         ;;
 
@@ -2751,6 +2731,169 @@ EOF
 
       esac
     done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_aliases_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_aliases_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="aliases"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_completions_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_completions_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="completions"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_init_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_init_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.dependencies_filter
+    if command -v jira >/dev/null 2>&1; then
+      deps['jira']="$(command -v jira | head -n1)"
+    else
+      printf "missing dependency: jira\n" >&2
+      printf "%s\n" "Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action="init"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --email)
+
+          # :flag.case_arg
+          if [[ -n ${2+x} ]]; then
+            args['--email']="$2"
+            shift
+            shift
+          else
+            printf "%s\n" "--email requires an argument: --email EMAIL" >&2
+            exit 1
+          fi
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_flags_filter
+    if [[ -z ${args['--email']+x} ]]; then
+      printf "missing required flag: --email EMAIL\n" >&2
+      exit 1
+    fi
 
   }
 
@@ -2800,14 +2943,14 @@ EOF
   }
 
   # :command.parse_requirements
-  cliferay_sync_parse_requirements() {
+  cliferay_ant_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
         --help | -h)
           long_usage=yes
-          cliferay_sync_usage
+          cliferay_ant_usage
           exit
           ;;
 
@@ -2819,12 +2962,1352 @@ EOF
     done
 
     # :command.command_filter
-    action="sync"
+    action="ant"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
+
+        --)
+          shift
+          other_args+=("$@")
+          break
+          ;;
+
+        -?*)
+          other_args+=("$1")
+          shift
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_catch_all
+          other_args+=("$1")
+          shift
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_build_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_build_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="build"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_gw_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_gw_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="gw"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        --)
+          shift
+          other_args+=("$@")
+          break
+          ;;
+
+        -?*)
+          other_args+=("$1")
+          shift
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_catch_all
+          other_args+=("$1")
+          shift
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_ij_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_ij_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="ij"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_morning_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_morning_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="morning"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --no-nuke)
+
+          # :flag.case_no_arg
+          args['--no-nuke']=1
+          shift
+          ;;
+
+        # :flag.case
+        --force | -f)
+
+          # :flag.case_no_arg
+          args['--force']=1
+          shift
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.dependencies_filter
+    if command -v jq >/dev/null 2>&1; then
+      deps['jq']="$(command -v jq | head -n1)"
+    else
+      printf "missing dependency: jq\n" >&2
+      printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action=${1:-}
+
+    case $action in
+      -*) ;;
+
+      new-instance)
+        action="new-instance"
+        shift
+        cliferay_curl_new_instance_parse_requirements "$@"
+        shift $#
+        ;;
+
+      new-api)
+        action="new-api"
+        shift
+        cliferay_curl_new_api_parse_requirements "$@"
+        shift $#
+        ;;
+
+      new-object)
+        action="new-object"
+        shift
+        cliferay_curl_new_object_parse_requirements "$@"
+        shift $#
+        ;;
+
+      batch-import)
+        action="batch-import"
+        shift
+        cliferay_curl_batch_import_parse_requirements "$@"
+        shift $#
+        ;;
+
+      # :command.command_fallback
+      "")
+        cliferay_curl_usage >&2
+        exit 1
+        ;;
+
+      *)
+        printf "invalid command: %s\n" "$action" >&2
+        exit 1
+        ;;
+
+    esac
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_new_instance_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_new_instance_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl new-instance"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['host']+x} ]]; then
+            args['host']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['host']+x} ]]; then
+      printf "missing required argument: HOST\nusage: cliferay curl new-instance HOST\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_new_api_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_new_api_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl new-api"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_new_object_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_new_object_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl new-object"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_batch_import_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_batch_import_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl batch-import"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_db_name_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_db_name_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="db-name"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_elastic_search_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_elastic_search_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.dependencies_filter
+    if command -v jq >/dev/null 2>&1; then
+      deps['jq']="$(command -v jq | head -n1)"
+    else
+      printf "missing dependency: jq\n" >&2
+      printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action="elastic-search"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_gogo_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_gogo_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="gogo"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        --)
+          shift
+          other_args+=("$@")
+          break
+          ;;
+
+        -?*)
+          other_args+=("$1")
+          shift
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_catch_all
+          other_args+=("$1")
+          shift
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_kill_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_kill_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="kill"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_nuke_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_nuke_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="nuke"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_run_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_run_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="run"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['command']+x} ]]; then
+            args['command']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_tomcat_folder_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_tomcat_folder_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="tomcat-folder"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_baseline_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_baseline_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="baseline"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_build_rest_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_build_rest_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="build-rest"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_changed_modules_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_changed_modules_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="changed-modules"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --branch | -b)
+
+          # :flag.case_arg
+          if [[ -n ${2+x} ]]; then
+            args['--branch']="$2"
+            shift
+            shift
+          else
+            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+            exit 1
+          fi
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_deploy_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_deploy_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="deploy"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_folder_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_folder_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="folder"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_format_source_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_format_source_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="format-source"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_home_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_home_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.environment_variables_filter
+
+    env_var_names+=("LIFERAY_HOME")
+    if [[ -z "${LIFERAY_HOME:-}" ]]; then
+      printf "missing required environment variable: LIFERAY_HOME\n" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action="home"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_owner_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_owner_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="owner"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['path']+x} ]]; then
+            args['path']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.default_assignments
+    [[ -n ${args['path']:-} ]] || args['path']="."
+
+  }
+
+  # :command.parse_requirements
+  cliferay_poshi_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_poshi_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="poshi"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['test']+x} ]]; then
+            args['test']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['test']+x} ]]; then
+      printf "missing required argument: TEST\nusage: cliferay poshi TEST\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
+  cliferay_super_deploy_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_super_deploy_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="super-deploy"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --branch | -b)
+
+          # :flag.case_arg
+          if [[ -n ${2+x} ]]; then
+            args['--branch']="$2"
+            shift
+            shift
+          else
+            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+            exit 1
+          fi
+          ;;
 
         -?*)
           printf "invalid option: %s\n" "$key" >&2
@@ -2903,6 +4386,77 @@ EOF
   }
 
   # :command.parse_requirements
+  cliferay_backport_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_backport_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="backport"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --branch | -b)
+
+          # :flag.case_arg
+          if [[ -n ${2+x} ]]; then
+            args['--branch']="$2"
+            shift
+            shift
+          else
+            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+            exit 1
+          fi
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['text']+x} ]]; then
+            args['text']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['text']+x} ]]; then
+      printf "missing required argument: TEXT\nusage: cliferay backport TEXT [OPTIONS]\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
   cliferay_set_ticket_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -2970,105 +4524,6 @@ EOF
 
       exit 1
     fi
-
-  }
-
-  # :command.parse_requirements
-  cliferay_owner_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_owner_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="owner"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['path']+x} ]]; then
-            args['path']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.default_assignments
-    [[ -n ${args['path']:-} ]] || args['path']="."
-
-  }
-
-  # :command.parse_requirements
-  cliferay_tickets_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_tickets_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="tickets"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
 
   }
 
@@ -3681,14 +5136,14 @@ EOF
   }
 
   # :command.parse_requirements
-  cliferay_build_parse_requirements() {
+  cliferay_sync_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
         --help | -h)
           long_usage=yes
-          cliferay_build_usage
+          cliferay_sync_usage
           exit
           ;;
 
@@ -3700,7 +5155,7 @@ EOF
     done
 
     # :command.command_filter
-    action="build"
+    action="sync"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -3726,14 +5181,14 @@ EOF
   }
 
   # :command.parse_requirements
-  cliferay_ij_parse_requirements() {
+  cliferay_tickets_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
         --help | -h)
           long_usage=yes
-          cliferay_ij_usage
+          cliferay_tickets_usage
           exit
           ;;
 
@@ -3745,7 +5200,7 @@ EOF
     done
 
     # :command.command_filter
-    action="ij"
+    action="tickets"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -3767,1408 +5222,6 @@ EOF
 
       esac
     done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_gw_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_gw_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="gw"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        --)
-          shift
-          other_args+=("$@")
-          break
-          ;;
-
-        -?*)
-          other_args+=("$1")
-          shift
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_catch_all
-          other_args+=("$1")
-          shift
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_ant_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_ant_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="ant"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        --)
-          shift
-          other_args+=("$@")
-          break
-          ;;
-
-        -?*)
-          other_args+=("$1")
-          shift
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_catch_all
-          other_args+=("$1")
-          shift
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_changed_modules_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_changed_modules_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="changed-modules"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --branch | -b)
-
-          # :flag.case_arg
-          if [[ -n ${2+x} ]]; then
-            args['--branch']="$2"
-            shift
-            shift
-          else
-            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
-            exit 1
-          fi
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_super_deploy_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_super_deploy_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="super-deploy"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --branch | -b)
-
-          # :flag.case_arg
-          if [[ -n ${2+x} ]]; then
-            args['--branch']="$2"
-            shift
-            shift
-          else
-            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
-            exit 1
-          fi
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_format_source_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_format_source_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="format-source"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_deploy_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_deploy_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="deploy"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_baseline_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_baseline_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="baseline"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_poshi_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_poshi_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="poshi"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['test']+x} ]]; then
-            args['test']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['test']+x} ]]; then
-      printf "missing required argument: TEST\nusage: cliferay poshi TEST\n" >&2
-
-      exit 1
-    fi
-
-  }
-
-  # :command.parse_requirements
-  cliferay_build_rest_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_build_rest_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="build-rest"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_run_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_run_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="run"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['command']+x} ]]; then
-            args['command']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_gogo_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_gogo_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="gogo"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        --)
-          shift
-          other_args+=("$@")
-          break
-          ;;
-
-        -?*)
-          other_args+=("$1")
-          shift
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_catch_all
-          other_args+=("$1")
-          shift
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_kill_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_kill_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="kill"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_nuke_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_nuke_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="nuke"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_tomcat_folder_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_tomcat_folder_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="tomcat-folder"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_elastic_search_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_elastic_search_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.dependencies_filter
-    if command -v jq >/dev/null 2>&1; then
-      deps['jq']="$(command -v jq | head -n1)"
-    else
-      printf "missing dependency: jq\n" >&2
-      printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="elastic-search"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_db_name_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_db_name_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="db-name"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_morning_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_morning_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="morning"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --no-nuke)
-
-          # :flag.case_no_arg
-          args['--no-nuke']=1
-          shift
-          ;;
-
-        # :flag.case
-        --force | -f)
-
-          # :flag.case_no_arg
-          args['--force']=1
-          shift
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_folder_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_folder_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="folder"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_home_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_home_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.environment_variables_filter
-
-    env_var_names+=("LIFERAY_HOME")
-    if [[ -z "${LIFERAY_HOME:-}" ]]; then
-      printf "missing required environment variable: LIFERAY_HOME\n" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="home"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_completions_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_completions_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="completions"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_aliases_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_aliases_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="aliases"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_curl_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_curl_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.dependencies_filter
-    if command -v jq >/dev/null 2>&1; then
-      deps['jq']="$(command -v jq | head -n1)"
-    else
-      printf "missing dependency: jq\n" >&2
-      printf "%s\n" "Install it from https://jqlang.github.io/jq" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action=${1:-}
-
-    case $action in
-      -*) ;;
-
-      new-instance)
-        action="new-instance"
-        shift
-        cliferay_curl_new_instance_parse_requirements "$@"
-        shift $#
-        ;;
-
-      new-api)
-        action="new-api"
-        shift
-        cliferay_curl_new_api_parse_requirements "$@"
-        shift $#
-        ;;
-
-      new-object)
-        action="new-object"
-        shift
-        cliferay_curl_new_object_parse_requirements "$@"
-        shift $#
-        ;;
-
-      batch-import)
-        action="batch-import"
-        shift
-        cliferay_curl_batch_import_parse_requirements "$@"
-        shift $#
-        ;;
-
-      # :command.command_fallback
-      "")
-        cliferay_curl_usage >&2
-        exit 1
-        ;;
-
-      *)
-        printf "invalid command: %s\n" "$action" >&2
-        exit 1
-        ;;
-
-    esac
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_curl_new_instance_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_curl_new_instance_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="curl new-instance"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['host']+x} ]]; then
-            args['host']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['host']+x} ]]; then
-      printf "missing required argument: HOST\nusage: cliferay curl new-instance HOST\n" >&2
-
-      exit 1
-    fi
-
-  }
-
-  # :command.parse_requirements
-  cliferay_curl_new_api_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_curl_new_api_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="curl new-api"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_curl_new_object_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_curl_new_object_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="curl new-object"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_curl_batch_import_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_curl_batch_import_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="curl batch-import"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_backport_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_backport_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="backport"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --branch | -b)
-
-          # :flag.case_arg
-          if [[ -n ${2+x} ]]; then
-            args['--branch']="$2"
-            shift
-            shift
-          else
-            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
-            exit 1
-          fi
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['text']+x} ]]; then
-            args['text']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['text']+x} ]]; then
-      printf "missing required argument: TEXT\nusage: cliferay backport TEXT [OPTIONS]\n" >&2
-
-      exit 1
-    fi
 
   }
 
@@ -5223,79 +5276,6 @@ EOF
 
   }
 
-  # :command.parse_requirements
-  cliferay_init_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_init_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.dependencies_filter
-    if command -v jira >/dev/null 2>&1; then
-      deps['jira']="$(command -v jira | head -n1)"
-    else
-      printf "missing dependency: jira\n" >&2
-      printf "%s\n" "Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="init"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --email)
-
-          # :flag.case_arg
-          if [[ -n ${2+x} ]]; then
-            args['--email']="$2"
-            shift
-            shift
-          else
-            printf "%s\n" "--email requires an argument: --email EMAIL" >&2
-            exit 1
-          fi
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_flags_filter
-    if [[ -z ${args['--email']+x} ]]; then
-      printf "missing required flag: --email EMAIL\n" >&2
-      exit 1
-    fi
-
-  }
-
   # :command.user_hooks
   before_hook() {
     # src/before.sh
@@ -5324,12 +5304,40 @@ EOF
     before_hook
 
     case "$action" in
+      "aliases") cliferay_aliases_command ;;
+      "completions") cliferay_completions_command ;;
+      "init") cliferay_init_command ;;
       "update") cliferay_update_command ;;
-      "sync") cliferay_sync_command ;;
-      "brian") cliferay_brian_command ;;
-      "set-ticket") cliferay_set_ticket_command ;;
+      "ant") cliferay_ant_command ;;
+      "build") cliferay_build_command ;;
+      "gw") cliferay_gw_command ;;
+      "ij") cliferay_ij_command ;;
+      "morning") cliferay_morning_command ;;
+      "curl") cliferay_curl_command ;;
+      "curl new-instance") cliferay_curl_new_instance_command ;;
+      "curl new-api") cliferay_curl_new_api_command ;;
+      "curl new-object") cliferay_curl_new_object_command ;;
+      "curl batch-import") cliferay_curl_batch_import_command ;;
+      "db-name") cliferay_db_name_command ;;
+      "elastic-search") cliferay_elastic_search_command ;;
+      "gogo") cliferay_gogo_command ;;
+      "kill") cliferay_kill_command ;;
+      "nuke") cliferay_nuke_command ;;
+      "run") cliferay_run_command ;;
+      "tomcat-folder") cliferay_tomcat_folder_command ;;
+      "baseline") cliferay_baseline_command ;;
+      "build-rest") cliferay_build_rest_command ;;
+      "changed-modules") cliferay_changed_modules_command ;;
+      "deploy") cliferay_deploy_command ;;
+      "folder") cliferay_folder_command ;;
+      "format-source") cliferay_format_source_command ;;
+      "home") cliferay_home_command ;;
       "owner") cliferay_owner_command ;;
-      "tickets") cliferay_tickets_command ;;
+      "poshi") cliferay_poshi_command ;;
+      "super-deploy") cliferay_super_deploy_command ;;
+      "brian") cliferay_brian_command ;;
+      "backport") cliferay_backport_command ;;
+      "set-ticket") cliferay_set_ticket_command ;;
       "stats") cliferay_stats_command ;;
       "stats users") cliferay_stats_users_command ;;
       "stats users jira") cliferay_stats_users_jira_command ;;
@@ -5340,37 +5348,9 @@ EOF
       "stats commits") cliferay_stats_commits_command ;;
       "stats review") cliferay_stats_review_command ;;
       "stats assigned") cliferay_stats_assigned_command ;;
-      "build") cliferay_build_command ;;
-      "ij") cliferay_ij_command ;;
-      "gw") cliferay_gw_command ;;
-      "ant") cliferay_ant_command ;;
-      "changed-modules") cliferay_changed_modules_command ;;
-      "super-deploy") cliferay_super_deploy_command ;;
-      "format-source") cliferay_format_source_command ;;
-      "deploy") cliferay_deploy_command ;;
-      "baseline") cliferay_baseline_command ;;
-      "poshi") cliferay_poshi_command ;;
-      "build-rest") cliferay_build_rest_command ;;
-      "run") cliferay_run_command ;;
-      "gogo") cliferay_gogo_command ;;
-      "kill") cliferay_kill_command ;;
-      "nuke") cliferay_nuke_command ;;
-      "tomcat-folder") cliferay_tomcat_folder_command ;;
-      "elastic-search") cliferay_elastic_search_command ;;
-      "db-name") cliferay_db_name_command ;;
-      "morning") cliferay_morning_command ;;
-      "folder") cliferay_folder_command ;;
-      "home") cliferay_home_command ;;
-      "completions") cliferay_completions_command ;;
-      "aliases") cliferay_aliases_command ;;
-      "curl") cliferay_curl_command ;;
-      "curl new-instance") cliferay_curl_new_instance_command ;;
-      "curl new-api") cliferay_curl_new_api_command ;;
-      "curl new-object") cliferay_curl_new_object_command ;;
-      "curl batch-import") cliferay_curl_batch_import_command ;;
-      "backport") cliferay_backport_command ;;
+      "sync") cliferay_sync_command ;;
+      "tickets") cliferay_tickets_command ;;
       "jira") cliferay_jira_command ;;
-      "init") cliferay_init_command ;;
     esac
   }
 
