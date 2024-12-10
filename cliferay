@@ -24,59 +24,59 @@ cliferay_usage() {
     printf "cliferay - Daily scripts to work with Liferay\n\n"
   fi
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay COMMAND\n"
   printf "  cliferay [COMMAND] --help | -h\n"
   printf "  cliferay --version | -v\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "cliferay Commands:"
-  printf "  %s   Update cliferay to the latest version\n" "update         "
+  printf "%s\n" "$(bold "cliferay Commands:")"
+  printf "  %s   Update cliferay to the latest version\n" "$(green_bold "update")         "
   echo
-  printf "%s\n" "Git Commands:"
-  printf "  %s   Sync fork and local copy with upstream\n" "sync           "
-  printf "  %s   Forward an existing PR to Brian and close it\n" "brian          "
-  printf "  %s   Set the Jira ticket on your local commits\n" "set-ticket     "
-  printf "  %s   Output the owner of a path based on CODEOWNERS\n" "owner          "
-  printf "  %s   Get all Jira tickets from the output of git log\n" "tickets        "
-  printf "  %s   Calculate different Git stats\n" "stats          "
+  printf "%s\n" "$(bold "Git Commands:")"
+  printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
+  printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
+  printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
+  printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
+  printf "  %s   Get all Jira tickets from the output of git log\n" "$(green_bold "tickets")        "
+  printf "  %s   Calculate different Git stats\n" "$(green_bold "stats")          "
   echo
-  printf "%s\n" "Build Commands:"
-  printf "  %s   Run ant all\n" "build          "
-  printf "  %s   Run liferay-intellij\n" "ij             "
-  printf "  %s   Run gradlew\n" "gw             "
-  printf "  %s   Run ant\n" "ant            "
+  printf "%s\n" "$(bold "Build Commands:")"
+  printf "  %s   Run ant all\n" "$(green_bold "build")          "
+  printf "  %s   Run liferay-intellij\n" "$(green_bold "ij")             "
+  printf "  %s   Run gradlew\n" "$(green_bold "gw")             "
+  printf "  %s   Run ant\n" "$(green_bold "ant")            "
   echo
-  printf "%s\n" "Module Commands:"
-  printf "  %s   List changed modules\n" "changed-modules"
-  printf "  %s   Deploy changed modules\n" "super-deploy   "
-  printf "  %s   Run SF globally\n" "format-source  "
-  printf "  %s   Deploy the current folder\n" "deploy         "
-  printf "  %s   Run baseline in the current folder\n" "baseline       "
-  printf "  %s   Run a Poshi test\n" "poshi          "
-  printf "  %s   Run buildREST globally\n" "build-rest     "
+  printf "%s\n" "$(bold "Module Commands:")"
+  printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
+  printf "  %s   Deploy changed modules\n" "$(green_bold "super-deploy")   "
+  printf "  %s   Run SF globally\n" "$(green_bold "format-source")  "
+  printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
+  printf "  %s   Run baseline in the current folder\n" "$(green_bold "baseline")       "
+  printf "  %s   Run a Poshi test\n" "$(green_bold "poshi")          "
+  printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
   echo
-  printf "%s\n" "Server Commands:"
-  printf "  %s   Start the server\n" "run            "
-  printf "  %s   Open the Gogo Shell\n" "gogo           "
-  printf "  %s   Kill the server\n" "kill           "
-  printf "  %s   Delete all persisted data\n" "nuke           "
-  printf "  %s   Print the current tomcat folder\n" "tomcat-folder  "
-  printf "  %s   Query the Elastic Search index\n" "elastic-search "
-  printf "  %s   Print the database name (lportal)\n" "db-name        "
+  printf "%s\n" "$(bold "Server Commands:")"
+  printf "  %s   Start the server\n" "$(green_bold "run")            "
+  printf "  %s   Open the Gogo Shell\n" "$(green_bold "gogo")           "
+  printf "  %s   Kill the server\n" "$(green_bold "kill")           "
+  printf "  %s   Delete all persisted data\n" "$(green_bold "nuke")           "
+  printf "  %s   Print the current tomcat folder\n" "$(green_bold "tomcat-folder")  "
+  printf "  %s   Query the Elastic Search index\n" "$(green_bold "elastic-search") "
+  printf "  %s   Print the database name (lportal)\n" "$(green_bold "db-name")        "
   echo
-  printf "%s\n" "Commands:"
-  printf "  %s   Sync, build, ij, nuke and run\n" "morning        "
-  printf "  %s   Print the source folder\n" "folder         "
-  printf "  %s   Send predefined HTTP requests to a running portal\n" "curl           "
-  printf "  %s   Backport commits to other branches\n" "backport       "
-  printf "  %s   Open a Jira ticket\n" "jira           "
-  printf "  %s   Initialize cliferay\n" "init           "
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
+  printf "  %s   Print the source folder\n" "$(green_bold "folder")         "
+  printf "  %s   Send predefined HTTP requests to a running portal\n" "$(green_bold "curl")           "
+  printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
+  printf "  %s   Open a Jira ticket\n" "$(green_bold "jira")           "
+  printf "  %s   Initialize cliferay\n" "$(green_bold "init")           "
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -87,7 +87,7 @@ cliferay_usage() {
     echo
 
     # :command.usage_environment_variables
-    printf "%s\n" "Environment Variables:"
+    printf "%s\n" "$(bold "Environment Variables:")"
 
     # :environment_variable.usage
     printf "  %s\n" "LIFERAY_HOME (required)"
@@ -106,14 +106,14 @@ cliferay_usage() {
 cliferay_update_usage() {
   printf "cliferay update - Update cliferay to the latest version\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay update\n"
   printf "  cliferay update --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -127,14 +127,14 @@ cliferay_update_usage() {
 cliferay_sync_usage() {
   printf "cliferay sync - Sync fork and local copy with upstream\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay sync\n"
   printf "  cliferay sync --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -148,14 +148,14 @@ cliferay_sync_usage() {
 cliferay_brian_usage() {
   printf "cliferay brian - Forward an existing PR to Brian and close it\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay brian PR\n"
   printf "  cliferay brian --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -163,7 +163,7 @@ cliferay_brian_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "PR"
@@ -171,7 +171,7 @@ cliferay_brian_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay brian https://github.com/liferay-headless/liferay-portal/pull/1433\n"
     echo
 
@@ -182,14 +182,14 @@ cliferay_brian_usage() {
 cliferay_set_ticket_usage() {
   printf "cliferay set-ticket - Set the Jira ticket on your local commits\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay set-ticket TICKET [OPTIONS]\n"
   printf "  cliferay set-ticket --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -203,7 +203,7 @@ cliferay_set_ticket_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "TICKET"
@@ -211,7 +211,7 @@ cliferay_set_ticket_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay set-ticket LPD-XXXX\n"
     echo
 
@@ -222,14 +222,14 @@ cliferay_set_ticket_usage() {
 cliferay_owner_usage() {
   printf "cliferay owner - Output the owner of a path based on CODEOWNERS\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay owner [PATH]\n"
   printf "  cliferay owner --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -237,7 +237,7 @@ cliferay_owner_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "PATH"
@@ -246,7 +246,7 @@ cliferay_owner_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay owner modules/apps/headless/headless-builder\n"
     echo
 
@@ -257,14 +257,14 @@ cliferay_owner_usage() {
 cliferay_tickets_usage() {
   printf "cliferay tickets - Get all Jira tickets from the output of git log\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay tickets\n"
   printf "  cliferay tickets --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -272,7 +272,7 @@ cliferay_tickets_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  git log | cliferay tickets\n"
     echo
 
@@ -283,24 +283,24 @@ cliferay_tickets_usage() {
 cliferay_stats_usage() {
   printf "cliferay stats - Calculate different Git stats\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats COMMAND\n"
   printf "  cliferay stats [COMMAND] --help | -h\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "Commands:"
-  printf "  %s   Get info about users\n" "users   "
-  printf "  %s   Shows commit count per year\n" "years   "
-  printf "  %s   Shows commit ranking\n" "ranking "
-  printf "  %s   Shows tickets worked on based on commits\n" "tickets "
-  printf "  %s   Print the commits for the user\n" "commits "
-  printf "  %s   Writes a review based on git and jira stats\n" "review  "
-  printf "  %s   Shows tickets assigned during the quarter\n" "assigned"
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Get info about users\n" "$(green_bold "users")   "
+  printf "  %s   Shows commit count per year\n" "$(green_bold "years")   "
+  printf "  %s   Shows commit ranking\n" "$(green_bold "ranking") "
+  printf "  %s   Shows tickets worked on based on commits\n" "$(green_bold "tickets") "
+  printf "  %s   Print the commits for the user\n" "$(green_bold "commits") "
+  printf "  %s   Writes a review based on git and jira stats\n" "$(green_bold "review")  "
+  printf "  %s   Shows tickets assigned during the quarter\n" "$(green_bold "assigned")"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -314,19 +314,19 @@ cliferay_stats_usage() {
 cliferay_stats_users_usage() {
   printf "cliferay stats users - Get info about users\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats users COMMAND\n"
   printf "  cliferay stats users [COMMAND] --help | -h\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "Commands:"
-  printf "  %s   Shows the jira id\n" "jira  "
-  printf "  %s   Shows the user git emails\n" "emails"
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Shows the jira id\n" "$(green_bold "jira")  "
+  printf "  %s   Shows the user git emails\n" "$(green_bold "emails")"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -340,14 +340,14 @@ cliferay_stats_users_usage() {
 cliferay_stats_users_jira_usage() {
   printf "cliferay stats users jira - Shows the jira id\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats users jira USER\n"
   printf "  cliferay stats users jira --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -355,7 +355,7 @@ cliferay_stats_users_jira_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -363,7 +363,7 @@ cliferay_stats_users_jira_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats users jira alejandro.tardin\n"
     echo
 
@@ -374,14 +374,14 @@ cliferay_stats_users_jira_usage() {
 cliferay_stats_users_emails_usage() {
   printf "cliferay stats users emails - Shows the user git emails\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats users emails USER\n"
   printf "  cliferay stats users emails --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -389,7 +389,7 @@ cliferay_stats_users_emails_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -397,7 +397,7 @@ cliferay_stats_users_emails_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats users emails alejandro.tardin\n"
     echo
 
@@ -408,14 +408,14 @@ cliferay_stats_users_emails_usage() {
 cliferay_stats_years_usage() {
   printf "cliferay stats years - Shows commit count per year\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats years [USER]\n"
   printf "  cliferay stats years --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -423,7 +423,7 @@ cliferay_stats_years_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -431,7 +431,7 @@ cliferay_stats_years_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats years alejandro.tardin\n"
     echo
 
@@ -442,14 +442,14 @@ cliferay_stats_years_usage() {
 cliferay_stats_ranking_usage() {
   printf "cliferay stats ranking - Shows commit ranking\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats ranking [EMAILS...]\n"
   printf "  cliferay stats ranking --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -457,7 +457,7 @@ cliferay_stats_ranking_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "EMAILS..."
@@ -465,7 +465,7 @@ cliferay_stats_ranking_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats ranking alejandro.tardin@liferay.com\n"
     echo
 
@@ -476,14 +476,14 @@ cliferay_stats_ranking_usage() {
 cliferay_stats_tickets_usage() {
   printf "cliferay stats tickets - Shows tickets worked on based on commits\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats tickets [USER]\n"
   printf "  cliferay stats tickets --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -491,7 +491,7 @@ cliferay_stats_tickets_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -499,7 +499,7 @@ cliferay_stats_tickets_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats tickets alejandro.tardin\n"
     echo
 
@@ -510,14 +510,14 @@ cliferay_stats_tickets_usage() {
 cliferay_stats_commits_usage() {
   printf "cliferay stats commits - Print the commits for the user\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats commits [USER]\n"
   printf "  cliferay stats commits --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -525,7 +525,7 @@ cliferay_stats_commits_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -533,7 +533,7 @@ cliferay_stats_commits_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats commits alejandro.tardin@liferay.com\n"
     echo
 
@@ -544,14 +544,14 @@ cliferay_stats_commits_usage() {
 cliferay_stats_review_usage() {
   printf "cliferay stats review - Writes a review based on git and jira stats\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats review [USER]\n"
   printf "  cliferay stats review --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -559,7 +559,7 @@ cliferay_stats_review_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -567,7 +567,7 @@ cliferay_stats_review_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats review alejandro.tardin@liferay.com\n"
     echo
 
@@ -578,14 +578,14 @@ cliferay_stats_review_usage() {
 cliferay_stats_assigned_usage() {
   printf "cliferay stats assigned - Shows tickets assigned during the quarter\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay stats assigned [USER]\n"
   printf "  cliferay stats assigned --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -593,7 +593,7 @@ cliferay_stats_assigned_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "USER"
@@ -601,7 +601,7 @@ cliferay_stats_assigned_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay stats assigned alejandro.tardin\n"
     echo
 
@@ -612,14 +612,14 @@ cliferay_stats_assigned_usage() {
 cliferay_build_usage() {
   printf "cliferay build - Run ant all\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay build\n"
   printf "  cliferay build --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -633,14 +633,14 @@ cliferay_build_usage() {
 cliferay_ij_usage() {
   printf "cliferay ij - Run liferay-intellij\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay ij\n"
   printf "  cliferay ij --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -654,14 +654,14 @@ cliferay_ij_usage() {
 cliferay_gw_usage() {
   printf "cliferay gw - Run gradlew\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay gw [--] [...]\n"
   printf "  cliferay gw --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -675,14 +675,14 @@ cliferay_gw_usage() {
 cliferay_ant_usage() {
   printf "cliferay ant - Run ant\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay ant [--] [...]\n"
   printf "  cliferay ant --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -698,14 +698,14 @@ cliferay_changed_modules_usage() {
   printf "Alias: cm\n"
   echo
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay changed-modules [OPTIONS]\n"
   printf "  cliferay changed-modules --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -727,14 +727,14 @@ cliferay_super_deploy_usage() {
   printf "Alias: sd\n"
   echo
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay super-deploy [OPTIONS]\n"
   printf "  cliferay super-deploy --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -756,14 +756,14 @@ cliferay_format_source_usage() {
   printf "Alias: sf\n"
   echo
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay format-source\n"
   printf "  cliferay format-source --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -779,14 +779,14 @@ cliferay_deploy_usage() {
   printf "Alias: d\n"
   echo
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay deploy\n"
   printf "  cliferay deploy --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -800,14 +800,14 @@ cliferay_deploy_usage() {
 cliferay_baseline_usage() {
   printf "cliferay baseline - Run baseline in the current folder\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay baseline\n"
   printf "  cliferay baseline --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -821,14 +821,14 @@ cliferay_baseline_usage() {
 cliferay_poshi_usage() {
   printf "cliferay poshi - Run a Poshi test\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay poshi TEST\n"
   printf "  cliferay poshi --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -836,7 +836,7 @@ cliferay_poshi_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "TEST"
@@ -844,7 +844,7 @@ cliferay_poshi_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay poshi GeneratePathStructureForEndpoints#CanValidatePathInAPIEndpoint\n"
     echo
 
@@ -855,14 +855,14 @@ cliferay_poshi_usage() {
 cliferay_build_rest_usage() {
   printf "cliferay build-rest - Run buildREST globally\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay build-rest\n"
   printf "  cliferay build-rest --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -870,7 +870,7 @@ cliferay_build_rest_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay build-rest\n"
     echo
 
@@ -881,14 +881,14 @@ cliferay_build_rest_usage() {
 cliferay_run_usage() {
   printf "cliferay run - Start the server\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay run [COMMAND]\n"
   printf "  cliferay run --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -896,7 +896,7 @@ cliferay_run_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "COMMAND"
@@ -910,14 +910,14 @@ cliferay_run_usage() {
 cliferay_gogo_usage() {
   printf "cliferay gogo - Open the Gogo Shell\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay gogo [--] [COMMAND...]\n"
   printf "  cliferay gogo --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -925,14 +925,14 @@ cliferay_gogo_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     echo "  COMMAND..."
     printf "    Optional Gogo shell command to run\n"
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay gogo\n"
     printf "  cliferay gogo unsatisfied\n"
     printf "  cliferay gogo jaxrs:check\n"
@@ -945,14 +945,14 @@ cliferay_gogo_usage() {
 cliferay_kill_usage() {
   printf "cliferay kill - Kill the server\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay kill\n"
   printf "  cliferay kill --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -966,14 +966,14 @@ cliferay_kill_usage() {
 cliferay_nuke_usage() {
   printf "cliferay nuke - Delete all persisted data\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay nuke\n"
   printf "  cliferay nuke --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -987,14 +987,14 @@ cliferay_nuke_usage() {
 cliferay_tomcat_folder_usage() {
   printf "cliferay tomcat-folder - Print the current tomcat folder\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay tomcat-folder\n"
   printf "  cliferay tomcat-folder --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1008,14 +1008,14 @@ cliferay_tomcat_folder_usage() {
 cliferay_elastic_search_usage() {
   printf "cliferay elastic-search - Query the Elastic Search index\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay elastic-search\n"
   printf "  cliferay elastic-search --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1029,14 +1029,14 @@ cliferay_elastic_search_usage() {
 cliferay_db_name_usage() {
   printf "cliferay db-name - Print the database name (lportal)\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay db-name\n"
   printf "  cliferay db-name --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1050,14 +1050,14 @@ cliferay_db_name_usage() {
 cliferay_morning_usage() {
   printf "cliferay morning - Sync, build, ij, nuke and run\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay morning [OPTIONS]\n"
   printf "  cliferay morning --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -1082,14 +1082,14 @@ cliferay_morning_usage() {
 cliferay_folder_usage() {
   printf "cliferay folder - Print the source folder\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay folder\n"
   printf "  cliferay folder --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1103,14 +1103,14 @@ cliferay_folder_usage() {
 cliferay_completions_usage() {
   printf "cliferay completions - Print completions script\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay completions\n"
   printf "  cliferay completions --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1124,14 +1124,14 @@ cliferay_completions_usage() {
 cliferay_aliases_usage() {
   printf "cliferay aliases - Print aliases script\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay aliases\n"
   printf "  cliferay aliases --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1145,21 +1145,21 @@ cliferay_aliases_usage() {
 cliferay_curl_usage() {
   printf "cliferay curl - Send predefined HTTP requests to a running portal\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay curl COMMAND\n"
   printf "  cliferay curl [COMMAND] --help | -h\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "Commands:"
-  printf "  %s   Create a new instance\n" "new-instance"
-  printf "  %s   Create a new API Builder API\n" "new-api     "
-  printf "  %s   Create a new object definition with some entries\n" "new-object  "
-  printf "  %s   Import a new object entry with batch\n" "batch-import"
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Create a new instance\n" "$(green_bold "new-instance")"
+  printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")     "
+  printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")  "
+  printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1173,14 +1173,14 @@ cliferay_curl_usage() {
 cliferay_curl_new_instance_usage() {
   printf "cliferay curl new-instance - Create a new instance\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay curl new-instance HOST\n"
   printf "  cliferay curl new-instance --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1188,7 +1188,7 @@ cliferay_curl_new_instance_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "HOST"
@@ -1196,7 +1196,7 @@ cliferay_curl_new_instance_usage() {
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
+    printf "%s\n" "$(bold "Examples:")"
     printf "  cliferay curl new-instance www.able.com\n"
     echo
 
@@ -1207,14 +1207,14 @@ cliferay_curl_new_instance_usage() {
 cliferay_curl_new_api_usage() {
   printf "cliferay curl new-api - Create a new API Builder API\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay curl new-api\n"
   printf "  cliferay curl new-api --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1228,14 +1228,14 @@ cliferay_curl_new_api_usage() {
 cliferay_curl_new_object_usage() {
   printf "cliferay curl new-object - Create a new object definition with some entries\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay curl new-object\n"
   printf "  cliferay curl new-object --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1249,14 +1249,14 @@ cliferay_curl_new_object_usage() {
 cliferay_curl_batch_import_usage() {
   printf "cliferay curl batch-import - Import a new object entry with batch\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay curl batch-import\n"
   printf "  cliferay curl batch-import --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1272,14 +1272,14 @@ cliferay_backport_usage() {
   printf "Alias: b\n"
   echo
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay backport TEXT [OPTIONS]\n"
   printf "  cliferay backport --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -1293,7 +1293,7 @@ cliferay_backport_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "TEXT"
@@ -1307,14 +1307,14 @@ cliferay_backport_usage() {
 cliferay_jira_usage() {
   printf "cliferay jira - Open a Jira ticket\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay jira [TICKET]\n"
   printf "  cliferay jira --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1322,7 +1322,7 @@ cliferay_jira_usage() {
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
     printf "  %s\n" "TICKET"
@@ -1336,14 +1336,14 @@ cliferay_jira_usage() {
 cliferay_init_usage() {
   printf "cliferay init - Initialize cliferay\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  cliferay init [OPTIONS]\n"
   printf "  cliferay init --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
@@ -1432,6 +1432,47 @@ inspect_args() {
 }
 
 # :command.user_lib
+# src/lib/colors.sh
+print_in_color() {
+  local color="$1"
+  shift
+  if [[ -z ${NO_COLOR+x} ]]; then
+    printf "$color%b\e[0m\n" "$*"
+  else
+    printf "%b\n" "$*"
+  fi
+}
+
+red() { print_in_color "\e[31m" "$*"; }
+green() { print_in_color "\e[32m" "$*"; }
+yellow() { print_in_color "\e[33m" "$*"; }
+blue() { print_in_color "\e[34m" "$*"; }
+magenta() { print_in_color "\e[35m" "$*"; }
+cyan() { print_in_color "\e[36m" "$*"; }
+black() { print_in_color "\e[30m" "$*"; }
+white() { print_in_color "\e[37m" "$*"; }
+
+bold() { print_in_color "\e[1m" "$*"; }
+underlined() { print_in_color "\e[4m" "$*"; }
+
+red_bold() { print_in_color "\e[1;31m" "$*"; }
+green_bold() { print_in_color "\e[1;32m" "$*"; }
+yellow_bold() { print_in_color "\e[1;33m" "$*"; }
+blue_bold() { print_in_color "\e[1;34m" "$*"; }
+magenta_bold() { print_in_color "\e[1;35m" "$*"; }
+cyan_bold() { print_in_color "\e[1;36m" "$*"; }
+black_bold() { print_in_color "\e[1;30m" "$*"; }
+white_bold() { print_in_color "\e[1;37m" "$*"; }
+
+red_underlined() { print_in_color "\e[4;31m" "$*"; }
+green_underlined() { print_in_color "\e[4;32m" "$*"; }
+yellow_underlined() { print_in_color "\e[4;33m" "$*"; }
+blue_underlined() { print_in_color "\e[4;34m" "$*"; }
+magenta_underlined() { print_in_color "\e[4;35m" "$*"; }
+cyan_underlined() { print_in_color "\e[4;36m" "$*"; }
+black_underlined() { print_in_color "\e[4;30m" "$*"; }
+white_underlined() { print_in_color "\e[4;37m" "$*"; }
+
 # src/lib/functions.sh
 function get-module() {
 	while read line

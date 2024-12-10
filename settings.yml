@@ -1,1 +1,4 @@
 commands_dir: commands
+usage_colors:
+  caption: bold
+  command: green_bold
