@@ -1,0 +1,1 @@
+echo $(dirname "$(readlink -f "$0")")/../.data

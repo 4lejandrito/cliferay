@@ -23,6 +23,11 @@ commands:
     private: true
     group: cliferay
   
+  - name: data-folder
+    help: Print the data folder
+    private: true
+    group: cliferay
+
   - name: init
     help: Initialize cliferay
     dependencies:

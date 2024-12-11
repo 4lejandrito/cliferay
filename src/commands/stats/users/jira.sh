@@ -1,1 +1,1 @@
-grep "^${args["user"]}" $(dirname "$(readlink -f "$0")")/users | awk '{print $2}'
+grep "^${args["user"]}" $(cliferay data-folder)/users | awk '{print $2}'
