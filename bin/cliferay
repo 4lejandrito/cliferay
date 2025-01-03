@@ -715,7 +715,7 @@ cliferay() {
     echo
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay changed-modules [OPTIONS]\n"
+    printf "  cliferay changed-modules [FOLDER] [OPTIONS]\n"
     printf "  cliferay changed-modules --help | -h\n"
     echo
 
@@ -732,6 +732,14 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "FOLDER"
+      printf "    The root folder to compare.\n"
       echo
 
     fi
@@ -909,7 +917,7 @@ cliferay() {
     echo
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay super-deploy [OPTIONS]\n"
+    printf "  cliferay super-deploy [FOLDER] [OPTIONS]\n"
     printf "  cliferay super-deploy --help | -h\n"
     echo
 
@@ -926,6 +934,14 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "FOLDER"
+      printf "    The root folder to compare.\n"
       echo
 
     fi
@@ -1580,10 +1596,6 @@ cliferay() {
   		echo "" | (cd $(cliferay folder)/$line; $*)
   	done
   	set -e
-  }
-
-  function liferay-get-modules() {
-  	(cd $(cliferay folder) && $* --name-only | get-module | uniq)
   }
 
   function liferay-curl() {
@@ -2330,8 +2342,9 @@ EOF
   cliferay_changed_modules_command() {
 
     # src/commands/changed-modules.sh
+    FOLDER=$(realpath ${args["folder"]:-$(cliferay folder)} --relative-to $(cliferay folder))
     cd $(cliferay folder)
-    liferay-get-modules git diff --name-only ${args["--branch"]:-master}
+    git diff --name-only ${args["--branch"]:-master} $FOLDER | get-module | uniq
   }
 
   # :command.function
@@ -2421,9 +2434,8 @@ EOF
   cliferay_super_deploy_command() {
 
     # src/commands/super-deploy.sh
-    cd $(cliferay folder)
-    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
-    cliferay changed-modules --branch ${args["--branch"]:-master} | run-stdin cliferay deploy
+    (cliferay changed-modules --branch ${args["--branch"]:-master} ${args["folder"]} | run-stdin cliferay deploy)
+    (cliferay changed-modules --branch ${args["--branch"]:-master} ${args["folder"]} | run-stdin cliferay deploy)
   }
 
   # :command.function
@@ -4272,8 +4284,14 @@ EOF
         *)
           # :command.parse_requirements_case
           # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
+          # :argument.case
+          if [[ -z ${args['folder']+x} ]]; then
+            args['folder']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
 
           ;;
 
@@ -4630,8 +4648,14 @@ EOF
         *)
           # :command.parse_requirements_case
           # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
+          # :argument.case
+          if [[ -z ${args['folder']+x} ]]; then
+            args['folder']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
 
           ;;
 

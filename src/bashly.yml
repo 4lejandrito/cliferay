@@ -182,6 +182,9 @@ commands:
   - name: changed-modules
     alias: cm
     help: List changed modules
+    args:
+      - name: folder
+        help: The root folder to compare.
     flags:
       - long: --branch
         short: -b
@@ -236,6 +239,9 @@ commands:
   - name: super-deploy
     alias: sd
     help: Deploy changed modules
+    args:
+      - name: folder
+        help: The root folder to compare.
     flags:
       - long: --branch
         short: -b

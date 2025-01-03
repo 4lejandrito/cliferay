@@ -1,2 +1,3 @@
+FOLDER=$(realpath ${args["folder"]:-$(cliferay folder)} --relative-to $(cliferay folder))
 cd $(cliferay folder)
-liferay-get-modules git diff --name-only ${args["--branch"]:-master}
+git diff --name-only ${args["--branch"]:-master} $FOLDER | get-module | uniq

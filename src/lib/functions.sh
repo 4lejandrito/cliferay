@@ -18,10 +18,6 @@ function run-stdin() {
 	set -e
 }
 
-function liferay-get-modules() {
-	(cd $(cliferay folder) && $* --name-only | get-module | uniq)
-}
-
 function liferay-curl() {
 	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
 }
