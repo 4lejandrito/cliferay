@@ -23,24 +23,42 @@ function liferay-curl() {
 }
 
 function get_current_quarter() {
-	current_year=$(date '+%Y')
+    current_year=$(date '+%Y')
     month=$(date '+%m')
-    case $month in
-        01|02|03)
+
+    if [ -n "$Q" ]; then
+        current_year=$(echo "$Q" | cut -d'-' -f1)
+        quarter=$(echo "$Q" | cut -d'-' -f2 | tr -d 'q')
+    else
+        case $month in
+            01|02|03) quarter=1 ;;
+            04|05|06) quarter=2 ;;
+            07|08|09) quarter=3 ;;
+            10|11|12) quarter=4 ;;
+        esac
+    fi
+    
+    case $quarter in
+        1)
             since="${current_year}-01-01"
             until="${current_year}-04-01"
             ;;
-        04|05|06)
+        2)
             since="${current_year}-04-01"
             until="${current_year}-07-01"
             ;;
-        07|08|09)
+        3)
             since="${current_year}-07-01"
             until="${current_year}-10-01"
             ;;
-        10|11|12)
+        4)
             since="${current_year}-10-01"
             until="$(($current_year + 1))-01-01"
             ;;
+        *)
+            echo "Invalid quarter specified. Use format yyyy-qx (e.g., 2023-q1)."
+            return 1
+            ;;
     esac
 }
+

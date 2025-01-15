@@ -1,6 +1,6 @@
 cd $(cliferay folder)
 get_current_quarter
-echo "This quarter ${args[user]} has:"
+echo "This quarter ($since - $until) ${args[user]} has:"
 echo ""
 echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
 echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
