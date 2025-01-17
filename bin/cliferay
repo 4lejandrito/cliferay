@@ -616,13 +616,19 @@ cliferay() {
     printf "cliferay run - Start the server\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay run [COMMAND]\n"
+    printf "  cliferay run [COMMAND] [OPTIONS]\n"
     printf "  cliferay run --help | -h\n"
     echo
 
     # :command.long_usage
     if [[ -n "$long_usage" ]]; then
       printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--clustered, -c"
+      printf "    Launch portal in dual-cluster mode\n"
+      echo
 
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
@@ -1827,7 +1833,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'run\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--clustered --help -c -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'ant\'*)'
@@ -2315,6 +2321,12 @@ EOF
 
     include-and-override=\${liferay.home}/portal-custom.properties
     " > $BUNDLES/portal-ext.properties
+
+    if [[ ${args[--clustered]} -eq 1 ]]; then
+      echo "
+        # Portal clustered mode enabled
+        cluster.link.enabled=true" >> $BUNDLES/portal-ext.properties
+    fi
 
     if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
         echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
@@ -4093,6 +4105,13 @@ EOF
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
+        # :flag.case
+        --clustered | -c)
+
+          # :flag.case_no_arg
+          args['--clustered']=1
+          shift
+          ;;
 
         -?*)
           printf "invalid option: %s\n" "$key" >&2
