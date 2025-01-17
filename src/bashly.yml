@@ -161,6 +161,10 @@ commands:
       - name: command
         help: Tomcat command (jpda by default)
         required: false
+    flags:
+      - long: --clustered
+        short: -c
+        help: Launch portal in dual-cluster mode
 
   - name: tomcat-folder
     help: Print the current tomcat folder

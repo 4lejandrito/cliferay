@@ -36,6 +36,12 @@ module.framework.properties.osgi.console=11311
 include-and-override=\${liferay.home}/portal-custom.properties
 " > $BUNDLES/portal-ext.properties
 
+if [[ ${args[--clustered]} -eq 1 ]]; then
+  echo "
+    # Portal clustered mode enabled
+    cluster.link.enabled=true" >> $BUNDLES/portal-ext.properties
+fi
+
 if [ ! -f "$BUNDLES/portal-custom.properties" ]; then
     echo "# Override your config here, don't touch portal-ext.properties" > $BUNDLES/portal-custom.properties
 fi
