@@ -93,11 +93,13 @@ if [[ ${args[--clustered]} -eq 1 ]]; then
 
   # Add the necessary elasticsearch7 configurations for clustering with second node
   mkdir -p $BUNDLES2/osgi/configs
-  echo '
+  cat <<EOF > "$BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config"
   operationMode="REMOTE"
   networkHostAddresses=["http://localhost:9201"]
   clusterName="LiferayElasticsearchCluster"
-  ' > $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.config
+EOF
+
+  sed -i 's/^[ \t]*//' $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
 
   BUNDLES2_TOMCAT_FOLDER=$(cliferay tomcat-folder | sed 's|/bundles/|/bundles2/|')
 
