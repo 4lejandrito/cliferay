@@ -97,7 +97,9 @@ if [[ ${args[--clustered]} -eq 1 ]]; then
   operationMode="REMOTE"
   networkHostAddresses=["http://localhost:9201"]
   clusterName="LiferayElasticsearchCluster"
-  ' > $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.config
+  ' > $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
+
+  sed -i 's/^[ \t]*//' $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
 
   BUNDLES2_TOMCAT_FOLDER=$(cliferay tomcat-folder | sed 's|/bundles/|/bundles2/|')
 
