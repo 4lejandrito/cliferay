@@ -99,8 +99,10 @@ if [[ ${args[--clustered]} -eq 1 ]]; then
   clusterName="LiferayElasticsearchCluster"
   ' > $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.config
 
+  BUNDLES2_TOMCAT_FOLDER=$(cliferay tomcat-folder | sed 's|/bundles/|/bundles2/|')
+
   # Modify the second node ports to avoid collision
-  sed -i -e 's/8080/9080/g' -e 's/8005/9005/g' -e 's/8443/9443/g' "$BUNDLES2/tomcat-9.0.98/conf/server.xml"
+  sed -i -e 's/8080/9080/g' -e 's/8005/9005/g' -e 's/8443/9443/g' "$BUNDLES2_TOMCAT_FOLDER/conf/server.xml"
 
 fi
 
