@@ -356,7 +356,14 @@ commands:
             help: The user.
         examples:
           - cliferay stats assigned alejandro.tardin
-
+      - name: headless-summary
+        help: Shows tickets grouped by folder
+        args:
+          - name: user
+            help: The user.
+            required: true
+        examples:
+          - cliferay stats headless-summary alejandro.tardin
   - name: sync
     help: Sync fork and local copy with upstream
     group: Git
