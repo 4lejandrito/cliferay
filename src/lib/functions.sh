@@ -57,3 +57,7 @@ function get_current_period() {
     fi
 }
 
+function get_git_log_period() {
+    get_current_period
+    echo "--since=\"$since\" --until=\"$until\""
+}
