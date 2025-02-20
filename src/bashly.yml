@@ -350,7 +350,7 @@ commands:
         examples:
           - cliferay stats review alejandro.tardin@liferay.com
       - name: assigned
-        help: Shows tickets assigned during the quarter
+        help: Shows tickets ever assigned to the user
         args:
           - name: user
             help: The user.

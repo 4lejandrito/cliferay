@@ -1074,7 +1074,7 @@ cliferay() {
     printf "  %s   Shows tickets worked on based on commits\n" "$(green_bold "tickets") "
     printf "  %s   Print the commits for the user\n" "$(green_bold "commits") "
     printf "  %s   Writes a review based on git and jira stats\n" "$(green_bold "review")  "
-    printf "  %s   Shows tickets assigned during the quarter\n" "$(green_bold "assigned")"
+    printf "  %s   Shows tickets ever assigned to the user\n" "$(green_bold "assigned")"
     echo
 
     # :command.long_usage
@@ -1355,7 +1355,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_assigned_usage() {
-    printf "cliferay stats assigned - Shows tickets assigned during the quarter\n\n"
+    printf "cliferay stats assigned - Shows tickets ever assigned to the user\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats assigned [USER]\n"
@@ -1602,44 +1602,39 @@ cliferay() {
   	curl --no-progress-meter -u 'test@liferay.com:test' "$@" | jq
   }
 
-  function get_current_quarter() {
+  function get_current_period() {
       current_year=$(date '+%Y')
       month=$(date '+%m')
 
       if [ -n "$Q" ]; then
           current_year=$(echo "$Q" | cut -d'-' -f1)
           quarter=$(echo "$Q" | cut -d'-' -f2 | tr -d 'q')
-      else
-          case $month in
-              01|02|03) quarter=1 ;;
-              04|05|06) quarter=2 ;;
-              07|08|09) quarter=3 ;;
-              10|11|12) quarter=4 ;;
+          case $quarter in
+              1)
+                  since="${current_year}-01-01"
+                  until="${current_year}-04-01"
+                  ;;
+              2)
+                  since="${current_year}-04-01"
+                  until="${current_year}-07-01"
+                  ;;
+              3)
+                  since="${current_year}-07-01"
+                  until="${current_year}-10-01"
+                  ;;
+              4)
+                  since="${current_year}-10-01"
+                  until="$(($current_year + 1))-01-01"
+                  ;;
+              *)
+                  echo "Invalid quarter specified. Use format yyyy-qx (e.g., 2023-q1)."
+                  return 1
+                  ;;
           esac
+      else
+          since="2000-01-01"
+          until="${current_year}-12-31"
       fi
-
-      case $quarter in
-          1)
-              since="${current_year}-01-01"
-              until="${current_year}-04-01"
-              ;;
-          2)
-              since="${current_year}-04-01"
-              until="${current_year}-07-01"
-              ;;
-          3)
-              since="${current_year}-07-01"
-              until="${current_year}-10-01"
-              ;;
-          4)
-              since="${current_year}-10-01"
-              until="$(($current_year + 1))-01-01"
-              ;;
-          *)
-              echo "Invalid quarter specified. Use format yyyy-qx (e.g., 2023-q1)."
-              return 1
-              ;;
-      esac
   }
 
   # src/lib/send_completions.sh
@@ -2546,7 +2541,7 @@ EOF
     # src/commands/stats/ranking.sh
     cd $(cliferay folder)
     emails=${args[emails]:-}
-    get_current_quarter
+    get_current_period
     git log --since="$since" --until="$until" --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
   }
 
@@ -2555,7 +2550,7 @@ EOF
 
     # src/commands/stats/tickets.sh
     cd $(cliferay folder)
-    get_current_quarter
+    get_current_period
     git log --since="$since" --until="$until" --pretty=format:'%h %s' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
   }
 
@@ -2564,7 +2559,7 @@ EOF
 
     # src/commands/stats/commits.sh
     cd $(cliferay folder)
-    get_current_quarter
+    get_current_period
     git log --since="$since" --until="$until" --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
   }
 
@@ -2573,8 +2568,8 @@ EOF
 
     # src/commands/stats/review.sh
     cd $(cliferay folder)
-    get_current_quarter
-    echo "This quarter ($since - $until) ${args[user]} has:"
+    get_current_period
+    echo "This period ($since - $until) ${args[user]} has:"
     echo ""
     echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
     echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
@@ -2589,7 +2584,7 @@ EOF
   cliferay_stats_assigned_command() {
 
     # src/commands/stats/assigned.sh
-    get_current_quarter
+    get_current_period
     jira issue list -q "assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY" | cliferay tickets
 
   }
