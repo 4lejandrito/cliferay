@@ -382,3 +382,26 @@ commands:
       - name: ticket
         help: The ticket reference (LPD-1234). If not present it will be extracted from the git branch name.
     group: Jira
+
+  # Alex
+
+  - name: todo
+    help: Create a todo in Trello
+    environment_variables:
+        - name: TRELLO_API_KEY
+          help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
+          required: true
+        - name: TRELLO_TOKEN
+          help: Your Trello Token https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY
+          required: true
+        - name: TRELLO_LIST_ID
+          help: Your Trello List Id https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862
+          required: true
+    catch_all:
+      label: title
+      help: The todo title
+      required: true
+    examples:
+          - cliferay todo Complete 100% of the milestone
+          - cliferay todo Review PR http://gihub.com/...
+    group: GTD

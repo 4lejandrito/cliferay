@@ -60,6 +60,9 @@ Git Commands:
 Jira Commands:
   jira              Open a Jira ticket in the browser
 
+GTD Commands:
+  todo              Create a todo in Trello
+
 Options:
   --help, -h
     Show this help
