@@ -96,7 +96,7 @@ Environment Variables:
 
 ## Contributing
 
-`cliferay` has been created with https://bashly.dannyb.co. To be able to contribute you'll need to get familiar with it first.
+`cliferay` has been created with https://bashly.dev. To be able to contribute you'll need to get familiar with it first.
 
 ### Modify an existing command
 1. Make the change inside `src/commands`.
