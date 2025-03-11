@@ -165,6 +165,7 @@ commands:
       - long: --clustered
         short: -c
         help: Launch portal in dual-cluster mode
+        private: true
 
   - name: tomcat-folder
     help: Print the current tomcat folder
