@@ -57,3 +57,4 @@ if [[ ${args[--clustered]} -eq 1 ]]; then
 fi
 
 $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
+# TODO Run the second instance too
