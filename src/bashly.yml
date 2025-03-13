@@ -388,7 +388,7 @@ commands:
         help: The ticket reference (LPD-1234). If not present it will be extracted from the git branch name.
     group: Jira
 
-  # Alex
+  # GTD
 
   - name: todo
     help: Create a todo in Trello
