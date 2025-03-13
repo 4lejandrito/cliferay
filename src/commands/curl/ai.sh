@@ -8,34 +8,30 @@ jq -n --arg input "${args[prompt]}" --arg openapis "$(liferay-curl -s "http://lo
       {"role": "system", "content": "You are a helpful assistant that will select the most relevant OpenAPI URL based on the prompt. Here are the available OpenAPIs:\n\n\($openapis)"},
       {"role": "user", "content": "\($input)"}
     ],
-    "tools": [
-      {
-        "type": "function",
-        "function": {
-          "strict": true,
-          "name": "select_openapi",
-          "description": "Return the OpenAPI URL.",
-          "parameters": {
-            "type": "object",
-            "properties": {
-              "url": {
-                "type": "string",
-                "description": "The OpenAPI URL."
-              }
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "openapi_url_response",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "The selected OpenAPI URL"
             },
-            "additionalProperties": false,
-            "required": ["url"]
-          }
-        }
+          },
+          "required": ["url"],
+          "additionalProperties": false
+        },
+        "strict": true
       }
-    ],
-    "tool_choice": {"type": "function", "function": {"name": "select_openapi"}}
+    }
 }' >$OPENAI_REQUEST_FILE
 
 OPENAPI_URL=$(curl -s -X POST "https://api.openai.com/v1/chat/completions" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
-  -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.tool_calls[0].function.arguments' | jq -r '.url')
+  -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.content' | jq -r '.url')
 
 curl -s "$OPENAPI_URL" -u test@liferay.com:test >$OPENAPI_FILE
 
@@ -55,34 +51,30 @@ jq -n --arg input "${args[prompt]}" --rawfile openapi $OPENAPI_FILE \
       {"role": "system", "content": "Use this credentials -u test@liferay.com:test"},
       {"role": "user", "content": "\($input)"}
     ],
-    "tools": [
-      {
-        "type": "function",
-        "function": {
-          "strict": true,
-          "name": "generate_curl_command",
-          "description": "Generate a curl command based on user input and OpenAPI specification.",
-          "parameters": {
-            "type": "object",
-            "properties": {
-              "curl_command": {
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "curl_command_response",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "curl_command": {
                 "type": "string",
                 "description": "The generated curl command."
               }
-            },
-            "additionalProperties": false,
-            "required": ["curl_command"]
-          }
-        }
+          },
+          "required": ["curl_command"],
+          "additionalProperties": false
+        },
+        "strict": true
       }
-    ],
-    "tool_choice": {"type": "function", "function": {"name": "generate_curl_command"}}
+    }
 }' >$OPENAI_REQUEST_FILE
 
 CURL_COMMAND=$(curl -s -X POST "https://api.openai.com/v1/chat/completions" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
-  -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.tool_calls[0].function.arguments' | jq -r '.curl_command')
+  -d @$OPENAI_REQUEST_FILE | jq -r '.choices[0].message.content' | jq -r '.curl_command')
 
 if [[ ${args[--generate]} -eq 1 ]]; then
   echo "$CURL_COMMAND"
