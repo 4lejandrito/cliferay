@@ -1,0 +1,1 @@
+curl -s -X GET "https://api.trello.com/1/lists/$TRELLO_LIST_ID/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN&fields=name,shortUrl&limit=10" | jq -r '.[] | "\(.shortUrl) \(.name)"'

@@ -62,6 +62,7 @@ Jira Commands:
 
 GTD Commands:
   todo              Create a todo in Trello
+  todos             Lists todos from Trello
 
 Options:
   --help, -h
