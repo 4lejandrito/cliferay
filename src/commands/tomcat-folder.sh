@@ -1,2 +1,2 @@
 cd $(cliferay folder)/../bundles
-ls -d "$PWD/"** | grep tomcat | tail -n 1
+ls -d "$PWD/"** | grep tomcat | sort --version-sort | tail -n 1
