@@ -425,3 +425,19 @@ commands:
     examples:
       - cliferay todos
     group: GTD
+
+  - name: testray
+    help: Interact with TestRay
+    commands:
+      - name: analyze
+        help: Analyze test failures from the latest TestRay build
+        environment_variables:
+          - name: TESTRAY_JSESSIONID
+            help: Your JSESSIONID cookie from https://testray.liferay.com
+            required: true
+          - name: TESTRAY_CSRF_TOKEN
+            help: Your x-csrf-token header from https://testray.liferay.com
+            required: true
+        examples:
+          - cliferay testray analyze
+    group: GTD
