@@ -12,7 +12,7 @@ dependencies:
 commands:
 
   # cliferay
-  
+
   - name: aliases
     help: Print aliases script
     private: true
@@ -22,7 +22,7 @@ commands:
     help: Print completions script
     private: true
     group: cliferay
-  
+
   - name: data-folder
     help: Print the data folder
     private: true
