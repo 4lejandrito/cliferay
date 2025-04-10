@@ -10,7 +10,6 @@ dependencies:
     command: [gh]
     help: Install it from https://cli.github.com
 commands:
-
   # cliferay
 
   - name: aliases
@@ -87,17 +86,17 @@ commands:
       - name: ai
         help: Run a curl based on a prompt
         environment_variables:
-        - name: OPENAI_API_KEY
-          help: Your OpenAI API Key
-          required: true
+          - name: OPENAI_API_KEY
+            help: Your OpenAI API Key
+            required: true
         args:
-        - name: prompt
-          help: The prompt.
-          required: true
+          - name: prompt
+            help: The prompt.
+            required: true
         flags:
-        - long: --generate
-          short: -g
-          help: Output the command, do not run it
+          - long: --generate
+            short: -g
+            help: Output the command, do not run it
         examples:
           - cliferay curl ai "create a sample blog posting"
           - cliferay curl ai "list all object definitions"
@@ -393,36 +392,36 @@ commands:
   - name: todo
     help: Create a todo in Trello
     environment_variables:
-        - name: TRELLO_API_KEY
-          help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
-          required: true
-        - name: TRELLO_TOKEN
-          help: Your Trello Token https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY
-          required: true
-        - name: TRELLO_LIST_ID
-          help: Your Trello List Id https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862
-          required: true
+      - name: TRELLO_API_KEY
+        help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
+        required: true
+      - name: TRELLO_TOKEN
+        help: Your Trello Token https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY
+        required: true
+      - name: TRELLO_LIST_ID
+        help: Your Trello List Id https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862
+        required: true
     catch_all:
       label: title
       help: The todo title
       required: true
     examples:
-          - cliferay todo Complete 100% of the milestone
-          - cliferay todo Review PR http://gihub.com/...
+      - cliferay todo Complete 100% of the milestone
+      - cliferay todo Review PR http://gihub.com/...
     group: GTD
 
   - name: todos
     help: Lists todos from Trello
     environment_variables:
-        - name: TRELLO_API_KEY
-          help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
-          required: true
-        - name: TRELLO_TOKEN
-          help: Your Trello Token https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY
-          required: true
-        - name: TRELLO_LIST_ID
-          help: Your Trello List Id https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862
-          required: true
+      - name: TRELLO_API_KEY
+        help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
+        required: true
+      - name: TRELLO_TOKEN
+        help: Your Trello Token https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY
+        required: true
+      - name: TRELLO_LIST_ID
+        help: Your Trello List Id https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862
+        required: true
     examples:
-          - cliferay todos
+      - cliferay todos
     group: GTD
