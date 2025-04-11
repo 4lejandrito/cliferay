@@ -1,0 +1,2 @@
+curl --no-progress-meter 'https://testray.liferay.com/o/testray-rest/v1.0/testray-case-result/187773497?status=FAILED&page=1&pageSize=200' -H "x-csrf-token: $TESTRAY_CSRF_TOKEN" -H "Cookie: JSESSIONID=$TESTRAY_JSESSIONID" | jq -r '.items[].testrayCaseName'
+curl -s -u $JIRA_API_USER:$JIRA_API_TOKEN "https://liferay.atlassian.net/rest/api/3/search?jql=parent=LPD-47928&fields=key,self,status" | jq -r '.issues[] | {url: .self, key: .key, status: .fields.status.name}'

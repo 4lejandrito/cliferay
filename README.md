@@ -63,6 +63,7 @@ Jira Commands:
 GTD Commands:
   todo              Create a todo in Trello
   todos             Lists todos from Trello
+  testray           Interact with TestRay
 
 Options:
   --help, -h
