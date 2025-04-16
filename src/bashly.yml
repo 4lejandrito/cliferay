@@ -346,6 +346,13 @@ commands:
             help: The user.
         examples:
           - cliferay stats commits alejandro.tardin@liferay.com
+      - name: folders
+        help: Print the folders changed by the user
+        args:
+          - name: user
+            help: The user.
+        examples:
+          - cliferay stats folders alejandro.tardin@liferay.com
       - name: review
         help: Writes a review based on git and jira stats
         args:
