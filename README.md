@@ -95,6 +95,20 @@ Environment Variables:
     eval "$(cliferay aliases)"
     ```
 
+> [!IMPORTANT]
+> If you're working on macOS, you need to install `coreutils`. You can install it via Homebrew:
+>
+> ```sh
+> brew install coreutils
+> ```
+>
+> Then, add the `gnubin` directory to your `PATH` in your `.zshrc` or `.bashrc`:
+>
+> ```sh
+> # Use coreutils installed via Homebrew: https://www.gnu.org/software/coreutils/
+> export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+> ```
+
 ## Contributing
 
 `cliferay` has been created with https://bashly.dev. To be able to contribute you'll need to get familiar with it first.
