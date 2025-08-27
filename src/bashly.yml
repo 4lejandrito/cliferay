@@ -112,6 +112,8 @@ commands:
         help: Create a new API Builder API
       - name: new-object
         help: Create a new object definition with some entries
+      - name: new-site-object
+        help: Create a new site scoped object definition with some entries
       - name: batch-import
         help: Import a new object entry with batch
     group: Server
