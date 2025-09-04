@@ -35,6 +35,8 @@ module.framework.properties.osgi.console=11311
 
 cluster.link.enabled=$([[ ${args[--clustered]} -eq 1 ]] && echo "true" || echo "false")
 
+virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com
+
 include-and-override=\${liferay.home}/portal-custom.properties
 " > $1/portal-ext.properties
 if [ ! -f "$1/portal-custom.properties" ]; then
