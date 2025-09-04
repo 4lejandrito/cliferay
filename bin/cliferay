@@ -69,7 +69,7 @@ cliferay() {
     echo
     printf "%s\n" "$(bold "GTD Commands:")"
     printf "  %s   Create a todo in Trello\n" "$(green_bold "todo")           "
-    printf "  %s   Lists todos from Trello\n" "$(green_bold "todos")          "
+    printf "  %s   List todos from Trello\n" "$(green_bold "todos")          "
     echo
 
     # :command.long_usage
@@ -1651,7 +1651,7 @@ cliferay() {
 
   # :command.usage
   cliferay_todos_usage() {
-    printf "cliferay todos - Lists todos from Trello\n\n"
+    printf "cliferay todos - List todos from Trello\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay todos\n"

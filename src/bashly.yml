@@ -430,7 +430,7 @@ commands:
     group: GTD
 
   - name: todos
-    help: Lists todos from Trello
+    help: List todos from Trello
     environment_variables:
       - name: TRELLO_API_KEY
         help: Your Trello API Key https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization
