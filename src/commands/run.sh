@@ -25,6 +25,7 @@ liferay.home=$1
 setup.wizard.enabled=false
 terms.of.use.required=false
 passwords.default.policy.change.required=false
+passwords.encryption.algorithm=NONE
 users.reminder.queries.required=false
 users.reminder.queries.enabled=false
 enterprise.product.notification.enabled=false
