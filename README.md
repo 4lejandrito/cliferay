@@ -38,6 +38,7 @@ Server Commands:
   kill              Kill the server
   nuke              Delete all persisted data
   run               Start the server
+  sql               Run a SQL query against the Liferay database
 
 Code Commands:
   baseline          Run baseline in the current folder

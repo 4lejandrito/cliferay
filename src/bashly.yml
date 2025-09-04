@@ -173,6 +173,16 @@ commands:
     group: Server
     private: true
 
+  - name: sql
+    help: Run a SQL query against the Liferay database
+    args:
+      - name: sql
+        help: The SQL query to run.
+        required: true
+    examples:
+      - cliferay sql "SELECT COUNT(*) FROM User_"
+    group: Server
+
   # Code
 
   - name: baseline

@@ -44,6 +44,7 @@ cliferay() {
     printf "  %s   Kill the server\n" "$(green_bold "kill")           "
     printf "  %s   Delete all persisted data\n" "$(green_bold "nuke")           "
     printf "  %s   Start the server\n" "$(green_bold "run")            "
+    printf "  %s   Run a SQL query against the Liferay database\n" "$(green_bold "sql")            "
     echo
     printf "%s\n" "$(bold "Code Commands:")"
     printf "  %s   Run baseline in the current folder\n" "$(green_bold "baseline")       "
@@ -684,6 +685,40 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_sql_usage() {
+    printf "cliferay sql - Run a SQL query against the Liferay database\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay sql SQL\n"
+    printf "  cliferay sql --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "SQL"
+      printf "    The SQL query to run.\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay sql \"SELECT COUNT(*) FROM User_\"\n"
       echo
 
     fi
@@ -1915,7 +1950,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats ranking\'*)'
+    echo $'    \'format-source\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1923,16 +1958,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'format-source\'*)'
+    echo $'    \'stats commits\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats commits\'*)'
+    echo $'    \'stats ranking\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl new-api\'*)'
@@ -1943,15 +1982,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'    \'stats years\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats users\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats years\'*)'
+    echo $'    \'build-rest\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1959,16 +1998,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'build-rest\'*)'
+    echo $'    \'baseline\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'baseline\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl ai\'*)'
@@ -1983,20 +2018,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'brian\'*)'
+    echo $'    \'deploy\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'brian\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'todos\'*)'
@@ -2051,6 +2086,10 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'sql\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'run\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
@@ -2084,7 +2123,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2623,6 +2662,14 @@ EOF
     # src/commands/tomcat-folder.sh
     cd $(cliferay folder)/../bundles
     ls -d "$PWD/"** | grep tomcat | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n 1
+  }
+
+  # :command.function
+  cliferay_sql_command() {
+
+    # src/commands/sql.sh
+    echo "${args["sql"]}" | mysql -uroot -proot $(cliferay db-name)
+
   }
 
   # :command.function
@@ -3176,6 +3223,13 @@ EOF
         action="tomcat-folder"
         shift
         cliferay_tomcat_folder_parse_requirements "$@"
+        shift $#
+        ;;
+
+      sql)
+        action="sql"
+        shift
+        cliferay_sql_parse_requirements "$@"
         shift $#
         ;;
 
@@ -4634,6 +4688,64 @@ EOF
 
       esac
     done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_sql_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_sql_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="sql"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['sql']+x} ]]; then
+            args['sql']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['sql']+x} ]]; then
+      printf "missing required argument: SQL\nusage: cliferay sql SQL\n" >&2
+
+      exit 1
+    fi
 
   }
 
@@ -6419,6 +6531,7 @@ EOF
       "nuke") cliferay_nuke_command ;;
       "run") cliferay_run_command ;;
       "tomcat-folder") cliferay_tomcat_folder_command ;;
+      "sql") cliferay_sql_command ;;
       "baseline") cliferay_baseline_command ;;
       "build-rest") cliferay_build_rest_command ;;
       "changed-modules") cliferay_changed_modules_command ;;
