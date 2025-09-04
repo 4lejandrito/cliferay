@@ -105,7 +105,7 @@ commands:
         args:
           - name: host
             help: The virtual host.
-            required: true
+            default: www.able.com
         examples:
           - cliferay curl new-instance www.able.com
       - name: new-api

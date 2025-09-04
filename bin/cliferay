@@ -406,7 +406,7 @@ cliferay() {
     printf "cliferay curl new-instance - Create a new instance\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay curl new-instance HOST\n"
+    printf "  cliferay curl new-instance [HOST]\n"
     printf "  cliferay curl new-instance --help | -h\n"
     echo
 
@@ -425,6 +425,7 @@ cliferay() {
       # :argument.usage
       printf "  %s\n" "HOST"
       printf "    The virtual host.\n"
+      printf "    %s\n" "Default: www.able.com"
       echo
 
       # :command.usage_examples
@@ -4156,12 +4157,8 @@ EOF
       esac
     done
 
-    # :command.required_args_filter
-    if [[ -z ${args['host']+x} ]]; then
-      printf "missing required argument: HOST\nusage: cliferay curl new-instance HOST\n" >&2
-
-      exit 1
-    fi
+    # :command.default_assignments
+    [[ -n ${args['host']:-} ]] || args['host']="www.able.com"
 
   }
 
