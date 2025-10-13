@@ -1,5 +1,5 @@
 setup_file() {
-    export TMP_DIR=/code/test/tmp
+    export TMP_DIR="$TMPDIR/cliferay"
     rm -rf $TMP_DIR
     mkdir -p $TMP_DIR
     apk add git coreutils jq
