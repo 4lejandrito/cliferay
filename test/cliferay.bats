@@ -3,8 +3,11 @@ setup_file() {
     rm -rf $TMP_DIR
     mkdir -p $TMP_DIR
     apk add git coreutils jq
-    DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" >/dev/null 2>&1 && pwd)"
-    PATH="$DIR/mocks:$DIR/../bin:$PATH"
+    mkdir -p $TMP_DIR/mocks
+    echo "#!/bin/sh" > $TMP_DIR/mocks/gh
+    echo "#!/bin/sh" > $TMP_DIR/mocks/mysql
+    chmod +x $TMP_DIR/mocks/*
+    PATH="$TMP_DIR/mocks:/code/bin:$PATH"
     git config --global --add safe.directory /code
     git config --global init.defaultBranch master
 }
