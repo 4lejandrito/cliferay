@@ -21,7 +21,6 @@ Usage:
   cliferay --version | -v
 
 cliferay Commands:
-  init              Initialize cliferay
   update            Update cliferay to the latest version
 
 Build Commands:

@@ -27,19 +27,6 @@ commands:
     private: true
     group: cliferay
 
-  - name: init
-    help: Initialize cliferay
-    dependencies:
-      jira:
-        command: [jira]
-        help: Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation
-    flags:
-      - long: --email
-        arg: email
-        help: Your Liferay email
-        required: true
-    group: cliferay
-
   - name: update
     help: Update cliferay to the latest version
     group: cliferay
@@ -373,6 +360,13 @@ commands:
         examples:
           - cliferay stats review alejandro.tardin@liferay.com
       - name: assigned
+        environment_variables:
+          - name: JIRA_API_USER
+            help: Your Jira email
+            required: true
+          - name: JIRA_API_TOKEN
+            help: Your Jira API Token https://id.atlassian.com/manage-profile/security/api-tokens
+            required: true
         help: Shows tickets ever assigned to the user
         args:
           - name: user

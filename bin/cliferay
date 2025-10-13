@@ -27,7 +27,6 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "cliferay Commands:")"
-    printf "  %s   Initialize cliferay\n" "$(green_bold "init")           "
     printf "  %s   Update cliferay to the latest version\n" "$(green_bold "update")         "
     echo
     printf "%s\n" "$(bold "Build Commands:")"
@@ -149,33 +148,6 @@ cliferay() {
     # :command.long_usage
     if [[ -n "$long_usage" ]]; then
       printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_init_usage() {
-    printf "cliferay init - Initialize cliferay\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay init [OPTIONS]\n"
-    printf "  cliferay init --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_flags
-      # :flag.usage
-      printf "  %s\n" "--email EMAIL (required)"
-      printf "    Your Liferay email\n"
-      echo
 
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
@@ -1479,6 +1451,19 @@ cliferay() {
       printf "    The user\n"
       echo
 
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "JIRA_API_USER (required)"
+      printf "    Your Jira email\n"
+      echo
+
+      # :environment_variable.usage
+      printf "  %s\n" "JIRA_API_TOKEN (required)"
+      printf "    Your Jira API Token\n    https://id.atlassian.com/manage-profile/security/api-tokens\n"
+      echo
+
       # :command.usage_examples
       printf "%s\n" "$(bold "Examples:")"
       printf "  cliferay stats assigned alejandro.tardin\n"
@@ -1922,11 +1907,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-instance\'*)'
+    echo $'    \'curl batch-import\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl batch-import\'*)'
+    echo $'    \'curl new-instance\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1950,11 +1935,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'format-source\'*)'
+    echo $'    \'stats folders\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats folders\'*)'
+    echo $'    \'format-source\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1962,16 +1947,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats ranking\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'stats tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'    \'stats ranking\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl new-api\'*)'
@@ -1982,15 +1963,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats years\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats users\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'build-rest\'*)'
+    echo $'    \'stats years\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1998,12 +1979,16 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'baseline\'*)'
+    echo $'    \'build-rest\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'baseline\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl ai\'*)'
@@ -2018,20 +2003,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'deploy\'*)'
+    echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'brian\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'todos\'*)'
@@ -2056,10 +2041,6 @@ cliferay() {
     echo $''
     echo $'    \'jira\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'init\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--email --help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'sync\'*)'
@@ -2123,7 +2104,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij init jira kill morning nuke owner poshi run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij jira kill morning nuke owner poshi run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2155,15 +2136,6 @@ cliferay() {
 
     # src/commands/data-folder.sh
     echo $(dirname "$(readlink -f "$0")")/../.data
-  }
-
-  # :command.function
-  cliferay_init_command() {
-
-    # src/commands/init.sh
-    #gh auth login --hostname github.com
-    jira init --force --installation cloud --server "https://liferay.atlassian.net" --project LPD --board None --login "${args["--email"]}"
-
   }
 
   # :command.function
@@ -2965,7 +2937,14 @@ EOF
 
     # src/commands/stats/assigned.sh
     get_current_period
-    jira issue list -q "assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY AND updated >= $since" | cliferay tickets
+
+    JQL="assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY AND updated >= $since"
+
+    curl -s -u "$JIRA_API_USER:$JIRA_API_TOKEN" \
+        -H "Accept: application/json" \
+        "https://liferay.atlassian.net/rest/api/3/search/jql?jql=$(printf '%s' "$JQL" | jq -sRr @uri)&fields=key" \
+        | jq -r '.issues[].key' \
+        | cliferay tickets
 
   }
 
@@ -3121,13 +3100,6 @@ EOF
         action="data-folder"
         shift
         cliferay_data_folder_parse_requirements "$@"
-        shift $#
-        ;;
-
-      init)
-        action="init"
-        shift
-        cliferay_init_parse_requirements "$@"
         shift $#
         ;;
 
@@ -3537,85 +3509,6 @@ EOF
 
       esac
     done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_init_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_init_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.dependencies_filter
-    missing_deps=
-    # :dependency.filter
-    if ! command -v jira >/dev/null 2>&1; then
-      printf "missing dependency: jira\n" >&2
-      printf "%s\n\n" "Install it from https://github.com/ankitpokhrel/jira-cli/wiki/Installation" >&2
-      missing_deps=1
-    else
-      deps['jira']="$(command -v jira | head -n1)"
-    fi
-
-    if [[ -n $missing_deps ]]; then
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="init"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        # :flag.case
-        --email)
-
-          # :flag.case_arg
-          if [[ -n ${2+x} ]]; then
-            args['--email']="$2"
-            shift
-            shift
-          else
-            printf "%s\n" "--email requires an argument: --email EMAIL" >&2
-            exit 1
-          fi
-          ;;
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_flags_filter
-    if [[ -z ${args['--email']+x} ]]; then
-      printf "missing required flag: --email EMAIL\n" >&2
-      exit 1
-    fi
 
   }
 
@@ -6107,6 +6000,19 @@ EOF
       esac
     done
 
+    # :command.environment_variables_filter
+
+    env_var_names+=("JIRA_API_USER")
+    env_var_names+=("JIRA_API_TOKEN")
+    if [[ -z "${JIRA_API_USER:-}" ]]; then
+      printf "missing required environment variable: JIRA_API_USER\n" >&2
+      exit 1
+    fi
+    if [[ -z "${JIRA_API_TOKEN:-}" ]]; then
+      printf "missing required environment variable: JIRA_API_TOKEN\n" >&2
+      exit 1
+    fi
+
     # :command.command_filter
     action="stats assigned"
 
@@ -6509,7 +6415,6 @@ EOF
       "aliases") cliferay_aliases_command ;;
       "completions") cliferay_completions_command ;;
       "data-folder") cliferay_data_folder_command ;;
-      "init") cliferay_init_command ;;
       "update") cliferay_update_command ;;
       "ant") cliferay_ant_command ;;
       "build") cliferay_build_command ;;
