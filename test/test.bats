@@ -11,7 +11,6 @@ setup_file() {
 
 setup() {
     bats_require_minimum_version 1.5.0
-    bats_load_library bats-support
     bats_load_library bats-assert
     bats_load_library bats-file
     export LIFERAY_HOME=$TMP_DIR/liferay/liferay-portal
@@ -105,6 +104,6 @@ setup() {
 }
 
 @test "cliferay ij" {
-    run -127 cliferay ij
+    run -1 cliferay ij
     assert_exists $TMP_DIR/liferay/liferay-intellij/.git
 }
