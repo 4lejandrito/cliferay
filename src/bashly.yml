@@ -9,6 +9,9 @@ dependencies:
   gh:
     command: [gh]
     help: Install it from https://cli.github.com
+  jq:
+    command: [jq]
+    help: Install it from https://jqlang.github.io/jq
 commands:
   # cliferay
 
@@ -65,10 +68,6 @@ commands:
 
   - name: curl
     help: Send HTTP requests to the server
-    dependencies:
-      jq:
-        command: [jq]
-        help: Install it from https://jqlang.github.io/jq
     commands:
       - name: ai
         help: Run a curl based on a prompt
@@ -113,10 +112,6 @@ commands:
   - name: elastic-search
     help: Query the Elastic Search index
     group: Server
-    dependencies:
-      jq:
-        command: [jq]
-        help: Install it from https://jqlang.github.io/jq
 
   - name: gogo
     help: Open the Gogo Shell

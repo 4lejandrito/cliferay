@@ -2,7 +2,7 @@ setup_file() {
     export TMP_DIR=/code/test/tmp
     rm -rf $TMP_DIR
     mkdir -p $TMP_DIR
-    apk add git coreutils
+    apk add git coreutils jq
     DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" >/dev/null 2>&1 && pwd)"
     PATH="$DIR/mocks:$DIR/../bin:$PATH"
     git config --global --add safe.directory /code

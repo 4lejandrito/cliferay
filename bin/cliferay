@@ -3072,6 +3072,15 @@ EOF
       deps['gh']="$(command -v gh | head -n1)"
     fi
 
+    # :dependency.filter
+    if ! command -v jq >/dev/null 2>&1; then
+      printf "missing dependency: jq\n" >&2
+      printf "%s\n\n" "Install it from https://jqlang.github.io/jq" >&2
+      missing_deps=1
+    else
+      deps['jq']="$(command -v jq | head -n1)"
+    fi
+
     if [[ -n $missing_deps ]]; then
       exit 1
     fi
@@ -3828,21 +3837,6 @@ EOF
       esac
     done
 
-    # :command.dependencies_filter
-    missing_deps=
-    # :dependency.filter
-    if ! command -v jq >/dev/null 2>&1; then
-      printf "missing dependency: jq\n" >&2
-      printf "%s\n\n" "Install it from https://jqlang.github.io/jq" >&2
-      missing_deps=1
-    else
-      deps['jq']="$(command -v jq | head -n1)"
-    fi
-
-    if [[ -n $missing_deps ]]; then
-      exit 1
-    fi
-
     # :command.command_filter
     action=${1:-}
 
@@ -4297,21 +4291,6 @@ EOF
 
       esac
     done
-
-    # :command.dependencies_filter
-    missing_deps=
-    # :dependency.filter
-    if ! command -v jq >/dev/null 2>&1; then
-      printf "missing dependency: jq\n" >&2
-      printf "%s\n\n" "Install it from https://jqlang.github.io/jq" >&2
-      missing_deps=1
-    else
-      deps['jq']="$(command -v jq | head -n1)"
-    fi
-
-    if [[ -n $missing_deps ]]; then
-      exit 1
-    fi
 
     # :command.command_filter
     action="elastic-search"
