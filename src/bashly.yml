@@ -13,6 +13,7 @@ dependencies:
     command: [jq]
     help: Install it from https://jqlang.github.io/jq
 commands:
+
   # cliferay
 
   - name: aliases
