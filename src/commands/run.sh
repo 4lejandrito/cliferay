@@ -34,8 +34,6 @@ feature.flag.ui.visible[dev]=true
 
 module.framework.properties.osgi.console=11311
 
-cluster.link.enabled=$([[ ${args[--clustered]} -eq 1 ]] && echo "true" || echo "false")
-
 virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com
 
 include-and-override=\${liferay.home}/portal-custom.properties
@@ -51,13 +49,4 @@ BUNDLES=$(realpath $(cliferay home)/../bundles)
 
 generate-configuration $BUNDLES
 
-if [[ ${args[--clustered]} -eq 1 ]]; then
-  BUNDLES2="${BUNDLES}2"
-  rm -rf $BUNDLES2 && cp -r $BUNDLES $BUNDLES2
-  generate-configuration $BUNDLES2
-  # TODO the file does not exist: sed -i 's/^[ \t]*//' $BUNDLES2/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
-  sed -i -e 's/8080/9080/g' -e 's/8005/9005/g' -e 's/8443/9443/g' "$(cliferay tomcat-folder | sed 's|/bundles/|/bundles2/|')/conf/server.xml"
-fi
-
 $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
-# TODO Run the second instance too

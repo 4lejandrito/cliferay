@@ -148,11 +148,6 @@ commands:
       - name: command
         help: Tomcat command
         required: false
-    flags:
-      - long: --clustered
-        short: -c
-        help: Launch the server in dual-cluster mode
-        private: true
 
   - name: tomcat-folder
     help: Print the current Tomcat folder path
