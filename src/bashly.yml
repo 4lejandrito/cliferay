@@ -18,12 +18,10 @@ commands:
 
   - name: aliases
     help: Print aliases script
-    private: true
     group: cliferay
 
   - name: completions
     help: Print completions script
-    private: true
     group: cliferay
 
   - name: source-folder

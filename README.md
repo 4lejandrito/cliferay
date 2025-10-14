@@ -21,6 +21,8 @@ Usage:
   cliferay --version | -v
 
 cliferay Commands:
+  aliases           Print aliases script
+  completions       Print completions script
   update            Update cliferay to the latest version
 
 Build Commands:
