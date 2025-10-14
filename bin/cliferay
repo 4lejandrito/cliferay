@@ -50,6 +50,7 @@ cliferay() {
     printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
     printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
     printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
+    printf "  %s   Print the current Liferay home folder\n" "$(green_bold "home")           "
     printf "  %s   Run SF globally\n" "$(green_bold "format-source")  "
     printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
     printf "  %s   Run a Poshi test\n" "$(green_bold "poshi")          "
@@ -805,12 +806,12 @@ cliferay() {
   }
 
   # :command.usage
-  cliferay_folder_usage() {
-    printf "cliferay folder - Print the current Liferay home folder\n\n"
+  cliferay_home_usage() {
+    printf "cliferay home - Print the current Liferay home folder\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay folder\n"
-    printf "  cliferay folder --help | -h\n"
+    printf "  cliferay home\n"
+    printf "  cliferay home --help | -h\n"
     echo
 
     # :command.long_usage
@@ -820,6 +821,14 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
+      echo
+
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "LIFERAY_HOME (required)"
+      printf "    Location of your main liferay-portal clone\n"
       echo
 
     fi
@@ -843,35 +852,6 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_home_usage() {
-    printf "cliferay home - Print the default Liferay home folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay home\n"
-    printf "  cliferay home --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_environment_variables
-      printf "%s\n" "$(bold "Environment Variables:")"
-
-      # :environment_variable.usage
-      printf "  %s\n" "LIFERAY_HOME (required)"
-      printf "    Location of your main liferay-portal clone\n"
       echo
 
     fi
@@ -1814,7 +1794,7 @@ cliferay() {
   	set +e
   	while read line
   	do
-  		echo "" | (cd $(cliferay folder)/$line; $*)
+  		echo "" | (cd $(cliferay home)/$line; $*)
   	done
   	set -e
   }
@@ -1929,11 +1909,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl batch-import\'*)'
+    echo $'    \'curl new-instance\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-instance\'*)'
+    echo $'    \'curl batch-import\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1957,15 +1937,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats folders\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'format-source\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats commits\'*)'
+    echo $'    \'stats folders\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats ranking\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1973,8 +1953,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats ranking\'*)'
+    echo $'    \'stats commits\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl new-api\'*)'
@@ -1985,15 +1969,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'    \'stats years\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats users\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats years\'*)'
+    echo $'    \'build-rest\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2001,16 +1985,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'build-rest\'*)'
+    echo $'    \'baseline\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'baseline\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl ai\'*)'
@@ -2033,12 +2013,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'brian\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'stats\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'brian\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'todos\'*)'
@@ -2062,6 +2042,10 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'jira\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'home\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2126,7 +2110,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw ij jira kill morning nuke owner poshi run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v ant b backport baseline brian build build-rest changed-modules cm curl d deploy elastic-search format-source gogo gw home ij jira kill morning nuke owner poshi run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2142,7 +2126,7 @@ cliferay() {
 
     # src/commands/aliases.sh
     echo 'alias gw="cliferay gw"'
-    echo 'alias cdl="cd $(cliferay folder)"'
+    echo 'alias cdl="cd $(cliferay home)"'
     echo 'alias c="cliferay"'
   }
 
@@ -2180,7 +2164,7 @@ cliferay() {
   cliferay_build_command() {
 
     # src/commands/build.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     cliferay ant setup-profile-dxp
     cliferay ant all
     (cd modules/util/portal-tools-rest-builder-test-api && cliferay deploy)
@@ -2194,14 +2178,14 @@ cliferay() {
   cliferay_gw_command() {
 
     # src/commands/gw.sh
-    $(cliferay folder)/gradlew ${other_args[*]}
+    $(cliferay home)/gradlew ${other_args[*]}
   }
 
   # :command.function
   cliferay_ij_command() {
 
     # src/commands/ij.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     if [ ! -d "../liferay-intellij" ]; then
         git clone https://github.com/holatuwol/liferay-intellij.git "../liferay-intellij"
     fi
@@ -2216,7 +2200,7 @@ cliferay() {
     # src/commands/morning.sh
     cliferay sync
     if [[ ${args["--force"]} = 1 ]]; then
-        cd $(cliferay folder) && git clean -fdx
+        cd $(cliferay home) && git clean -fdx
     fi
     cliferay build
     cliferay ij
@@ -2537,7 +2521,7 @@ cliferay() {
   cliferay_db_name_command() {
 
     # src/commands/db-name.sh
-    [[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
+    [[ "$(cliferay home)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
   }
 
   # :command.function
@@ -2579,7 +2563,7 @@ EOF
   cliferay_nuke_command() {
 
     # src/commands/nuke.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     rm -rf ../bundles/elasticsearch7 ../bundles/data ../bundles/osgi/war ../bundles/osgi/state ../bundles2 $(cliferay tomcat-folder)/work/Catalina
     echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8 COLLATE utf8_general_ci" | mysql -uroot -proot
   }
@@ -2637,7 +2621,7 @@ EOF
     echo 'maxChallenges=I"-1"' > $1/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
     }
 
-    BUNDLES=$(realpath $(cliferay folder)/../bundles)
+    BUNDLES=$(realpath $(cliferay home)/../bundles)
 
     generate-configuration $BUNDLES
 
@@ -2657,7 +2641,7 @@ EOF
   cliferay_tomcat_folder_command() {
 
     # src/commands/tomcat-folder.sh
-    cd $(cliferay folder)/../bundles
+    cd $(cliferay home)/../bundles
     ls -d "$PWD/"** | grep tomcat | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n 1
   }
 
@@ -2684,17 +2668,17 @@ EOF
   cliferay_build_rest_command() {
 
     # src/commands/build-rest.sh
-    cd $(cliferay folder)/modules/apps && cliferay gw buildREST
-    cd $(cliferay folder)/modules/dxp/apps && cliferay gw buildREST
-    cd $(cliferay folder)/modules/util/portal-tools-rest-builder-test-impl && cliferay gw buildREST
+    cd $(cliferay home)/modules/apps && cliferay gw buildREST
+    cd $(cliferay home)/modules/dxp/apps && cliferay gw buildREST
+    cd $(cliferay home)/modules/util/portal-tools-rest-builder-test-impl && cliferay gw buildREST
   }
 
   # :command.function
   cliferay_changed_modules_command() {
 
     # src/commands/changed-modules.sh
-    FOLDER=$(realpath ${args["folder"]:-$(cliferay folder)} --relative-to $(cliferay folder))
-    cd $(cliferay folder)
+    FOLDER=$(realpath ${args["folder"]:-$(cliferay home)} --relative-to $(cliferay home))
+    cd $(cliferay home)
     git diff --name-only ${args["--branch"]:-master} $FOLDER | get-module | uniq
   }
 
@@ -2710,30 +2694,30 @@ EOF
         cliferay ant deploy install-portal-snapshot
     elif [[ "$PWD" = *test-util ]]; then
         cliferay gw -a depl
-        JAR=$( echo "$(realpath $PWD --relative-to $(cliferay folder))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
-        cp "$(cliferay folder)/../bundles/osgi/test/$JAR" "$(cliferay folder)/../bundles/osgi/modules/"
+        JAR=$( echo "$(realpath $PWD --relative-to $(cliferay home))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
+        cp "$(cliferay home)/../bundles/osgi/test/$JAR" "$(cliferay home)/../bundles/osgi/modules/"
     elif [[ "$PWD" = *gradle-plugins* ]]; then
         cliferay gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit -m "DELETE ME"
-        cd $(cliferay folder)/modules/sdk/gradle-plugins && gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit --amend --no-edit
-        cd $(cliferay folder)/modules/sdk/gradle-plugins-defaults && gw installCache updateFileVersions
-        git add $(cliferay folder) && git commit --amend --no-edit
-        cd $(cliferay folder) && cliferay ant setup-sdk
+        git add $(cliferay home) && git commit -m "DELETE ME"
+        cd $(cliferay home)/modules/sdk/gradle-plugins && gw installCache updateFileVersions
+        git add $(cliferay home) && git commit --amend --no-edit
+        cd $(cliferay home)/modules/sdk/gradle-plugins-defaults && gw installCache updateFileVersions
+        git add $(cliferay home) && git commit --amend --no-edit
+        cd $(cliferay home) && cliferay ant setup-sdk
     elif ! [[ "$PWD" = */*-test ]]; then
         cliferay gw -a depl
     fi
   }
 
   # :command.function
-  cliferay_folder_command() {
+  cliferay_home_command() {
 
-    # src/commands/folder.sh
+    # src/commands/home.sh
     root=$(git rev-parse --show-toplevel 2> /dev/null || true)
     if [[ $root == *liferay-portal* ]]; then
         echo $root
     else
-        cliferay home
+        echo $LIFERAY_HOME
     fi
 
   }
@@ -2742,15 +2726,8 @@ EOF
   cliferay_format_source_command() {
 
     # src/commands/format-source.sh
-    cd $(cliferay folder)/portal-impl
+    cd $(cliferay home)/portal-impl
     ANT_OPTS=-Xmx4096m ant format-source-current-branch
-  }
-
-  # :command.function
-  cliferay_home_command() {
-
-    # src/commands/home.sh
-    echo $LIFERAY_HOME
   }
 
   # :command.function
@@ -2777,7 +2754,7 @@ EOF
   cliferay_poshi_command() {
 
     # src/commands/poshi.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}
   }
 
@@ -2847,7 +2824,7 @@ EOF
   cliferay_set_ticket_command() {
 
     # src/commands/set-ticket.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter 'sed -r "1 s/(^([A-Z]+)-([0-9]*) )|^/'${args["ticket"]}' /"' ${args["--branch"]:-master}..HEAD
 
   }
@@ -2870,7 +2847,7 @@ EOF
   cliferay_stats_years_command() {
 
     # src/commands/stats/years.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     git log --pretty=format:'%cd' --date=format:'%Y' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | sort | uniq -c
   }
 
@@ -2878,7 +2855,7 @@ EOF
   cliferay_stats_ranking_command() {
 
     # src/commands/stats/ranking.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     emails=${args[emails]:-}
     git log $(get_git_log_period) --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
   }
@@ -2887,7 +2864,7 @@ EOF
   cliferay_stats_tickets_command() {
 
     # src/commands/stats/tickets.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     git log $(get_git_log_period) --pretty=format:'%h %s' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
   }
 
@@ -2895,7 +2872,7 @@ EOF
   cliferay_stats_commits_command() {
 
     # src/commands/stats/commits.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     git log $(get_git_log_period) --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
   }
 
@@ -2903,7 +2880,7 @@ EOF
   cliferay_stats_folders_command() {
 
     # src/commands/stats/folders.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
 
     COMMITS=($(git log $(get_git_log_period) --pretty=format:"%H" $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')))
 
@@ -2939,7 +2916,7 @@ EOF
   cliferay_stats_review_command() {
 
     # src/commands/stats/review.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     get_current_period
     echo "This period ($since - $until) ${args[user]} has:"
     echo ""
@@ -2974,7 +2951,7 @@ EOF
   cliferay_stats_headless_summary_command() {
 
     # src/commands/stats/headless-summary.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     grep '@liferay-headless' .github/CODEOWNERS | awk '{print $1}' | while read folder; do
 
       echo $folder;
@@ -2988,7 +2965,7 @@ EOF
   cliferay_sync_command() {
 
     # src/commands/sync.sh
-    cd $(cliferay folder)
+    cd $(cliferay home)
     git add .
     git stash
     git checkout master
@@ -3267,10 +3244,10 @@ EOF
         shift $#
         ;;
 
-      folder)
-        action="folder"
+      home)
+        action="home"
         shift
-        cliferay_folder_parse_requirements "$@"
+        cliferay_home_parse_requirements "$@"
         shift $#
         ;;
 
@@ -3278,13 +3255,6 @@ EOF
         action="format-source"
         shift
         cliferay_format_source_parse_requirements "$@"
-        shift $#
-        ;;
-
-      home)
-        action="home"
-        shift
-        cliferay_home_parse_requirements "$@"
         shift $#
         ;;
 
@@ -4842,14 +4812,14 @@ EOF
   }
 
   # :command.parse_requirements
-  cliferay_folder_parse_requirements() {
+  cliferay_home_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
         --help | -h)
           long_usage=yes
-          cliferay_folder_usage
+          cliferay_home_usage
           exit
           ;;
 
@@ -4860,8 +4830,16 @@ EOF
       esac
     done
 
+    # :command.environment_variables_filter
+
+    env_var_names+=("LIFERAY_HOME")
+    if [[ -z "${LIFERAY_HOME:-}" ]]; then
+      printf "missing required environment variable: LIFERAY_HOME\n" >&2
+      exit 1
+    fi
+
     # :command.command_filter
-    action="folder"
+    action="home"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -4907,59 +4885,6 @@ EOF
 
     # :command.command_filter
     action="format-source"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_home_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_home_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.environment_variables_filter
-
-    env_var_names+=("LIFERAY_HOME")
-    if [[ -z "${LIFERAY_HOME:-}" ]]; then
-      printf "missing required environment variable: LIFERAY_HOME\n" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="home"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -6441,9 +6366,8 @@ EOF
       "build-rest") cliferay_build_rest_command ;;
       "changed-modules") cliferay_changed_modules_command ;;
       "deploy") cliferay_deploy_command ;;
-      "folder") cliferay_folder_command ;;
-      "format-source") cliferay_format_source_command ;;
       "home") cliferay_home_command ;;
+      "format-source") cliferay_format_source_command ;;
       "owner") cliferay_owner_command ;;
       "poshi") cliferay_poshi_command ;;
       "super-deploy") cliferay_super_deploy_command ;;

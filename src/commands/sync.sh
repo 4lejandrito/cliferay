@@ -1,4 +1,4 @@
-cd $(cliferay folder)
+cd $(cliferay home)
 git add .
 git stash
 git checkout master

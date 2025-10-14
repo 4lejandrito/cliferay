@@ -1,4 +1,4 @@
-cd $(cliferay folder)
+cd $(cliferay home)
 cliferay ant setup-profile-dxp
 cliferay ant all
 (cd modules/util/portal-tools-rest-builder-test-api && cliferay deploy)

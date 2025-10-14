@@ -47,7 +47,7 @@ mkdir -p $1/osgi/configs
 echo 'maxChallenges=I"-1"' > $1/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
 }
 
-BUNDLES=$(realpath $(cliferay folder)/../bundles)
+BUNDLES=$(realpath $(cliferay home)/../bundles)
 
 generate-configuration $BUNDLES
 

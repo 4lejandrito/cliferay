@@ -1,1 +1,1 @@
-$(cliferay folder)/gradlew ${other_args[*]}
+$(cliferay home)/gradlew ${other_args[*]}

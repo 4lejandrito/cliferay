@@ -1,6 +1,6 @@
 cliferay sync
 if [[ ${args["--force"]} = 1 ]]; then
-    cd $(cliferay folder) && git clean -fdx
+    cd $(cliferay home) && git clean -fdx
 fi
 cliferay build
 cliferay ij

@@ -44,6 +44,7 @@ Code Commands:
   build-rest        Run buildREST globally
   changed-modules   List changed modules
   deploy            Deploy the current folder
+  home              Print the current Liferay home folder
   format-source     Run SF globally
   owner             Output the owner of a path based on CODEOWNERS
   poshi             Run a Poshi test

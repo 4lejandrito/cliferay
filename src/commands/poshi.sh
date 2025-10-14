@@ -1,2 +1,2 @@
-cd $(cliferay folder)
+cd $(cliferay home)
 HOSTNAME=localhost cliferay ant -f build-test.xml run-selenium-test -Dtest.class=${args["test"]}

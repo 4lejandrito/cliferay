@@ -1,1 +1,1 @@
-[[ "$(cliferay folder)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"
+[[ "$(cliferay home)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal"

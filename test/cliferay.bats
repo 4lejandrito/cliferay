@@ -25,14 +25,6 @@ setup() {
     assert_line "cliferay - Daily scripts to work with Liferay"
 }
 
-@test "cliferay home" {
-    run cliferay home
-    assert_line $TMP_DIR/liferay/liferay-portal
-    unset LIFERAY_HOME
-    run cliferay home
-    assert_output 'missing required environment variable: LIFERAY_HOME'
-}
-
 @test "cliferay nuke" {
     mkdir -p $TMP_DIR/liferay/liferay-portal $TMP_DIR/liferay/bundles/elasticsearch7 $TMP_DIR/liferay/bundles/keep $TMP_DIR/liferay/bundles/data $TMP_DIR/liferay/bundles/osgi/war $TMP_DIR/liferay/bundles/osgi/state $TMP_DIR/liferay/bundles/osgi/keep
     export DEBUG=true
@@ -87,14 +79,17 @@ setup() {
     assert_output "https://liferay.atlassian.net/browse/LPD-1234"
 }
 
-@test "cliferay folder" {
-    run cliferay folder
+@test "cliferay home" {
+    run cliferay home
     assert_output $TMP_DIR/liferay/liferay-portal
     mkdir -p $TMP_DIR/liferay-ee/liferay-portal-ee
     cd $TMP_DIR/liferay-ee/liferay-portal-ee
     git init
-    run cliferay folder
+    run cliferay home
     assert_output $TMP_DIR/liferay-ee/liferay-portal-ee
+    unset LIFERAY_HOME
+    run cliferay home
+    assert_output 'missing required environment variable: LIFERAY_HOME'
 }
 
 @test "cliferay db-name" {

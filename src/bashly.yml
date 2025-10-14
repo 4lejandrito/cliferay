@@ -196,23 +196,17 @@ commands:
     help: Deploy the current folder
     group: Code
 
-  - name: folder
-    help: Print the current Liferay home folder
-    group: Code
-    private: true
-
-  - name: format-source
-    alias: sf
-    help: Run SF globally
-    group: Code
-
   - name: home
-    help: Print the default Liferay home folder
+    help: Print the current Liferay home folder
     environment_variables:
       - name: LIFERAY_HOME
         help: Location of your main liferay-portal clone
         required: true
-    private: true
+    group: Code
+
+  - name: format-source
+    alias: sf
+    help: Run SF globally
     group: Code
 
   - name: owner

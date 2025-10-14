@@ -1,2 +1,2 @@
-cd $(cliferay folder)/portal-impl
+cd $(cliferay home)/portal-impl
 ANT_OPTS=-Xmx4096m ant format-source-current-branch

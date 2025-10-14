@@ -1,4 +1,4 @@
-cd $(cliferay folder)
+cd $(cliferay home)
 get_current_period
 echo "This period ($since - $until) ${args[user]} has:"
 echo ""
