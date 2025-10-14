@@ -1,1 +1,1 @@
-echo $(dirname "$(readlink -f "$0")")/../.data
+echo $(cliferay source-folder)/.data

@@ -138,6 +138,27 @@ cliferay() {
   }
 
   # :command.usage
+  cliferay_source_folder_usage() {
+    printf "cliferay source-folder - Print the cliferay source folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay source-folder\n"
+    printf "  cliferay source-folder --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
   cliferay_data_folder_usage() {
     printf "cliferay data-folder - Print the data folder\n\n"
 
@@ -2126,6 +2147,7 @@ cliferay() {
 
     # src/commands/aliases.sh
     echo 'alias gw="cliferay gw"'
+    echo 'alias cdc="cd $(cliferay source-folder)"'
     echo 'alias cdl="cd $(cliferay home)"'
     echo 'alias c="cliferay"'
   }
@@ -2138,17 +2160,24 @@ cliferay() {
   }
 
   # :command.function
+  cliferay_source_folder_command() {
+
+    # src/commands/source-folder.sh
+    echo $(realpath "$(dirname "$(readlink -f "$0")")/..")
+  }
+
+  # :command.function
   cliferay_data_folder_command() {
 
     # src/commands/data-folder.sh
-    echo $(dirname "$(readlink -f "$0")")/../.data
+    echo $(cliferay source-folder)/.data
   }
 
   # :command.function
   cliferay_update_command() {
 
     # src/commands/update.sh
-    cd "$(dirname "$0")"
+    cd $(cliferay source-folder)
 
     git pull
   }
@@ -3104,6 +3133,13 @@ EOF
         shift $#
         ;;
 
+      source-folder)
+        action="source-folder"
+        shift
+        cliferay_source_folder_parse_requirements "$@"
+        shift $#
+        ;;
+
       data-folder)
         action="data-folder"
         shift
@@ -3444,6 +3480,51 @@ EOF
 
     # :command.command_filter
     action="completions"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_source_folder_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_source_folder_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="source-folder"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -6340,6 +6421,7 @@ EOF
     case "$action" in
       "aliases") cliferay_aliases_command ;;
       "completions") cliferay_completions_command ;;
+      "source-folder") cliferay_source_folder_command ;;
       "data-folder") cliferay_data_folder_command ;;
       "update") cliferay_update_command ;;
       "ant") cliferay_ant_command ;;
