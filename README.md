@@ -3,17 +3,17 @@
 ```
 cliferay
 
-  Daily scripts to work with Liferay
+  Daily scripts for working with Liferay
   
-  The scripts can be run from any folder:
-    - If the folder is outside the repo it will use LIFERAY_HOME.
-    - If the folder is inside the repo it will use that repo. 
+  You can run these scripts from any folder:
+    - If you are outside a repository, LIFERAY_HOME will be used.
+    - If you are inside a repository, that repository will be used.
     
-  For example every day I open my terminal and type:
+  For example, every day I open my terminal and type:
   
     > cliferay morning
   
-  and it will just work no matter which folder I am in.
+  and it will work, no matter which folder I am in.
 
 Usage:
   cliferay COMMAND
@@ -21,20 +21,20 @@ Usage:
   cliferay --version | -v
 
 cliferay Commands:
-  aliases           Print aliases script
-  completions       Print completions script
+  aliases           Print the aliases script
+  completions       Print the completions script
   update            Update cliferay to the latest version
 
 Build Commands:
   ant               Run ant
-  build             Run ant all
+  build             Run 'ant all'
   gw                Run gradlew
   ij                Run liferay-intellij
-  morning           Sync, build, ij, nuke and run
+  morning           Run sync, build, ij, nuke and run
 
 Server Commands:
   curl              Send HTTP requests to the server
-  elastic-search    Query the Elastic Search index
+  elastic-search    Query the Elasticsearch index
   gogo              Open the Gogo Shell
   kill              Kill the server
   nuke              Delete all persisted data
@@ -46,8 +46,8 @@ Code Commands:
   build-rest        Run buildREST globally
   changed-modules   List changed modules
   deploy            Deploy the current folder
-  home              Print the current Liferay home folder
-  format-source     Run SF globally
+  home              Print the current Liferay home folder path
+  format-source     Run Source Formatter globally
   owner             Output the owner of a path based on CODEOWNERS
   poshi             Run a Poshi test
   super-deploy      Deploy changed modules
@@ -56,9 +56,9 @@ Git Commands:
   brian             Forward an existing PR to Brian and close it
   backport          Backport commits to other branches
   set-ticket        Set the Jira ticket on your local commits
-  stats             Calculate different Git stats
+  stats             Calculate various Git statistics
   sync              Sync fork and local copy with upstream
-  tickets           Get all Jira tickets from the output of git log
+  tickets           Extract all Jira tickets from the output of 'git log'
 
 Jira Commands:
   jira              Open a Jira ticket in the browser
@@ -76,12 +76,13 @@ Options:
 
 Environment Variables:
   DEBUG
-    Set to true to enable echoing of all the commands being run
+    Set to true to echo all commands being run
 ```
 
 ## Installation
+
 1. Clone this repo.
-2. Add the bin folder to your path:
+2. Add the `bin` folder to your path:
     ```bash
     export PATH=/path/to/cliferay/bin:$PATH
     ```
@@ -89,17 +90,17 @@ Environment Variables:
     ```bash
     cliferay --help
     ```
-4. If you want to enable bash completions add this to your `.bash_profile`, `.zshrc` or similar:
+4. To enable bash completions, add this to your `.bash_profile`, `.zshrc`, or similar:
     ```bash
     eval "$(cliferay completions)"
     ```
-4. If you want to enable aliases (like gw) add this to your `.bash_profile`, `.zshrc` or similar:
+5. To enable aliases (like `gw`), add this to your `.bash_profile`, `.zshrc`, or similar:
     ```bash
     eval "$(cliferay aliases)"
     ```
 
-> [!IMPORTANT]
-> If you're working on macOS, you need to install `coreutils`. You can install it via Homebrew:
+> **Note for macOS users:**
+> You need to install `coreutils`. You can install it via Homebrew:
 >
 > ```sh
 > brew install coreutils
@@ -114,18 +115,20 @@ Environment Variables:
 
 ## Contributing
 
-`cliferay` has been created with https://bashly.dev. To be able to contribute you'll need to get familiar with it first.
+`cliferay` was created with [bashly.dev](https://bashly.dev). To contribute, please familiarize yourself with it first.
 
 ### Modify an existing command
-1. Make the change inside `src/commands`.
+
+1. Make changes inside `src/commands`.
 2. Run `make`.
-3. Test it `cliferay [COMMAND] ...`
+3. Test with `cliferay [COMMAND] ...`
 4. Submit a pull request!
 
 ### Add a new command
-1. Modify `src/bashly.yml` with your new command.
+
+1. Update `src/bashly.yml` with your new command.
 2. Run `make`.
 3. Implement your command inside `src/commands`.
 4. Run `make` again.
-5. Test it `cliferay [COMMAND] ...`
+5. Test with `cliferay [COMMAND] ...`
 6. Submit a pull request!

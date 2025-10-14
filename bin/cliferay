@@ -15,9 +15,9 @@ cliferay() {
   cliferay_usage() {
     if [[ -n $long_usage ]]; then
       printf "cliferay\n\n"
-      printf "  Daily scripts to work with Liferay\n  \n  The scripts can be run from any folder:\n    - If the folder is outside the repo it will use LIFERAY_HOME.\n    - If the folder is inside the repo it will use that repo. \n    \n  For example every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will just work no matter which folder I am in.\n\n"
+      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n    \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
     else
-      printf "cliferay - Daily scripts to work with Liferay\n\n"
+      printf "cliferay - Daily scripts for working with Liferay\n\n"
     fi
 
     printf "%s\n" "$(bold "Usage:")"
@@ -27,20 +27,20 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "cliferay Commands:")"
-    printf "  %s   Print aliases script\n" "$(green_bold "aliases")        "
-    printf "  %s   Print completions script\n" "$(green_bold "completions")    "
+    printf "  %s   Print the aliases script\n" "$(green_bold "aliases")        "
+    printf "  %s   Print the completions script\n" "$(green_bold "completions")    "
     printf "  %s   Update cliferay to the latest version\n" "$(green_bold "update")         "
     echo
     printf "%s\n" "$(bold "Build Commands:")"
     printf "  %s   Run ant\n" "$(green_bold "ant")            "
-    printf "  %s   Run ant all\n" "$(green_bold "build")          "
+    printf "  %s   Run 'ant all'\n" "$(green_bold "build")          "
     printf "  %s   Run gradlew\n" "$(green_bold "gw")             "
     printf "  %s   Run liferay-intellij\n" "$(green_bold "ij")             "
-    printf "  %s   Sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
+    printf "  %s   Run sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
     echo
     printf "%s\n" "$(bold "Server Commands:")"
     printf "  %s   Send HTTP requests to the server\n" "$(green_bold "curl")           "
-    printf "  %s   Query the Elastic Search index\n" "$(green_bold "elastic-search") "
+    printf "  %s   Query the Elasticsearch index\n" "$(green_bold "elastic-search") "
     printf "  %s   Open the Gogo Shell\n" "$(green_bold "gogo")           "
     printf "  %s   Kill the server\n" "$(green_bold "kill")           "
     printf "  %s   Delete all persisted data\n" "$(green_bold "nuke")           "
@@ -52,8 +52,8 @@ cliferay() {
     printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
     printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
     printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
-    printf "  %s   Print the current Liferay home folder\n" "$(green_bold "home")           "
-    printf "  %s   Run SF globally\n" "$(green_bold "format-source")  "
+    printf "  %s   Print the current Liferay home folder path\n" "$(green_bold "home")           "
+    printf "  %s   Run Source Formatter globally\n" "$(green_bold "format-source")  "
     printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
     printf "  %s   Run a Poshi test\n" "$(green_bold "poshi")          "
     printf "  %s   Deploy changed modules\n" "$(green_bold "super-deploy")   "
@@ -62,9 +62,9 @@ cliferay() {
     printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
     printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
     printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
-    printf "  %s   Calculate different Git stats\n" "$(green_bold "stats")          "
+    printf "  %s   Calculate various Git statistics\n" "$(green_bold "stats")          "
     printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
-    printf "  %s   Get all Jira tickets from the output of git log\n" "$(green_bold "tickets")        "
+    printf "  %s   Extract all Jira tickets from the output of 'git log'\n" "$(green_bold "tickets")        "
     echo
     printf "%s\n" "$(bold "Jira Commands:")"
     printf "  %s   Open a Jira ticket in the browser\n" "$(green_bold "jira")           "
@@ -91,7 +91,7 @@ cliferay() {
 
       # :environment_variable.usage
       printf "  %s\n" "DEBUG"
-      printf "    Set to true to enable echoing of all the commands being run\n"
+      printf "    Set to true to echo all commands being run\n"
       echo
 
     fi
@@ -99,7 +99,7 @@ cliferay() {
 
   # :command.usage
   cliferay_aliases_usage() {
-    printf "cliferay aliases - Print aliases script\n\n"
+    printf "cliferay aliases - Print the aliases script\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay aliases\n"
@@ -120,7 +120,7 @@ cliferay() {
 
   # :command.usage
   cliferay_completions_usage() {
-    printf "cliferay completions - Print completions script\n\n"
+    printf "cliferay completions - Print the completions script\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay completions\n"
@@ -141,7 +141,7 @@ cliferay() {
 
   # :command.usage
   cliferay_source_folder_usage() {
-    printf "cliferay source-folder - Print the cliferay source folder\n\n"
+    printf "cliferay source-folder - Print the cliferay source folder path\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay source-folder\n"
@@ -162,7 +162,7 @@ cliferay() {
 
   # :command.usage
   cliferay_data_folder_usage() {
-    printf "cliferay data-folder - Print the data folder\n\n"
+    printf "cliferay data-folder - Print the data folder path\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay data-folder\n"
@@ -225,7 +225,7 @@ cliferay() {
 
   # :command.usage
   cliferay_build_usage() {
-    printf "cliferay build - Run ant all\n\n"
+    printf "cliferay build - Run 'ant all'\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay build\n"
@@ -288,7 +288,7 @@ cliferay() {
 
   # :command.usage
   cliferay_morning_usage() {
-    printf "cliferay morning - Sync, build, ij, nuke and run\n\n"
+    printf "cliferay morning - Run sync, build, ij, nuke and run\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay morning [OPTIONS]\n"
@@ -302,12 +302,12 @@ cliferay() {
       # :command.usage_flags
       # :flag.usage
       printf "  %s\n" "--no-nuke"
-      printf "    Skip nuke\n"
+      printf "    Skip the nuke step\n"
       echo
 
       # :flag.usage
       printf "  %s\n" "--force, -f"
-      printf "    Force cleanup by running git clean -fdx\n"
+      printf "    Force cleanup by running 'git clean -fdx'\n"
       echo
 
       # :command.usage_fixed_flags
@@ -328,7 +328,7 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Run a curl based on a prompt\n" "$(green_bold "ai")             "
+    printf "  %s   Run a curl command based on a prompt\n" "$(green_bold "ai")             "
     printf "  %s   Create a new instance\n" "$(green_bold "new-instance")   "
     printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")        "
     printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")     "
@@ -350,7 +350,7 @@ cliferay() {
 
   # :command.usage
   cliferay_curl_ai_usage() {
-    printf "cliferay curl ai - Run a curl based on a prompt\n\n"
+    printf "cliferay curl ai - Run a curl command based on a prompt\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay curl ai PROMPT [OPTIONS]\n"
@@ -364,7 +364,7 @@ cliferay() {
       # :command.usage_flags
       # :flag.usage
       printf "  %s\n" "--generate, -g"
-      printf "    Output the command, do not run it\n"
+      printf "    Output the command instead of running it\n"
       echo
 
       # :command.usage_fixed_flags
@@ -518,7 +518,7 @@ cliferay() {
 
   # :command.usage
   cliferay_db_name_usage() {
-    printf "cliferay db-name - Print the database name (lportal)\n\n"
+    printf "cliferay db-name - Print the database name\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay db-name\n"
@@ -539,7 +539,7 @@ cliferay() {
 
   # :command.usage
   cliferay_elastic_search_usage() {
-    printf "cliferay elastic-search - Query the Elastic Search index\n\n"
+    printf "cliferay elastic-search - Query the Elasticsearch index\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay elastic-search\n"
@@ -660,7 +660,7 @@ cliferay() {
 
       # :argument.usage
       printf "  %s\n" "COMMAND"
-      printf "    Tomcat command (jpda by default)\n"
+      printf "    Tomcat command\n"
       echo
 
     fi
@@ -668,7 +668,7 @@ cliferay() {
 
   # :command.usage
   cliferay_tomcat_folder_usage() {
-    printf "cliferay tomcat-folder - Print the current tomcat folder\n\n"
+    printf "cliferay tomcat-folder - Print the current Tomcat folder path\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay tomcat-folder\n"
@@ -786,7 +786,7 @@ cliferay() {
       # :command.usage_flags
       # :flag.usage
       printf "  %s\n" "--branch, -b BRANCH"
-      printf "    Branch to compare to\n"
+      printf "    Branch to compare against\n"
       echo
 
       # :command.usage_fixed_flags
@@ -830,7 +830,7 @@ cliferay() {
 
   # :command.usage
   cliferay_home_usage() {
-    printf "cliferay home - Print the current Liferay home folder\n\n"
+    printf "cliferay home - Print the current Liferay home folder path\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay home\n"
@@ -851,7 +851,7 @@ cliferay() {
 
       # :environment_variable.usage
       printf "  %s\n" "LIFERAY_HOME (required)"
-      printf "    Location of your main liferay-portal clone\n"
+      printf "    Path to your main liferay-portal clone\n"
       echo
 
     fi
@@ -859,7 +859,7 @@ cliferay() {
 
   # :command.usage
   cliferay_format_source_usage() {
-    printf "cliferay format-source - Run SF globally\n\n"
+    printf "cliferay format-source - Run Source Formatter globally\n\n"
     printf "Alias: sf\n"
     echo
 
@@ -967,7 +967,7 @@ cliferay() {
       # :command.usage_flags
       # :flag.usage
       printf "  %s\n" "--branch, -b BRANCH"
-      printf "    Branch to compare to\n"
+      printf "    Branch to compare against\n"
       echo
 
       # :command.usage_fixed_flags
@@ -1051,7 +1051,7 @@ cliferay() {
 
       # :argument.usage
       printf "  %s\n" "TEXT"
-      printf "    Text to filter commits by (LPD-1234)\n"
+      printf "    Text to filter commits by (e.g., LPD-1234)\n"
       echo
 
     fi
@@ -1099,7 +1099,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_usage() {
-    printf "cliferay stats - Calculate different Git stats\n\n"
+    printf "cliferay stats - Calculate various Git statistics\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats COMMAND\n"
@@ -1107,15 +1107,15 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Get info about users\n" "$(green_bold "users")           "
-    printf "  %s   Shows commit count per year\n" "$(green_bold "years")           "
-    printf "  %s   Shows commit ranking\n" "$(green_bold "ranking")         "
-    printf "  %s   Shows tickets worked on based on commits\n" "$(green_bold "tickets")         "
+    printf "  %s   Get information about users\n" "$(green_bold "users")           "
+    printf "  %s   Show commit count per year\n" "$(green_bold "years")           "
+    printf "  %s   Show commit ranking\n" "$(green_bold "ranking")         "
+    printf "  %s   Show tickets worked on, based on commits\n" "$(green_bold "tickets")         "
     printf "  %s   Print the commits for the user\n" "$(green_bold "commits")         "
     printf "  %s   Print the folders changed by the user\n" "$(green_bold "folders")         "
-    printf "  %s   Writes a review based on git and jira stats\n" "$(green_bold "review")          "
-    printf "  %s   Shows tickets ever assigned to the user\n" "$(green_bold "assigned")        "
-    printf "  %s   Shows tickets grouped by folder\n" "$(green_bold "headless-summary")"
+    printf "  %s   Write a review based on Git and Jira stats\n" "$(green_bold "review")          "
+    printf "  %s   Show all tickets ever assigned to the user\n" "$(green_bold "assigned")        "
+    printf "  %s   Show tickets grouped by folder\n" "$(green_bold "headless-summary")"
     echo
 
     # :command.long_usage
@@ -1132,7 +1132,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_users_usage() {
-    printf "cliferay stats users - Get info about users\n\n"
+    printf "cliferay stats users - Get information about users\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats users COMMAND\n"
@@ -1140,8 +1140,8 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Shows the jira id\n" "$(green_bold "jira")  "
-    printf "  %s   Shows the user git emails\n" "$(green_bold "emails")"
+    printf "  %s   Show the Jira ID\n" "$(green_bold "jira")  "
+    printf "  %s   Show the user's Git emails\n" "$(green_bold "emails")"
     echo
 
     # :command.long_usage
@@ -1158,7 +1158,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_users_jira_usage() {
-    printf "cliferay stats users jira - Shows the jira id\n\n"
+    printf "cliferay stats users jira - Show the Jira ID\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats users jira USER\n"
@@ -1192,7 +1192,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_users_emails_usage() {
-    printf "cliferay stats users emails - Shows the user git emails\n\n"
+    printf "cliferay stats users emails - Show the user's Git emails\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats users emails USER\n"
@@ -1226,7 +1226,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_years_usage() {
-    printf "cliferay stats years - Shows commit count per year\n\n"
+    printf "cliferay stats years - Show commit count per year\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats years [USER]\n"
@@ -1260,7 +1260,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_ranking_usage() {
-    printf "cliferay stats ranking - Shows commit ranking\n\n"
+    printf "cliferay stats ranking - Show commit ranking\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats ranking [EMAILS...]\n"
@@ -1294,7 +1294,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_tickets_usage() {
-    printf "cliferay stats tickets - Shows tickets worked on based on commits\n\n"
+    printf "cliferay stats tickets - Show tickets worked on, based on commits\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats tickets [USER]\n"
@@ -1396,7 +1396,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_review_usage() {
-    printf "cliferay stats review - Writes a review based on git and jira stats\n\n"
+    printf "cliferay stats review - Write a review based on Git and Jira stats\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats review [USER]\n"
@@ -1430,7 +1430,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_assigned_usage() {
-    printf "cliferay stats assigned - Shows tickets ever assigned to the user\n\n"
+    printf "cliferay stats assigned - Show all tickets ever assigned to the user\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats assigned [USER]\n"
@@ -1464,7 +1464,7 @@ cliferay() {
 
       # :environment_variable.usage
       printf "  %s\n" "JIRA_API_TOKEN (required)"
-      printf "    Your Jira API Token\n    https://id.atlassian.com/manage-profile/security/api-tokens\n"
+      printf "    Your Jira API Token\n    (https://id.atlassian.com/manage-profile/security/api-tokens)\n"
       echo
 
       # :command.usage_examples
@@ -1477,7 +1477,7 @@ cliferay() {
 
   # :command.usage
   cliferay_stats_headless_summary_usage() {
-    printf "cliferay stats headless-summary - Shows tickets grouped by folder\n\n"
+    printf "cliferay stats headless-summary - Show tickets grouped by folder\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay stats headless-summary USER\n"
@@ -1532,7 +1532,7 @@ cliferay() {
 
   # :command.usage
   cliferay_tickets_usage() {
-    printf "cliferay tickets - Get all Jira tickets from the output of git log\n\n"
+    printf "cliferay tickets - Extract all Jira tickets from the output of 'git log'\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay tickets\n"
@@ -1579,7 +1579,7 @@ cliferay() {
 
       # :argument.usage
       printf "  %s\n" "TICKET"
-      printf "    The ticket reference (LPD-1234). If not present it will be extracted from\n    the git branch name\n"
+      printf "    The ticket reference (e.g., LPD-1234). If not provided, it will be extracted\n    from the Git branch name.\n"
       echo
 
     fi
@@ -1615,23 +1615,23 @@ cliferay() {
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_API_KEY (required)"
-      printf "    Your Trello API Key\n    https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization\n"
+      printf "    Your Trello API Key\n    (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)\n"
       echo
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_TOKEN (required)"
-      printf "    Your Trello Token\n    https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY\n"
+      printf "    Your Trello Token\n    (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)\n"
       echo
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_LIST_ID (required)"
-      printf "    Your Trello List Id\n    https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862\n"
+      printf "    Your Trello List ID\n    (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)\n"
       echo
 
       # :command.usage_examples
       printf "%s\n" "$(bold "Examples:")"
       printf "  cliferay todo Complete 100%% of the milestone\n"
-      printf "  cliferay todo Review PR http://gihub.com/...\n"
+      printf "  cliferay todo Review PR http://github.com/...\n"
       echo
 
     fi
@@ -1660,17 +1660,17 @@ cliferay() {
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_API_KEY (required)"
-      printf "    Your Trello API Key\n    https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization\n"
+      printf "    Your Trello API Key\n    (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)\n"
       echo
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_TOKEN (required)"
-      printf "    Your Trello Token\n    https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY\n"
+      printf "    Your Trello Token\n    (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)\n"
       echo
 
       # :environment_variable.usage
       printf "  %s\n" "TRELLO_LIST_ID (required)"
-      printf "    Your Trello List Id\n    https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862\n"
+      printf "    Your Trello List ID\n    (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)\n"
       echo
 
       # :command.usage_examples
@@ -3104,7 +3104,7 @@ EOF
     # :dependency.filter
     if ! command -v gh >/dev/null 2>&1; then
       printf "missing dependency: gh\n" >&2
-      printf "%s\n\n" "Install it from https://cli.github.com" >&2
+      printf "%s\n\n" "Install from https://cli.github.com" >&2
       missing_deps=1
     else
       deps['gh']="$(command -v gh | head -n1)"
@@ -3113,7 +3113,7 @@ EOF
     # :dependency.filter
     if ! command -v jq >/dev/null 2>&1; then
       printf "missing dependency: jq\n" >&2
-      printf "%s\n\n" "Install it from https://jqlang.github.io/jq" >&2
+      printf "%s\n\n" "Install from https://jqlang.github.io/jq" >&2
       missing_deps=1
     else
       deps['jq']="$(command -v jq | head -n1)"

@@ -22,7 +22,7 @@ setup() {
 
 @test "cliferay" {
     run cliferay
-    assert_line "cliferay - Daily scripts to work with Liferay"
+    assert_line "cliferay - Daily scripts for working with Liferay"
 }
 
 @test "cliferay nuke" {
