@@ -328,12 +328,13 @@ cliferay() {
     echo
     # :command.usage_commands
     printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Run a curl command based on a prompt\n" "$(green_bold "ai")             "
-    printf "  %s   Create a new instance\n" "$(green_bold "new-instance")   "
-    printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")        "
-    printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")     "
-    printf "  %s   Create a new site scoped object definition with some entries\n" "$(green_bold "new-site-object")"
-    printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")   "
+    printf "  %s   Run a curl command based on a prompt\n" "$(green_bold "ai")                  "
+    printf "  %s   Create a new instance\n" "$(green_bold "new-instance")        "
+    printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")             "
+    printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")          "
+    printf "  %s   Create a new site scoped object definition with some entries\n" "$(green_bold "new-site-object")     "
+    printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")        "
+    printf "  %s   Add a developer prompt to the MCP Server\n" "$(green_bold "mcp-developer-prompt")"
     echo
 
     # :command.long_usage
@@ -502,6 +503,27 @@ cliferay() {
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay curl batch-import\n"
     printf "  cliferay curl batch-import --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_mcp_developer_prompt_usage() {
+    printf "cliferay curl mcp-developer-prompt - Add a developer prompt to the MCP Server\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl mcp-developer-prompt\n"
+    printf "  cliferay curl mcp-developer-prompt --help | -h\n"
     echo
 
     # :command.long_usage
@@ -1918,6 +1940,10 @@ cliferay() {
     echo $'  COMPREPLY=()'
     echo $''
     echo $'  case "$compline" in'
+    echo $'    \'curl mcp-developer-prompt\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'stats headless-summary\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
@@ -1942,15 +1968,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-object\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'changed-modules\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'elastic-search\'*)'
+    echo $'    \'curl new-object\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1958,19 +1980,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats folders\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats commits\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats tickets\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats ranking\'*)'
+    echo $'    \'elastic-search\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1978,7 +1988,23 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats review\'*)'
+    echo $'    \'stats ranking\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats tickets\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats commits\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats folders\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl new-api\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1986,7 +2012,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-api\'*)'
+    echo $'    \'stats review\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -1994,11 +2020,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats years\'*)'
+    echo $'    \'completions\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'completions\'*)'
+    echo $'    \'stats years\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2018,19 +2044,23 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl ai\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--generate --help -g -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'morning\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'aliases\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl ai\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--generate --help -g -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'aliases\'*)'
+    echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2038,7 +2068,19 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'update\'*)'
+    echo $'    \'todos\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'owner\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'poshi\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'build\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2050,23 +2092,23 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'poshi\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'owner\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'build\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'todos\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'sync\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h ai batch-import mcp-developer-prompt new-api new-instance new-object new-site-object")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'gogo\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'kill\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'nuke\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2082,39 +2124,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'nuke\'*)'
+    echo $'    \'run\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'kill\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'gogo\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'curl\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h ai batch-import new-api new-instance new-object new-site-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'sql\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'run\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'ant\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'sd\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'sf\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2127,6 +2145,14 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'gw\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sd\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sf\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2552,6 +2578,16 @@ cliferay() {
 
     # src/commands/curl/batch-import.sh
     liferay-curl -X POST -H "Content-Type: application/json" -d '[{"universityName": "UAM"}]' http://localhost:8080/o/c/universities/batch | jq -r '.id' | xargs -I {} curl -X GET -u test@liferay.com:test -H "Content-Type: application/json" http://localhost:8080/o/headless-batch-engine/v1.0/import-task/\{\} | jq
+  }
+
+  # :command.function
+  cliferay_curl_mcp_developer_prompt_command() {
+
+    # src/commands/curl/mcp-developer-prompt.sh
+    liferay-curl -X POST \
+      -H "Content-Type: application/json" \
+      -d "{\"description\": \"Acts as the developer for demos\", \"externalReferenceCode\": \"L_MCP_SERVER_PROMPT_DEMO_DEVELOPER\", \"name\": \"Demo Developer\", \"prompt\": \"The user is a developer.\\r\\nObject definitions are created with object-admin.\\r\\nAfter creating an object definition you must refresh the list of openapis as a new API will have been created.\\r\\nBefore using the new object API make sure you query it's openapi to get the most up to date definitions.\\r\\nIf a site id or scope key is needed use 20126.\\r\\nFor object definition and field labels and plural labels use a json like: {en_US: ...}.\\r\\nTo create object definitions always send the status with a json object {code: 0}.\\r\\nFor object definition panelCategoryKey use control_panel.object unless told otherwise.\\r\\nFor object definition scope use company unless told otherwise.\\r\\nFor object definitions always add at least one field.\\r\\nObject definition names must start with uppercase.\"}" \
+      http://localhost:8080/o/mcp/server-prompts
   }
 
   # :command.function
@@ -3955,6 +3991,13 @@ EOF
         shift $#
         ;;
 
+      mcp-developer-prompt)
+        action="mcp-developer-prompt"
+        shift
+        cliferay_curl_mcp_developer_prompt_parse_requirements "$@"
+        shift $#
+        ;;
+
       # :command.command_fallback
       "")
         cliferay_curl_usage >&2
@@ -4274,6 +4317,51 @@ EOF
 
     # :command.command_filter
     action="curl batch-import"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_mcp_developer_prompt_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_mcp_developer_prompt_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl mcp-developer-prompt"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -6426,6 +6514,7 @@ EOF
       "curl new-object") cliferay_curl_new_object_command ;;
       "curl new-site-object") cliferay_curl_new_site_object_command ;;
       "curl batch-import") cliferay_curl_batch_import_command ;;
+      "curl mcp-developer-prompt") cliferay_curl_mcp_developer_prompt_command ;;
       "db-name") cliferay_db_name_command ;;
       "elastic-search") cliferay_elastic_search_command ;;
       "gogo") cliferay_gogo_command ;;

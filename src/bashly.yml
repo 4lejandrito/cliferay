@@ -106,6 +106,8 @@ commands:
         help: Create a new site scoped object definition with some entries
       - name: batch-import
         help: Import a new object entry with batch
+      - name: mcp-developer-prompt
+        help: Add a developer prompt to the MCP Server
     group: Server
 
   - name: db-name
