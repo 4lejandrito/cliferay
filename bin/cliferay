@@ -1847,28 +1847,28 @@ cliferay() {
   }
 
   function get_current_period() {
-      current_year=$(date '+%Y')
-      month=$(date '+%m')
+      current_year=$(date -u '+%Y')
+      month=$(date -u '+%m')
 
       if [ -n "$Q" ]; then
           current_year=$(echo "$Q" | cut -d'-' -f1)
           quarter=$(echo "$Q" | cut -d'-' -f2 | tr -d 'q')
           case $quarter in
               1)
-                  since="${current_year}-01-01"
-                  until="${current_year}-04-01"
+                  since="${current_year}-01-01T00:00:00Z"
+                  until="${current_year}-04-01T00:00:00Z"
                   ;;
               2)
-                  since="${current_year}-04-01"
-                  until="${current_year}-07-01"
+                  since="${current_year}-04-01T00:00:00Z"
+                  until="${current_year}-07-01T00:00:00Z"
                   ;;
               3)
-                  since="${current_year}-07-01"
-                  until="${current_year}-10-01"
+                  since="${current_year}-07-01T00:00:00Z"
+                  until="${current_year}-10-01T00:00:00Z"
                   ;;
               4)
-                  since="${current_year}-10-01"
-                  until="$(($current_year + 1))-01-01"
+                  since="${current_year}-10-01T00:00:00Z"
+                  until="$(($current_year + 1))-01-01T00:00:00Z"
                   ;;
               *)
                   echo "Invalid quarter specified. Use format yyyy-qx (e.g., 2023-q1)."
@@ -1876,8 +1876,8 @@ cliferay() {
                   ;;
           esac
       else
-          since="2000-01-01"
-          until="${current_year}-12-31"
+          since="2000-01-01T00:00:00Z"
+          until="${current_year}-12-31T23:59:59Z"
       fi
   }
 
@@ -2980,7 +2980,7 @@ EOF
     # src/commands/stats/review.sh
     cd $(cliferay home)
     get_current_period
-    echo "This period ($since - $until) ${args[user]} has:"
+    echo "This period (${since%%T*} - ${until%%T*}) ${args[user]} has:"
     echo ""
     echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
     echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
@@ -2999,7 +2999,7 @@ EOF
     # src/commands/stats/assigned.sh
     get_current_period
 
-    JQL="assignee was $(cliferay stats users jira ${args["user"]}) during ($since, $until) AND project IS NOT EMPTY AND updated >= $since"
+    JQL="assignee was $(cliferay stats users jira ${args["user"]}) during (${since%%T*}, ${until%%T*}) AND project IS NOT EMPTY AND updated >= ${since%%T*}"
 
     curl -s -u "$JIRA_API_USER:$JIRA_API_TOKEN" \
         -H "Accept: application/json" \

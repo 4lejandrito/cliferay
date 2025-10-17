@@ -23,28 +23,28 @@ function liferay-curl() {
 }
 
 function get_current_period() {
-    current_year=$(date '+%Y')
-    month=$(date '+%m')
+    current_year=$(date -u '+%Y')
+    month=$(date -u '+%m')
 
     if [ -n "$Q" ]; then
         current_year=$(echo "$Q" | cut -d'-' -f1)
         quarter=$(echo "$Q" | cut -d'-' -f2 | tr -d 'q')
         case $quarter in
             1)
-                since="${current_year}-01-01"
-                until="${current_year}-04-01"
+                since="${current_year}-01-01T00:00:00Z"
+                until="${current_year}-04-01T00:00:00Z"
                 ;;
             2)
-                since="${current_year}-04-01"
-                until="${current_year}-07-01"
+                since="${current_year}-04-01T00:00:00Z"
+                until="${current_year}-07-01T00:00:00Z"
                 ;;
             3)
-                since="${current_year}-07-01"
-                until="${current_year}-10-01"
+                since="${current_year}-07-01T00:00:00Z"
+                until="${current_year}-10-01T00:00:00Z"
                 ;;
             4)
-                since="${current_year}-10-01"
-                until="$(($current_year + 1))-01-01"
+                since="${current_year}-10-01T00:00:00Z"
+                until="$(($current_year + 1))-01-01T00:00:00Z"
                 ;;
             *)
                 echo "Invalid quarter specified. Use format yyyy-qx (e.g., 2023-q1)."
@@ -52,8 +52,8 @@ function get_current_period() {
                 ;;
         esac
     else
-        since="2000-01-01"
-        until="${current_year}-12-31"
+        since="2000-01-01T00:00:00Z"
+        until="${current_year}-12-31T23:59:59Z"
     fi
 }
 

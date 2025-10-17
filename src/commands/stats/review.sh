@@ -1,6 +1,6 @@
 cd $(cliferay home)
 get_current_period
-echo "This period ($since - $until) ${args[user]} has:"
+echo "This period (${since%%T*} - ${until%%T*}) ${args[user]} has:"
 echo ""
 echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
 echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
