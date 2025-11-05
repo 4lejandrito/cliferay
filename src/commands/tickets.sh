@@ -1,1 +1,1 @@
-grep -oE 'LP[PSD]-[0-9]+' | sort | uniq | sed 's/^/https:\/\/liferay.atlassian.net\/browse\//'
+grep -oE '(LP[PSD]|PTR)-[0-9]+' | sort | uniq | sed 's/^/https:\/\/liferay.atlassian.net\/browse\//'
