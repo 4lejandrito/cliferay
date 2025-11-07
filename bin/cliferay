@@ -584,7 +584,12 @@ cliferay() {
 
   # :command.usage
   cliferay_docker_usage() {
-    printf "cliferay docker - Start a Liferay Docker container\n\n"
+    if [[ -n $long_usage ]]; then
+      printf "cliferay docker\n\n"
+      printf "  Start a Liferay Docker container\n  \n  You can configure it by placing files under $(cliferay data-folder)/docker\n  \n  That folder will be copied on startup to .docker and mounted into the\n  container, for runtime changes do it in the .docker folder\n  \n  https://learn.liferay.com/w/dxp/self-hosted-installation-and-upgrades/using-liferay-docker-images/providing-files-to-the-container\n\n"
+    else
+      printf "cliferay docker - Start a Liferay Docker container\n\n"
+    fi
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay docker [IMAGE]\n"
@@ -2271,7 +2276,7 @@ cliferay() {
   cliferay_data_folder_command() {
 
     # src/commands/data-folder.sh
-    echo $(cliferay source-folder)/.data
+    echo -n $(cliferay source-folder)/.data
   }
 
   # :command.function
@@ -2675,7 +2680,10 @@ cliferay() {
   cliferay_docker_command() {
 
     # src/commands/docker.sh
-    docker run -it --rm -m 8g -p 8080:8080 -p 11311:11311 -p 9200:9200 -p 8000:8000 -e LIFERAY_JPDA_ENABLED=true "liferay/${args["image"]}"
+    mkdir -p $(cliferay data-folder)/docker
+    rm -rf $(cliferay data-folder)/.docker
+    cp -r $(cliferay data-folder)/docker $(cliferay data-folder)/.docker
+    docker run -it --rm -m 8g -p 8080:8080 -p 11311:11311 -p 9200:9200 -p 8000:8000 -e LIFERAY_JPDA_ENABLED=true -v $(cliferay data-folder)/.docker:/mnt/liferay "liferay/${args["image"]}"
   }
 
   # :command.function

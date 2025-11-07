@@ -1,6 +1,13 @@
 # cliferay docker
 
-Start a Liferay Docker container
+Start a Liferay Docker container  
+  
+You can configure it by placing files under $(cliferay data-folder)/docker  
+  
+That folder will be copied on startup to .docker and mounted into the container, for runtime changes do it in the .docker folder  
+  
+https://learn.liferay.com/w/dxp/self-hosted-installation-and-upgrades/using-liferay-docker-images/providing-files-to-the-container  
+
 
 ## Usage
 

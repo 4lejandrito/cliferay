@@ -1,1 +1,1 @@
-echo $(cliferay source-folder)/.data
+echo -n $(cliferay source-folder)/.data
