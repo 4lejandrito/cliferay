@@ -1,5 +1,8 @@
 # Cliferay
 
+
+Read [the full documentation](docs/README.md).
+
 ```
 cliferay
 
