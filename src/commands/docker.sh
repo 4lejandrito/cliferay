@@ -1,1 +1,1 @@
-docker run -it --rm -m 8g -p 8080:8080 -p 11311:11311 "liferay/${args["image"]}"
+docker run -it --rm -m 8g -p 8080:8080 -p 11311:11311 -p 9200:9200 -p 8000:8000 -e LIFERAY_JPDA_ENABLED=true "liferay/${args["image"]}"
