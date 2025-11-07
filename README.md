@@ -23,6 +23,7 @@ Usage:
 cliferay Commands:
   aliases           Print the aliases script
   completions       Print the completions script
+  repo              Open the cliferay GitHub repository in the browser
   update            Update cliferay to the latest version
 
 Build Commands:

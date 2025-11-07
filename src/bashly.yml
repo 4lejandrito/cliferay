@@ -34,6 +34,10 @@ commands:
     private: true
     group: cliferay
 
+  - name: repo
+    help: Open the cliferay GitHub repository in the browser
+    group: cliferay
+
   - name: update
     help: Update cliferay to the latest version
     group: cliferay
