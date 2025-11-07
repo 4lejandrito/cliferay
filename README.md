@@ -34,6 +34,7 @@ Build Commands:
 
 Server Commands:
   curl              Send HTTP requests to the server
+  docker            Start a Liferay Docker container
   elastic-search    Query the Elasticsearch index
   gogo              Open the Gogo Shell
   kill              Kill the server

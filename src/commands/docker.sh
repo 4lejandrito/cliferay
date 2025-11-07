@@ -1,0 +1,1 @@
+docker run -it --rm -m 8g -p 8080:8080 -p 11311:11311 "liferay/${args["image"]}"
