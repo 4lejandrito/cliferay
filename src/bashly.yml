@@ -108,6 +108,8 @@ commands:
         help: Create a new object definition with some entries
       - name: new-site-object
         help: Create a new site scoped object definition with some entries
+      - name: batch-export
+        help: Export site pages with batch
       - name: batch-import
         help: Import a new object entry with batch
       - name: mcp-developer-prompt
