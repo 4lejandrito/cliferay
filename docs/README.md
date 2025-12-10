@@ -50,6 +50,7 @@ Set to true to echo all commands being run
 
 - [ant](cliferay%20ant.md) - Run ant
 - [build](cliferay%20build.md) - Run 'ant all'
+- [bundle](cliferay%20bundle.md) - Set up bundle from https://releases.liferay.com
 - [gw](cliferay%20gw.md) - Run gradlew
 - [ij](cliferay%20ij.md) - Run liferay-intellij
 - [morning](cliferay%20morning.md) - Run sync, build, ij, nuke and run

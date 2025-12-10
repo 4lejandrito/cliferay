@@ -53,6 +53,24 @@ commands:
     help: Run 'ant all'
     group: Build
 
+  - name: bundle
+    help: |
+      Set up bundle from https://releases.liferay.com
+
+      The bundles directory will be replaced by the downloaded one
+      The commit inside the .githash file will be checked out in the repository
+    group: Build
+    args:
+      - name: version
+        help: The version to run
+        required: true
+    examples:
+      - cliferay bundle dxp/2023.q4.0
+    completions:
+      - dxp/nightly
+      - dxp/2023.q4.0
+      - portal/7.4.3.132-ga132
+
   - name: gw
     help: Run gradlew
     catch_all: true

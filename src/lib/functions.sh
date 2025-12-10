@@ -61,3 +61,8 @@ function get_git_log_period() {
     get_current_period
     echo "--since=\"$since\" --until=\"$until\""
 }
+
+function deploy_activation_key() {
+    mkdir -p $1/deploy
+    cp $(cliferay data-folder)/activation-* $1/deploy/ 2>/dev/null || true
+}

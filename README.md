@@ -31,6 +31,7 @@ cliferay Commands:
 Build Commands:
   ant               Run ant
   build             Run 'ant all'
+  bundle            Set up bundle from https://releases.liferay.com
   gw                Run gradlew
   ij                Run liferay-intellij
   morning           Run sync, build, ij, nuke and run
