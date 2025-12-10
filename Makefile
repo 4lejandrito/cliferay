@@ -10,7 +10,7 @@ bin/cliferay: $(shell find src) Makefile
 
 README.md: bin/cliferay Makefile
 	@$(BASHLY) render :markdown_github docs
-	@perl -0777 -i -pe "s/\`\`\`(.*?)\`\`\`/\`\`\`\n$$(NO_COLOR=1 ./bin/cliferay --help)\n\`\`\`/s" README.md
+	@./README.sh > README.md
 
 test/ok: test/*.bats bin/cliferay
 	@docker run $(DOCKER_TTY) -v "$$PWD:/code" bats/bats:1.12.0 test
