@@ -9,6 +9,7 @@ bin/cliferay: $(shell find src) Makefile
 	@$(BASHLY) build --upgrade -r cliferay
 
 README.md: bin/cliferay Makefile
+	@rm -rf docs
 	@$(BASHLY) render :markdown_github docs
 	@./README.sh > README.md
 
