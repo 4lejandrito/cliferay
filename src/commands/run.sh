@@ -36,6 +36,9 @@ module.framework.properties.osgi.console=11311
 
 virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com
 
+# MCP Server
+feature.flag.LPD-63311=true
+
 include-and-override=\${liferay.home}/portal-custom.properties
 " > $1/portal-ext.properties
 if [ ! -f "$1/portal-custom.properties" ]; then

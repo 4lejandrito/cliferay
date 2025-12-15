@@ -41,6 +41,7 @@ cliferay() {
     printf "  %s   Run sync, build, ij, nuke and run\n" "$(green_bold "morning")        "
     echo
     printf "%s\n" "$(bold "Server Commands:")"
+    printf "  %s   Chat with the server\n" "$(green_bold "chat")           "
     printf "  %s   Send HTTP requests to the server\n" "$(green_bold "curl")           "
     printf "  %s   Start a Liferay Docker container\n" "$(green_bold "docker")         "
     printf "  %s   Query the Elasticsearch index\n" "$(green_bold "elastic-search") "
@@ -372,6 +373,27 @@ cliferay() {
       printf "  %s\n" "--force, -f"
       printf "    Force cleanup by running 'git clean -fdx'\n"
       echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_chat_usage() {
+    printf "cliferay chat - Chat with the server\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay chat\n"
+    printf "  cliferay chat --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
 
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
@@ -2139,16 +2161,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'curl new-api\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'stats review\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats users\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'stats years\'*)'
@@ -2157,10 +2183,6 @@ cliferay() {
     echo $''
     echo $'    \'completions\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats users\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'set-ticket\'*)'
@@ -2211,12 +2233,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'stats\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'poshi\'*)'
@@ -2257,6 +2279,10 @@ cliferay() {
     echo $''
     echo $'    \'curl\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h ai batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'chat\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'jira\'*)'
@@ -2312,7 +2338,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules cm completions curl d deploy docker elastic-search format-source gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2464,6 +2490,14 @@ cliferay() {
     fi
     cliferay run
 
+  }
+
+  # :command.function
+  cliferay_chat_command() {
+
+    # src/commands/chat.sh
+    cd $(cliferay source-folder)/src/chat
+    GOOGLE_CLOUD_PROJECT=ai-code-assist-431217 npx @google/gemini-cli --yolo
   }
 
   # :command.function
@@ -2898,6 +2932,9 @@ EOF
     module.framework.properties.osgi.console=11311
 
     virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com
+
+    # MCP Server
+    feature.flag.LPD-63311=true
 
     include-and-override=\${liferay.home}/portal-custom.properties
     " > $1/portal-ext.properties
@@ -3449,6 +3486,13 @@ EOF
         action="morning"
         shift
         cliferay_morning_parse_requirements "$@"
+        shift $#
+        ;;
+
+      chat)
+        action="chat"
+        shift
+        cliferay_chat_parse_requirements "$@"
         shift $#
         ;;
 
@@ -4245,6 +4289,51 @@ EOF
           args['--force']=1
           shift
           ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_chat_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_chat_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="chat"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
 
         -?*)
           printf "invalid option: %s\n" "$key" >&2
@@ -6955,6 +7044,7 @@ EOF
       "gw") cliferay_gw_command ;;
       "ij") cliferay_ij_command ;;
       "morning") cliferay_morning_command ;;
+      "chat") cliferay_chat_command ;;
       "curl") cliferay_curl_command ;;
       "curl ai") cliferay_curl_ai_command ;;
       "curl new-instance") cliferay_curl_new_instance_command ;;

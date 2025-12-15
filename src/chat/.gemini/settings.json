@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "liferay": {
+      "url": "http://localhost:8080/o/mcp/sse",
+      "headers": {
+        "Authorization": "Basic dGVzdEBsaWZlcmF5LmNvbTp0ZXN0"
+      }
+    }
+  }
+}

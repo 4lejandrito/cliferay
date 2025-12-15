@@ -92,6 +92,10 @@ commands:
 
   # Server
 
+  - name: chat
+    help: Chat with the server
+    group: Server
+
   - name: curl
     help: Send HTTP requests to the server
     commands:

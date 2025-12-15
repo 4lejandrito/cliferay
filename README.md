@@ -37,6 +37,7 @@ Build Commands:
   morning           Run sync, build, ij, nuke and run
 
 Server Commands:
+  chat              Chat with the server
   curl              Send HTTP requests to the server
   docker            Start a Liferay Docker container
   elastic-search    Query the Elasticsearch index

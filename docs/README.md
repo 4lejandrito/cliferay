@@ -57,6 +57,7 @@ Set to true to echo all commands being run
 
 ## Server Commands
 
+- [chat](cliferay%20chat.md) - Chat with the server
 - [curl](cliferay%20curl.md) - Send HTTP requests to the server
 - [docker](cliferay%20docker.md) - Start a Liferay Docker container
 - [elastic-search](cliferay%20elastic-search.md) - Query the Elasticsearch index
