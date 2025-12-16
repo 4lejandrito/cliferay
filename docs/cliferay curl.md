@@ -10,7 +10,6 @@ cliferay curl COMMAND
 
 ## Commands
 
-- [ai](cliferay%20curl%20ai.md) - Run a curl command based on a prompt
 - [new-instance](cliferay%20curl%20new-instance.md) - Create a new instance
 - [new-api](cliferay%20curl%20new-api.md) - Create a new API Builder API
 - [new-object](cliferay%20curl%20new-object.md) - Create a new object definition with some entries
