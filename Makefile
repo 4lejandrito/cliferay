@@ -8,7 +8,7 @@ BASHLY := docker run --rm $(DOCKER_TTY) --user $$(id -u):$$(id -g) --volume "$$(
 bin/cliferay: $(shell find src) Makefile
 	@$(BASHLY) build --upgrade -r cliferay
 
-README.md: bin/cliferay Makefile
+README.md: bin/cliferay README.sh Makefile
 	@rm -rf docs
 	@$(BASHLY) render :markdown_github docs
 	@./README.sh > README.md
