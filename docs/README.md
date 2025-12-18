@@ -1,17 +1,6 @@
 # cliferay
 
-Daily scripts for working with Liferay  
-  
-You can run these scripts from any folder:  
-  - If you are outside a repository, LIFERAY_HOME will be used.  
-  - If you are inside a repository, that repository will be used.  
-    
-For example, every day I open my terminal and type:  
-  
-  \> cliferay morning  
-  
-and it will work, no matter which folder I am in.  
-
+Daily scripts for working with Liferay\n\nYou can run these scripts from any folder:\n  - If you are outside a repository, LIFERAY_HOME will be used.\n  - If you are inside a repository, that repository will be used.\n  \nFor example, every day I open my terminal and type:\n\n  \> cliferay morning\n\nand it will work, no matter which folder I am in.\n"
 
 | Attributes       | &nbsp;
 |------------------|-------------

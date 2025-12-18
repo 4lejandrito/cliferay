@@ -1,5 +1,5 @@
 name: cliferay
-help: "Daily scripts for working with Liferay\n\nYou can run these scripts from any folder:\n  - If you are outside a repository, LIFERAY_HOME will be used.\n  - If you are inside a repository, that repository will be used.\n  \nFor example, every day I open my terminal and type:\n\n  > cliferay morning\n\nand it will work, no matter which folder I am in.\n"
+help: Daily scripts for working with Liferay\n\nYou can run these scripts from any folder:\n  - If you are outside a repository, LIFERAY_HOME will be used.\n  - If you are inside a repository, that repository will be used.\n  \nFor example, every day I open my terminal and type:\n\n  > cliferay morning\n\nand it will work, no matter which folder I am in.\n"
 version: 1.0.0
 environment_variables:
   - name: DEBUG
@@ -111,6 +111,16 @@ commands:
         help: Create a new API Builder API
       - name: new-object
         help: Create a new object definition with some entries
+      - name: new-versioned-object
+        help: |
+          Create a new versioned object definition with some entries
+
+          This requires the following feature flags:
+
+            feature.flag.LPD-17564=true
+            feature.flag.LPD-11235=true
+            feature.flag.LPD-34594=true
+
       - name: new-site-object
         help: Create a new site scoped object definition with some entries
       - name: batch-export

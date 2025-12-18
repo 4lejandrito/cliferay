@@ -13,12 +13,7 @@ cliferay() {
 
   # :command.usage
   cliferay_usage() {
-    if [[ -n $long_usage ]]; then
-      printf "cliferay\n\n"
-      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n    \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
-    else
-      printf "cliferay - Daily scripts for working with Liferay\n\n"
-    fi
+    printf "cliferay - Daily scripts for working with Liferay\n\nYou can run these scripts from any folder:\n  - If you are outside a repository, LIFERAY_HOME will be used.\n  - If you are inside a repository, that repository will be used.\n  \nFor example, every day I open my terminal and type:\n\n  > cliferay morning\n\nand it will work, no matter which folder I am in.\n\"\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay COMMAND\n"
@@ -416,6 +411,7 @@ cliferay() {
     printf "  %s   Create a new instance\n" "$(green_bold "new-instance")        "
     printf "  %s   Create a new API Builder API\n" "$(green_bold "new-api")             "
     printf "  %s   Create a new object definition with some entries\n" "$(green_bold "new-object")          "
+    printf "  %s   Create a new versioned object definition with some entries\n" "$(green_bold "new-versioned-object")"
     printf "  %s   Create a new site scoped object definition with some entries\n" "$(green_bold "new-site-object")     "
     printf "  %s   Export site pages with batch\n" "$(green_bold "batch-export")        "
     printf "  %s   Import a new object entry with batch\n" "$(green_bold "batch-import")        "
@@ -497,6 +493,32 @@ cliferay() {
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay curl new-object\n"
     printf "  cliferay curl new-object --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_curl_new_versioned_object_usage() {
+    if [[ -n $long_usage ]]; then
+      printf "cliferay curl new-versioned-object\n\n"
+      printf "  Create a new versioned object definition with some entries\n  \n  This requires the following feature flags:\n  \n    feature.flag.LPD-17564=true\n    feature.flag.LPD-11235=true\n    feature.flag.LPD-34594=true\n\n"
+    else
+      printf "cliferay curl new-versioned-object - Create a new versioned object definition with some entries\n\n"
+    fi
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay curl new-versioned-object\n"
+    printf "  cliferay curl new-versioned-object --help | -h\n"
     echo
 
     # :command.long_usage
@@ -2047,6 +2069,10 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'curl new-versioned-object\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'stats headless-summary\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
@@ -2224,7 +2250,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'curl\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'chat\'*)'
@@ -2591,6 +2617,69 @@ cliferay() {
          -H 'Content-Type: application/json' \
          -d $'{
         "universityName": "Cambridge"
+      }'
+  }
+
+  # :command.function
+  cliferay_curl_new_versioned_object_command() {
+
+    # src/commands/curl/new-versioned-object.sh
+    JSON=$(
+      liferay-curl -X "PUT" "http://localhost:8080/o/object-admin/v1.0/object-definitions/by-external-reference-code/Versioned" \
+         -H 'Content-Type: application/json' \
+         -d $'{
+            "active": true,
+            "enableObjectEntryVersioning": true,
+            "status": {
+              "code": 0
+            },
+            "objectFields": [
+              {
+                "DBType": "String",
+                "indexed": true,
+                "indexedLanguageId": "",
+                "externalReferenceCode": "versioned-name",
+                "listTypeDefinitionId": 0,
+                "label": {
+                  "en_US": "Versioned name"
+                },
+                "type": "String",
+                "required": true,
+                "system": false,
+                "name": "versionedName",
+                "indexedAsKeyword": false
+              }
+            ],
+            "panelCategoryKey": "control_panel.object",
+            "pluralLabel": {
+              "en-US": "Versioneds"
+            },
+            "portlet": true,
+            "scope": "company",
+            "label": {
+              "en-US": "Versioned"
+            },
+            "externalReferenceCode": "Versioned",
+            "name": "Versioned"
+          }'
+    )
+
+    echo $JSON | jq
+
+    if [[ $(echo $JSON | jq '.status.code') != 0 ]]; then
+      liferay-curl -X "POST" "http://localhost:8080/o/object-admin/v1.0/object-definitions/$(echo $JSON | jq '.id')/publish"
+    fi
+
+    liferay-curl -X "PUT" "http://localhost:8080/o/c/versioneds/by-external-reference-code/A" \
+         -H 'Content-Type: application/json' \
+         -d $'{
+        "versionedName": "A"
+      }'
+
+    liferay-curl -X "PUT" "http://localhost:8080/o/c/versioneds/by-external-reference-code/B" \
+         -H 'Content-Type: application/json' \
+         -d $'{
+        "versionedName": "B"
       }'
   }
 
@@ -4256,6 +4345,13 @@ EOF
         shift $#
         ;;
 
+      new-versioned-object)
+        action="new-versioned-object"
+        shift
+        cliferay_curl_new_versioned_object_parse_requirements "$@"
+        shift $#
+        ;;
+
       new-site-object)
         action="new-site-object"
         shift
@@ -4440,6 +4536,51 @@ EOF
 
     # :command.command_filter
     action="curl new-object"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_curl_new_versioned_object_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_curl_new_versioned_object_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="curl new-versioned-object"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -6826,6 +6967,7 @@ EOF
       "curl new-instance") cliferay_curl_new_instance_command ;;
       "curl new-api") cliferay_curl_new_api_command ;;
       "curl new-object") cliferay_curl_new_object_command ;;
+      "curl new-versioned-object") cliferay_curl_new_versioned_object_command ;;
       "curl new-site-object") cliferay_curl_new_site_object_command ;;
       "curl batch-export") cliferay_curl_batch_export_command ;;
       "curl batch-import") cliferay_curl_batch_import_command ;;
