@@ -34,7 +34,7 @@ feature.flag.ui.visible[dev]=true
 
 module.framework.properties.osgi.console=11311
 
-virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com
+virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com,[0:0:0:0:0:0:0:1]
 
 # MCP Server
 feature.flag.LPD-63311=true
