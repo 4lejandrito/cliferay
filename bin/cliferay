@@ -13,7 +13,12 @@ cliferay() {
 
   # :command.usage
   cliferay_usage() {
-    printf "cliferay - Daily scripts for working with Liferay\n\nYou can run these scripts from any folder:\n  - If you are outside a repository, LIFERAY_HOME will be used.\n  - If you are inside a repository, that repository will be used.\n  \nFor example, every day I open my terminal and type:\n\n  > cliferay morning\n\nand it will work, no matter which folder I am in.\n\"\n\n"
+    if [[ -n $long_usage ]]; then
+      printf "cliferay\n\n"
+      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n  \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
+    else
+      printf "cliferay - Daily scripts for working with Liferay\n\n"
+    fi
 
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay COMMAND\n"
