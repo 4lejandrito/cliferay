@@ -73,6 +73,7 @@ Set to true to echo all commands being run
 - [build-rest](cliferay%20build-rest.md) - Run buildREST globally
 - [changed-modules](cliferay%20changed-modules.md) - List changed modules
 - [deploy](cliferay%20deploy.md) - Deploy the current folder
+- [gemini](cliferay%20gemini.md) - Run Liferay's Gemini
 - [home](cliferay%20home.md) - Print the current Liferay home folder path
 - [format-source](cliferay%20format-source.md) - Run Source Formatter globally
 - [owner](cliferay%20owner.md) - Output the owner of a path based on CODEOWNERS

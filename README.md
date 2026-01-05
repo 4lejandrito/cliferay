@@ -52,6 +52,7 @@ Code Commands:
   build-rest        Run buildREST globally
   changed-modules   List changed modules
   deploy            Deploy the current folder
+  gemini            Run Liferay's Gemini
   home              Print the current Liferay home folder path
   format-source     Run Source Formatter globally
   owner             Output the owner of a path based on CODEOWNERS

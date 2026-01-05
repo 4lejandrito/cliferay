@@ -56,6 +56,7 @@ cliferay() {
     printf "  %s   Run buildREST globally\n" "$(green_bold "build-rest")     "
     printf "  %s   List changed modules\n" "$(green_bold "changed-modules")"
     printf "  %s   Deploy the current folder\n" "$(green_bold "deploy")         "
+    printf "  %s   Run Liferay's Gemini\n" "$(green_bold "gemini")         "
     printf "  %s   Print the current Liferay home folder path\n" "$(green_bold "home")           "
     printf "  %s   Run Source Formatter globally\n" "$(green_bold "format-source")  "
     printf "  %s   Output the owner of a path based on CODEOWNERS\n" "$(green_bold "owner")          "
@@ -959,6 +960,27 @@ cliferay() {
     printf "%s\n" "$(bold "Usage:")"
     printf "  cliferay deploy\n"
     printf "  cliferay deploy --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_gemini_usage() {
+    printf "cliferay gemini - Run Liferay's Gemini\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay gemini\n"
+    printf "  cliferay gemini --help | -h\n"
     echo
 
     # :command.long_usage
@@ -2206,6 +2228,10 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'gemini\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'bundle\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
     echo $'      ;;'
@@ -2315,7 +2341,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2474,7 +2500,7 @@ cliferay() {
 
     # src/commands/chat.sh
     cd $(cliferay source-folder)/src/chat
-    GOOGLE_CLOUD_PROJECT=ai-code-assist-431217 npx @google/gemini-cli --yolo
+    cliferay gemini
   }
 
   # :command.function
@@ -2973,6 +2999,13 @@ EOF
     elif ! [[ "$PWD" = */*-test ]]; then
         cliferay gw -a depl
     fi
+  }
+
+  # :command.function
+  cliferay_gemini_command() {
+
+    # src/commands/gemini.sh
+    GOOGLE_CLOUD_PROJECT=ai-code-assist-431217 npx @google/gemini-cli --yolo
   }
 
   # :command.function
@@ -3542,6 +3575,13 @@ EOF
         action="deploy"
         shift
         cliferay_deploy_parse_requirements "$@"
+        shift $#
+        ;;
+
+      gemini)
+        action="gemini"
+        shift
+        cliferay_gemini_parse_requirements "$@"
         shift $#
         ;;
 
@@ -5429,6 +5469,51 @@ EOF
   }
 
   # :command.parse_requirements
+  cliferay_gemini_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_gemini_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="gemini"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
   cliferay_home_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -6990,6 +7075,7 @@ EOF
       "build-rest") cliferay_build_rest_command ;;
       "changed-modules") cliferay_changed_modules_command ;;
       "deploy") cliferay_deploy_command ;;
+      "gemini") cliferay_gemini_command ;;
       "home") cliferay_home_command ;;
       "format-source") cliferay_format_source_command ;;
       "owner") cliferay_owner_command ;;

@@ -1,2 +1,2 @@
 cd $(cliferay source-folder)/src/chat
-GOOGLE_CLOUD_PROJECT=ai-code-assist-431217 npx @google/gemini-cli --yolo
+cliferay gemini

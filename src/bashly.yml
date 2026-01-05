@@ -253,6 +253,10 @@ commands:
     help: Deploy the current folder
     group: Code
 
+  - name: gemini
+    help: Run Liferay's Gemini
+    group: Code
+
   - name: home
     help: Print the current Liferay home folder path
     environment_variables:
