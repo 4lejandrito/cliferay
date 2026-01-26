@@ -166,11 +166,9 @@ commands:
       - cliferay docker portal:7.4.3.132-ga132
     completions:
       - portal
-      - portal:7.4.3.132-ga132
       - dxp
-      - dxp:2025.q3.8
-      - dxp:7.4.13.nightly
-      - release-candidates:7.4.13-u143-1762358432
+      - release-candidates
+      - $(cat $(cliferay data-folder)/docker-tags.txt)
 
   - name: elastic-search
     help: Query the Elasticsearch index

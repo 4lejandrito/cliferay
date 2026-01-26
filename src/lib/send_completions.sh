@@ -185,7 +185,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'docker\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay data-folder)/docker-tags.txt) --help -h dxp portal release-candidates")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'gemini\'*)'
