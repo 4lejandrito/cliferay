@@ -1,17 +1,17 @@
-# cliferay stats commits
+# cliferay team commits
 
 Print the commits for the user
 
 ## Usage
 
 ```bash
-cliferay stats commits [USER]
+cliferay team commits [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats commits alejandro.tardin@liferay.com
+cliferay team commits alejandro.tardin@liferay.com
 ```
 
 ## Arguments

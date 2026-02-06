@@ -1,17 +1,17 @@
-# cliferay stats years
+# cliferay team years
 
 Show commit count per year
 
 ## Usage
 
 ```bash
-cliferay stats years [USER]
+cliferay team years [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats years alejandro.tardin
+cliferay team years alejandro.tardin
 ```
 
 ## Arguments

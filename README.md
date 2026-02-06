@@ -63,16 +63,16 @@ Git Commands:
   brian             Forward an existing PR to Brian and close it
   backport          Backport commits to other branches
   set-ticket        Set the Jira ticket on your local commits
-  stats             Calculate various Git statistics
   sync              Sync fork and local copy with upstream
   tickets           Extract all Jira tickets from the output of 'git log'
 
 Jira Commands:
   jira              Open a Jira ticket in the browser
 
-GTD Commands:
+Personal Commands:
   todo              Create a todo in Trello
   todos             List todos from Trello
+  team              Manage your team
 
 Options:
   --help, -h

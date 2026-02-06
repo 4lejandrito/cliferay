@@ -1,17 +1,17 @@
-# cliferay stats headless-summary
+# cliferay team headless-summary
 
 Show tickets grouped by folder
 
 ## Usage
 
 ```bash
-cliferay stats headless-summary USER
+cliferay team headless-summary USER
 ```
 
 ## Examples
 
 ```bash
-cliferay stats headless-summary alejandro.tardin
+cliferay team headless-summary alejandro.tardin
 ```
 
 ## Arguments

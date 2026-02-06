@@ -1,6 +1,6 @@
 cd $(cliferay home)
 
-COMMITS=($(git log $(get_git_log_period) --pretty=format:"%H" $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')))
+COMMITS=($(git log $(get_git_log_period) --pretty=format:"%H" $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')))
 
 declare -A folder_commit_map
 

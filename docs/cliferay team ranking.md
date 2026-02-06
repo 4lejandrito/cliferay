@@ -1,17 +1,17 @@
-# cliferay stats ranking
+# cliferay team ranking
 
 Show commit ranking
 
 ## Usage
 
 ```bash
-cliferay stats ranking [EMAILS...]
+cliferay team ranking [EMAILS...]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats ranking alejandro.tardin@liferay.com
+cliferay team ranking alejandro.tardin@liferay.com
 ```
 
 ## Arguments

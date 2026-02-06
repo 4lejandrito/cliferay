@@ -67,16 +67,16 @@ cliferay() {
     printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
     printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
     printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
-    printf "  %s   Calculate various Git statistics\n" "$(green_bold "stats")          "
     printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
     printf "  %s   Extract all Jira tickets from the output of 'git log'\n" "$(green_bold "tickets")        "
     echo
     printf "%s\n" "$(bold "Jira Commands:")"
     printf "  %s   Open a Jira ticket in the browser\n" "$(green_bold "jira")           "
     echo
-    printf "%s\n" "$(bold "GTD Commands:")"
+    printf "%s\n" "$(bold "Personal Commands:")"
     printf "  %s   Create a todo in Trello\n" "$(green_bold "todo")           "
     printf "  %s   List todos from Trello\n" "$(green_bold "todos")          "
+    printf "  %s   Manage your team\n" "$(green_bold "team")           "
     echo
 
     # :command.long_usage
@@ -1265,418 +1265,6 @@ cliferay() {
   }
 
   # :command.usage
-  cliferay_stats_usage() {
-    printf "cliferay stats - Calculate various Git statistics\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats COMMAND\n"
-    printf "  cliferay stats [COMMAND] --help | -h\n"
-    echo
-    # :command.usage_commands
-    printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Get information about users\n" "$(green_bold "users")           "
-    printf "  %s   Show commit count per year\n" "$(green_bold "years")           "
-    printf "  %s   Show commit ranking\n" "$(green_bold "ranking")         "
-    printf "  %s   Show tickets worked on, based on commits\n" "$(green_bold "tickets")         "
-    printf "  %s   Print the commits for the user\n" "$(green_bold "commits")         "
-    printf "  %s   Print the folders changed by the user\n" "$(green_bold "folders")         "
-    printf "  %s   Write a review based on Git and Jira stats\n" "$(green_bold "review")          "
-    printf "  %s   Show all tickets ever assigned to the user\n" "$(green_bold "assigned")        "
-    printf "  %s   Show tickets grouped by folder\n" "$(green_bold "headless-summary")"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_users_usage() {
-    printf "cliferay stats users - Get information about users\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats users COMMAND\n"
-    printf "  cliferay stats users [COMMAND] --help | -h\n"
-    echo
-    # :command.usage_commands
-    printf "%s\n" "$(bold "Commands:")"
-    printf "  %s   Show the Jira ID\n" "$(green_bold "jira")  "
-    printf "  %s   Show the user's Git emails\n" "$(green_bold "emails")"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_users_jira_usage() {
-    printf "cliferay stats users jira - Show the Jira ID\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats users jira USER\n"
-    printf "  cliferay stats users jira --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user handle\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats users jira alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_users_emails_usage() {
-    printf "cliferay stats users emails - Show the user's Git emails\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats users emails USER\n"
-    printf "  cliferay stats users emails --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user handle\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats users emails alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_years_usage() {
-    printf "cliferay stats years - Show commit count per year\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats years [USER]\n"
-    printf "  cliferay stats years --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats years alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_ranking_usage() {
-    printf "cliferay stats ranking - Show commit ranking\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats ranking [EMAILS...]\n"
-    printf "  cliferay stats ranking --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "EMAILS..."
-      printf "    The emails of the commit authors\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats ranking alejandro.tardin@liferay.com\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_tickets_usage() {
-    printf "cliferay stats tickets - Show tickets worked on, based on commits\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats tickets [USER]\n"
-    printf "  cliferay stats tickets --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats tickets alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_commits_usage() {
-    printf "cliferay stats commits - Print the commits for the user\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats commits [USER]\n"
-    printf "  cliferay stats commits --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats commits alejandro.tardin@liferay.com\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_folders_usage() {
-    printf "cliferay stats folders - Print the folders changed by the user\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats folders [USER]\n"
-    printf "  cliferay stats folders --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats folders alejandro.tardin@liferay.com\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_review_usage() {
-    printf "cliferay stats review - Write a review based on Git and Jira stats\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats review [USER]\n"
-    printf "  cliferay stats review --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user to be reviewed\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats review alejandro.tardin@liferay.com\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_assigned_usage() {
-    printf "cliferay stats assigned - Show all tickets ever assigned to the user\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats assigned [USER]\n"
-    printf "  cliferay stats assigned --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_environment_variables
-      printf "%s\n" "$(bold "Environment Variables:")"
-
-      # :environment_variable.usage
-      printf "  %s\n" "JIRA_API_USER (required)"
-      printf "    Your Jira email\n"
-      echo
-
-      # :environment_variable.usage
-      printf "  %s\n" "JIRA_API_TOKEN (required)"
-      printf "    Your Jira API Token\n    (https://id.atlassian.com/manage-profile/security/api-tokens)\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats assigned alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_stats_headless_summary_usage() {
-    printf "cliferay stats headless-summary - Show tickets grouped by folder\n\n"
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay stats headless-summary USER\n"
-    printf "  cliferay stats headless-summary --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_args
-      printf "%s\n" "$(bold "Arguments:")"
-
-      # :argument.usage
-      printf "  %s\n" "USER"
-      printf "    The user\n"
-      echo
-
-      # :command.usage_examples
-      printf "%s\n" "$(bold "Examples:")"
-      printf "  cliferay stats headless-summary alejandro.tardin\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
   cliferay_sync_usage() {
     printf "cliferay sync - Sync fork and local copy with upstream\n\n"
 
@@ -1843,6 +1431,418 @@ cliferay() {
       # :command.usage_examples
       printf "%s\n" "$(bold "Examples:")"
       printf "  cliferay todos\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_usage() {
+    printf "cliferay team - Manage your team\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team COMMAND\n"
+    printf "  cliferay team [COMMAND] --help | -h\n"
+    echo
+    # :command.usage_commands
+    printf "%s\n" "$(bold "Commands:")"
+    printf "  %s   Get information about users\n" "$(green_bold "users")           "
+    printf "  %s   Show commit count per year\n" "$(green_bold "years")           "
+    printf "  %s   Show commit ranking\n" "$(green_bold "ranking")         "
+    printf "  %s   Show tickets worked on, based on commits\n" "$(green_bold "tickets")         "
+    printf "  %s   Print the commits for the user\n" "$(green_bold "commits")         "
+    printf "  %s   Print the folders changed by the user\n" "$(green_bold "folders")         "
+    printf "  %s   Write a review based on Git and Jira stats\n" "$(green_bold "review")          "
+    printf "  %s   Show all tickets ever assigned to the user\n" "$(green_bold "assigned")        "
+    printf "  %s   Show tickets grouped by folder\n" "$(green_bold "headless-summary")"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_users_usage() {
+    printf "cliferay team users - Get information about users\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team users COMMAND\n"
+    printf "  cliferay team users [COMMAND] --help | -h\n"
+    echo
+    # :command.usage_commands
+    printf "%s\n" "$(bold "Commands:")"
+    printf "  %s   Show the Jira ID\n" "$(green_bold "jira")  "
+    printf "  %s   Show the user's Git emails\n" "$(green_bold "emails")"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_users_jira_usage() {
+    printf "cliferay team users jira - Show the Jira ID\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team users jira USER\n"
+    printf "  cliferay team users jira --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user handle\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team users jira alejandro.tardin\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_users_emails_usage() {
+    printf "cliferay team users emails - Show the user's Git emails\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team users emails USER\n"
+    printf "  cliferay team users emails --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user handle\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team users emails alejandro.tardin\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_years_usage() {
+    printf "cliferay team years - Show commit count per year\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team years [USER]\n"
+    printf "  cliferay team years --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team years alejandro.tardin\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_ranking_usage() {
+    printf "cliferay team ranking - Show commit ranking\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team ranking [EMAILS...]\n"
+    printf "  cliferay team ranking --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "EMAILS..."
+      printf "    The emails of the commit authors\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team ranking alejandro.tardin@liferay.com\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_tickets_usage() {
+    printf "cliferay team tickets - Show tickets worked on, based on commits\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team tickets [USER]\n"
+    printf "  cliferay team tickets --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team tickets alejandro.tardin\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_commits_usage() {
+    printf "cliferay team commits - Print the commits for the user\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team commits [USER]\n"
+    printf "  cliferay team commits --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team commits alejandro.tardin@liferay.com\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_folders_usage() {
+    printf "cliferay team folders - Print the folders changed by the user\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team folders [USER]\n"
+    printf "  cliferay team folders --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team folders alejandro.tardin@liferay.com\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_review_usage() {
+    printf "cliferay team review - Write a review based on Git and Jira stats\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team review [USER]\n"
+    printf "  cliferay team review --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user to be reviewed\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team review alejandro.tardin@liferay.com\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_assigned_usage() {
+    printf "cliferay team assigned - Show all tickets ever assigned to the user\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team assigned [USER]\n"
+    printf "  cliferay team assigned --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "JIRA_API_USER (required)"
+      printf "    Your Jira email\n"
+      echo
+
+      # :environment_variable.usage
+      printf "  %s\n" "JIRA_API_TOKEN (required)"
+      printf "    Your Jira API Token\n    (https://id.atlassian.com/manage-profile/security/api-tokens)\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team assigned alejandro.tardin\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_team_headless_summary_usage() {
+    printf "cliferay team headless-summary - Show tickets grouped by folder\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay team headless-summary USER\n"
+    printf "  cliferay team headless-summary --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "USER"
+      printf "    The user\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay team headless-summary alejandro.tardin\n"
       echo
 
     fi
@@ -2100,7 +2100,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats headless-summary\'*)'
+    echo $'    \'team headless-summary\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2108,7 +2108,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats users emails\'*)'
+    echo $'    \'team users emails\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2124,7 +2124,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats users jira\'*)'
+    echo $'    \'team users jira\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl new-object\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2132,15 +2136,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-object\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats assigned\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'elastic-search\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team assigned\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2148,23 +2148,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats folders\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats ranking\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats tickets\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'stats commits\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'curl new-api\'*)'
+    echo $'    \'team ranking\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2172,15 +2156,19 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats review\'*)'
+    echo $'    \'team tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats users\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
+    echo $'    \'team commits\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats years\'*)'
+    echo $'    \'team folders\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl new-api\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2188,11 +2176,27 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'team review\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team years\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team users\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h emails jira")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'set-ticket\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'build-rest\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'set-ticket\'*)'
+    echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2200,8 +2204,8 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'backport\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'    \'morning\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'tickets\'*)'
@@ -2212,20 +2216,8 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'morning\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'update\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'deploy\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'docker\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'gemini\'*)'
@@ -2236,20 +2228,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'brian\'*)'
+    echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'stats\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'poshi\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'owner\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'docker\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'build\'*)'
@@ -2260,11 +2244,43 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'home\'*)'
+    echo $'    \'owner\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'poshi\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'brian\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'jira\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'todo\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'sync\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'chat\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'home\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2280,23 +2296,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'chat\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'jira\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'todo\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'repo\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'ant\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2305,10 +2309,6 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'run\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'ant\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2341,7 +2341,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql stats super-deploy sync tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql super-deploy sync team tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -3129,138 +3129,6 @@ EOF
   }
 
   # :command.function
-  cliferay_stats_users_jira_command() {
-
-    # src/commands/stats/users/jira.sh
-    grep "^${args["user"]}" $(cliferay data-folder)/users | awk '{print $2}'
-  }
-
-  # :command.function
-  cliferay_stats_users_emails_command() {
-
-    # src/commands/stats/users/emails.sh
-    grep "^${args["user"]}" $(cliferay data-folder)/users | awk '{for (i=3; i<=NF; i++) print $i}'
-  }
-
-  # :command.function
-  cliferay_stats_years_command() {
-
-    # src/commands/stats/years.sh
-    cd $(cliferay home)
-    git log --pretty=format:'%cd' --date=format:'%Y' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | sort | uniq -c
-  }
-
-  # :command.function
-  cliferay_stats_ranking_command() {
-
-    # src/commands/stats/ranking.sh
-    cd $(cliferay home)
-    emails=${args[emails]:-}
-    git log $(get_git_log_period) --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
-  }
-
-  # :command.function
-  cliferay_stats_tickets_command() {
-
-    # src/commands/stats/tickets.sh
-    cd $(cliferay home)
-    git log $(get_git_log_period) --pretty=format:'%h %s' $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
-  }
-
-  # :command.function
-  cliferay_stats_commits_command() {
-
-    # src/commands/stats/commits.sh
-    cd $(cliferay home)
-    git log $(get_git_log_period) --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
-  }
-
-  # :command.function
-  cliferay_stats_folders_command() {
-
-    # src/commands/stats/folders.sh
-    cd $(cliferay home)
-
-    COMMITS=($(git log $(get_git_log_period) --pretty=format:"%H" $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')))
-
-    declare -A folder_commit_map
-
-    for COMMIT in "${COMMITS[@]}"; do
-      FILES=$(git diff-tree --no-commit-id --name-only -r "$COMMIT")
-
-      while IFS= read -r FILE; do
-        DIR=$(dirname "$FILE")
-
-        while [[ "$DIR" != "." && "$DIR" != "/" ]]; do
-          if [ -f "$DIR/build.gradle" ]; then
-            folder_commit_map["$DIR"]+="$COMMIT "
-            break
-          fi
-          DIR=$(dirname "$DIR")
-        done
-      done <<< "$FILES"
-    done
-
-    RESULTS=()
-    for FOLDER in "${!folder_commit_map[@]}"; do
-      UNIQUE_COUNT=$(echo "${folder_commit_map[$FOLDER]}" | tr ' ' '\n' | sort -u | wc -l)
-      RESULTS+=("$UNIQUE_COUNT $FOLDER")
-    done
-
-    printf "%s\n" "${RESULTS[@]}" | sort -nr | awk '{ count=$1; $1=""; sub(/^ /, "", $0); printf "%s %d\n", $0, count }'
-
-  }
-
-  # :command.function
-  cliferay_stats_review_command() {
-
-    # src/commands/stats/review.sh
-    cd $(cliferay home)
-    get_current_period
-    echo "This period (${since%%T*} - ${until%%T*}) ${args[user]} has:"
-    echo ""
-    echo "Contributed code for $(cliferay stats tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
-    echo "$(cliferay stats tickets $(echo ${args[user]}) | sed 's/^/  /')"
-    echo "With a total of $(cliferay stats commits $(echo ${args[user]}) | wc -l) commits to master."
-    echo "On average it took $(git log $(get_git_log_period) $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') --pretty=format:'%ad %cd' --date=unix | awk '{print ($2 - $1)/86400}' | awk '{ total += $1; count++ } END { print total/count }') days from commit to master."
-    echo "Affecting these areas of the code:"
-    echo "$(cliferay stats folders $(echo ${args[user]}) | sed 's/^/  /')"
-    LPPS=$(cliferay stats assigned ${args[user]} | grep LPP)
-    echo "Worked directly or indirectly on $(echo "$LPPS" | wc -l) LPPs:"
-    echo "$LPPS" | sed 's/^/  /'
-  }
-
-  # :command.function
-  cliferay_stats_assigned_command() {
-
-    # src/commands/stats/assigned.sh
-    get_current_period
-
-    JQL="assignee was $(cliferay stats users jira ${args["user"]}) during (${since%%T*}, ${until%%T*}) AND project IS NOT EMPTY AND issue in updatedBy($(cliferay stats users jira ${args["user"]}), "${since%%T*}", "${until%%T*}") ORDER BY updated DESC"
-
-    curl -s -u "$JIRA_API_USER:$JIRA_API_TOKEN" \
-        -H "Accept: application/json" \
-        "https://liferay.atlassian.net/rest/api/3/search/jql?jql=$(printf '%s' "$JQL" | jq -sRr @uri)&fields=key" \
-        | jq -r '.issues[].key' \
-        | cliferay tickets
-
-  }
-
-  # :command.function
-  cliferay_stats_headless_summary_command() {
-
-    # src/commands/stats/headless-summary.sh
-    cd $(cliferay home)
-    grep '@liferay-headless' .github/CODEOWNERS | awk '{print $1}' | while read folder; do
-
-      echo $folder;
-      git log $(get_git_log_period) --oneline $(cliferay stats users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') -- "$folder" | cliferay tickets;
-      echo ""
-    done
-
-  }
-
-  # :command.function
   cliferay_sync_command() {
 
     # src/commands/sync.sh
@@ -3329,6 +3197,138 @@ EOF
 
     # src/commands/todos.sh
     curl -s -X GET "https://api.trello.com/1/lists/$TRELLO_LIST_ID/cards?key=$TRELLO_API_KEY&token=$TRELLO_TOKEN&fields=name,shortUrl&limit=10" | jq -r '.[] | "\(.shortUrl) \(.name)"'
+  }
+
+  # :command.function
+  cliferay_team_users_jira_command() {
+
+    # src/commands/team/users/jira.sh
+    grep "^${args["user"]}" $(cliferay data-folder)/users | awk '{print $2}'
+  }
+
+  # :command.function
+  cliferay_team_users_emails_command() {
+
+    # src/commands/team/users/emails.sh
+    grep "^${args["user"]}" $(cliferay data-folder)/users | awk '{for (i=3; i<=NF; i++) print $i}'
+  }
+
+  # :command.function
+  cliferay_team_years_command() {
+
+    # src/commands/team/years.sh
+    cd $(cliferay home)
+    git log --pretty=format:'%cd' --date=format:'%Y' $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | sort | uniq -c
+  }
+
+  # :command.function
+  cliferay_team_ranking_command() {
+
+    # src/commands/team/ranking.sh
+    cd $(cliferay home)
+    emails=${args[emails]:-}
+    git log $(get_git_log_period) --pretty="%ae %an" $(echo ${emails//\"/} | sed 's/[^ ]* */--author=& /g') | iconv -f utf-8 -t ascii//TRANSLIT | awk '{name=$2" "$3; gsub(/[[:punct:]]/, "", name); print name}' | sort | uniq -c | sort -nr
+  }
+
+  # :command.function
+  cliferay_team_tickets_command() {
+
+    # src/commands/team/tickets.sh
+    cd $(cliferay home)
+    git log $(get_git_log_period) --pretty=format:'%h %s' $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') | cliferay tickets
+  }
+
+  # :command.function
+  cliferay_team_commits_command() {
+
+    # src/commands/team/commits.sh
+    cd $(cliferay home)
+    git log $(get_git_log_period) --oneline $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')
+  }
+
+  # :command.function
+  cliferay_team_folders_command() {
+
+    # src/commands/team/folders.sh
+    cd $(cliferay home)
+
+    COMMITS=($(git log $(get_git_log_period) --pretty=format:"%H" $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g')))
+
+    declare -A folder_commit_map
+
+    for COMMIT in "${COMMITS[@]}"; do
+      FILES=$(git diff-tree --no-commit-id --name-only -r "$COMMIT")
+
+      while IFS= read -r FILE; do
+        DIR=$(dirname "$FILE")
+
+        while [[ "$DIR" != "." && "$DIR" != "/" ]]; do
+          if [ -f "$DIR/build.gradle" ]; then
+            folder_commit_map["$DIR"]+="$COMMIT "
+            break
+          fi
+          DIR=$(dirname "$DIR")
+        done
+      done <<< "$FILES"
+    done
+
+    RESULTS=()
+    for FOLDER in "${!folder_commit_map[@]}"; do
+      UNIQUE_COUNT=$(echo "${folder_commit_map[$FOLDER]}" | tr ' ' '\n' | sort -u | wc -l)
+      RESULTS+=("$UNIQUE_COUNT $FOLDER")
+    done
+
+    printf "%s\n" "${RESULTS[@]}" | sort -nr | awk '{ count=$1; $1=""; sub(/^ /, "", $0); printf "%s %d\n", $0, count }'
+
+  }
+
+  # :command.function
+  cliferay_team_review_command() {
+
+    # src/commands/team/review.sh
+    cd $(cliferay home)
+    get_current_period
+    echo "This period (${since%%T*} - ${until%%T*}) ${args[user]} has:"
+    echo ""
+    echo "Contributed code for $(cliferay team tickets $(echo ${args[user]}) | wc -l) different Jira tickets:"
+    echo "$(cliferay team tickets $(echo ${args[user]}) | sed 's/^/  /')"
+    echo "With a total of $(cliferay team commits $(echo ${args[user]}) | wc -l) commits to master."
+    echo "On average it took $(git log $(get_git_log_period) $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') --pretty=format:'%ad %cd' --date=unix | awk '{print ($2 - $1)/86400}' | awk '{ total += $1; count++ } END { print total/count }') days from commit to master."
+    echo "Affecting these areas of the code:"
+    echo "$(cliferay team folders $(echo ${args[user]}) | sed 's/^/  /')"
+    LPPS=$(cliferay team assigned ${args[user]} | grep LPP)
+    echo "Worked directly or indirectly on $(echo "$LPPS" | wc -l) LPPs:"
+    echo "$LPPS" | sed 's/^/  /'
+  }
+
+  # :command.function
+  cliferay_team_assigned_command() {
+
+    # src/commands/team/assigned.sh
+    get_current_period
+
+    JQL="assignee was $(cliferay team users jira ${args["user"]}) during (${since%%T*}, ${until%%T*}) AND project IS NOT EMPTY AND issue in updatedBy($(cliferay team users jira ${args["user"]}), "${since%%T*}", "${until%%T*}") ORDER BY updated DESC"
+
+    curl -s -u "$JIRA_API_USER:$JIRA_API_TOKEN" \
+        -H "Accept: application/json" \
+        "https://liferay.atlassian.net/rest/api/3/search/jql?jql=$(printf '%s' "$JQL" | jq -sRr @uri)&fields=key" \
+        | jq -r '.issues[].key' \
+        | cliferay tickets
+
+  }
+
+  # :command.function
+  cliferay_team_headless_summary_command() {
+
+    # src/commands/team/headless-summary.sh
+    cd $(cliferay home)
+    grep '@liferay-headless' .github/CODEOWNERS | awk '{print $1}' | while read folder; do
+
+      echo $folder;
+      git log $(get_git_log_period) --oneline $(cliferay team users emails ${args[user]:-} | sed 's/[^ ]* */--author=& /g') -- "$folder" | cliferay tickets;
+      echo ""
+    done
+
   }
 
   # :command.parse_requirements
@@ -3641,13 +3641,6 @@ EOF
         shift $#
         ;;
 
-      stats)
-        action="stats"
-        shift
-        cliferay_stats_parse_requirements "$@"
-        shift $#
-        ;;
-
       sync)
         action="sync"
         shift
@@ -3680,6 +3673,13 @@ EOF
         action="todos"
         shift
         cliferay_todos_parse_requirements "$@"
+        shift $#
+        ;;
+
+      team)
+        action="team"
+        shift
+        cliferay_team_parse_requirements "$@"
         shift $#
         ;;
 
@@ -5988,750 +5988,6 @@ EOF
   }
 
   # :command.parse_requirements
-  cliferay_stats_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action=${1:-}
-
-    case $action in
-      -*) ;;
-
-      users)
-        action="users"
-        shift
-        cliferay_stats_users_parse_requirements "$@"
-        shift $#
-        ;;
-
-      years)
-        action="years"
-        shift
-        cliferay_stats_years_parse_requirements "$@"
-        shift $#
-        ;;
-
-      ranking)
-        action="ranking"
-        shift
-        cliferay_stats_ranking_parse_requirements "$@"
-        shift $#
-        ;;
-
-      tickets)
-        action="tickets"
-        shift
-        cliferay_stats_tickets_parse_requirements "$@"
-        shift $#
-        ;;
-
-      commits)
-        action="commits"
-        shift
-        cliferay_stats_commits_parse_requirements "$@"
-        shift $#
-        ;;
-
-      folders)
-        action="folders"
-        shift
-        cliferay_stats_folders_parse_requirements "$@"
-        shift $#
-        ;;
-
-      review)
-        action="review"
-        shift
-        cliferay_stats_review_parse_requirements "$@"
-        shift $#
-        ;;
-
-      assigned)
-        action="assigned"
-        shift
-        cliferay_stats_assigned_parse_requirements "$@"
-        shift $#
-        ;;
-
-      headless-summary)
-        action="headless-summary"
-        shift
-        cliferay_stats_headless_summary_parse_requirements "$@"
-        shift $#
-        ;;
-
-      # :command.command_fallback
-      "")
-        cliferay_stats_usage >&2
-        exit 1
-        ;;
-
-      *)
-        printf "invalid command: %s\n" "$action" >&2
-        exit 1
-        ;;
-
-    esac
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_users_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_users_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action=${1:-}
-
-    case $action in
-      -*) ;;
-
-      jira)
-        action="jira"
-        shift
-        cliferay_stats_users_jira_parse_requirements "$@"
-        shift $#
-        ;;
-
-      emails)
-        action="emails"
-        shift
-        cliferay_stats_users_emails_parse_requirements "$@"
-        shift $#
-        ;;
-
-      # :command.command_fallback
-      "")
-        cliferay_stats_users_usage >&2
-        exit 1
-        ;;
-
-      *)
-        printf "invalid command: %s\n" "$action" >&2
-        exit 1
-        ;;
-
-    esac
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_users_jira_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_users_jira_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats users jira"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['user']+x} ]]; then
-      printf "missing required argument: USER\nusage: cliferay stats users jira USER\n" >&2
-
-      exit 1
-    fi
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_users_emails_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_users_emails_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats users emails"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['user']+x} ]]; then
-      printf "missing required argument: USER\nusage: cliferay stats users emails USER\n" >&2
-
-      exit 1
-    fi
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_years_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_years_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats years"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_ranking_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_ranking_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats ranking"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_repeatable
-          # :argument.case_repeatable
-          escaped="$(printf '%q' "$1")"
-          if [[ -z ${args['emails']+x} ]]; then
-            args['emails']="$escaped"
-          else
-            args['emails']="${args['emails']} $escaped"
-
-          fi
-          shift
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_tickets_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_tickets_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats tickets"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_commits_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_commits_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats commits"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_folders_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_folders_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats folders"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_review_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_review_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats review"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_assigned_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_assigned_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.environment_variables_filter
-
-    env_var_names+=("JIRA_API_USER")
-    env_var_names+=("JIRA_API_TOKEN")
-    if [[ -z "${JIRA_API_USER:-}" ]]; then
-      printf "missing required environment variable: JIRA_API_USER\n" >&2
-      exit 1
-    fi
-    if [[ -z "${JIRA_API_TOKEN:-}" ]]; then
-      printf "missing required environment variable: JIRA_API_TOKEN\n" >&2
-      exit 1
-    fi
-
-    # :command.command_filter
-    action="stats assigned"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_stats_headless_summary_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_stats_headless_summary_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.command_filter
-    action="stats headless-summary"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          # :argument.case
-          if [[ -z ${args['user']+x} ]]; then
-            args['user']=$1
-            shift
-          else
-            printf "invalid argument: %s\n" "$key" >&2
-            exit 1
-          fi
-
-          ;;
-
-      esac
-    done
-
-    # :command.required_args_filter
-    if [[ -z ${args['user']+x} ]]; then
-      printf "missing required argument: USER\nusage: cliferay stats headless-summary USER\n" >&2
-
-      exit 1
-    fi
-
-  }
-
-  # :command.parse_requirements
   cliferay_sync_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -7010,6 +6266,750 @@ EOF
 
   }
 
+  # :command.parse_requirements
+  cliferay_team_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action=${1:-}
+
+    case $action in
+      -*) ;;
+
+      users)
+        action="users"
+        shift
+        cliferay_team_users_parse_requirements "$@"
+        shift $#
+        ;;
+
+      years)
+        action="years"
+        shift
+        cliferay_team_years_parse_requirements "$@"
+        shift $#
+        ;;
+
+      ranking)
+        action="ranking"
+        shift
+        cliferay_team_ranking_parse_requirements "$@"
+        shift $#
+        ;;
+
+      tickets)
+        action="tickets"
+        shift
+        cliferay_team_tickets_parse_requirements "$@"
+        shift $#
+        ;;
+
+      commits)
+        action="commits"
+        shift
+        cliferay_team_commits_parse_requirements "$@"
+        shift $#
+        ;;
+
+      folders)
+        action="folders"
+        shift
+        cliferay_team_folders_parse_requirements "$@"
+        shift $#
+        ;;
+
+      review)
+        action="review"
+        shift
+        cliferay_team_review_parse_requirements "$@"
+        shift $#
+        ;;
+
+      assigned)
+        action="assigned"
+        shift
+        cliferay_team_assigned_parse_requirements "$@"
+        shift $#
+        ;;
+
+      headless-summary)
+        action="headless-summary"
+        shift
+        cliferay_team_headless_summary_parse_requirements "$@"
+        shift $#
+        ;;
+
+      # :command.command_fallback
+      "")
+        cliferay_team_usage >&2
+        exit 1
+        ;;
+
+      *)
+        printf "invalid command: %s\n" "$action" >&2
+        exit 1
+        ;;
+
+    esac
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_users_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_users_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action=${1:-}
+
+    case $action in
+      -*) ;;
+
+      jira)
+        action="jira"
+        shift
+        cliferay_team_users_jira_parse_requirements "$@"
+        shift $#
+        ;;
+
+      emails)
+        action="emails"
+        shift
+        cliferay_team_users_emails_parse_requirements "$@"
+        shift $#
+        ;;
+
+      # :command.command_fallback
+      "")
+        cliferay_team_users_usage >&2
+        exit 1
+        ;;
+
+      *)
+        printf "invalid command: %s\n" "$action" >&2
+        exit 1
+        ;;
+
+    esac
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_users_jira_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_users_jira_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team users jira"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['user']+x} ]]; then
+      printf "missing required argument: USER\nusage: cliferay team users jira USER\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_users_emails_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_users_emails_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team users emails"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['user']+x} ]]; then
+      printf "missing required argument: USER\nusage: cliferay team users emails USER\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_years_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_years_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team years"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_ranking_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_ranking_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team ranking"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_repeatable
+          # :argument.case_repeatable
+          escaped="$(printf '%q' "$1")"
+          if [[ -z ${args['emails']+x} ]]; then
+            args['emails']="$escaped"
+          else
+            args['emails']="${args['emails']} $escaped"
+
+          fi
+          shift
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_tickets_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_tickets_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team tickets"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_commits_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_commits_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team commits"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_folders_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_folders_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team folders"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_review_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_review_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team review"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_assigned_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_assigned_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.environment_variables_filter
+
+    env_var_names+=("JIRA_API_USER")
+    env_var_names+=("JIRA_API_TOKEN")
+    if [[ -z "${JIRA_API_USER:-}" ]]; then
+      printf "missing required environment variable: JIRA_API_USER\n" >&2
+      exit 1
+    fi
+    if [[ -z "${JIRA_API_TOKEN:-}" ]]; then
+      printf "missing required environment variable: JIRA_API_TOKEN\n" >&2
+      exit 1
+    fi
+
+    # :command.command_filter
+    action="team assigned"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_team_headless_summary_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_team_headless_summary_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="team headless-summary"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['user']+x} ]]; then
+            args['user']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['user']+x} ]]; then
+      printf "missing required argument: USER\nusage: cliferay team headless-summary USER\n" >&2
+
+      exit 1
+    fi
+
+  }
+
   # :command.user_hooks
   before_hook() {
     # src/before.sh
@@ -7084,23 +7084,23 @@ EOF
       "brian") cliferay_brian_command ;;
       "backport") cliferay_backport_command ;;
       "set-ticket") cliferay_set_ticket_command ;;
-      "stats") cliferay_stats_command ;;
-      "stats users") cliferay_stats_users_command ;;
-      "stats users jira") cliferay_stats_users_jira_command ;;
-      "stats users emails") cliferay_stats_users_emails_command ;;
-      "stats years") cliferay_stats_years_command ;;
-      "stats ranking") cliferay_stats_ranking_command ;;
-      "stats tickets") cliferay_stats_tickets_command ;;
-      "stats commits") cliferay_stats_commits_command ;;
-      "stats folders") cliferay_stats_folders_command ;;
-      "stats review") cliferay_stats_review_command ;;
-      "stats assigned") cliferay_stats_assigned_command ;;
-      "stats headless-summary") cliferay_stats_headless_summary_command ;;
       "sync") cliferay_sync_command ;;
       "tickets") cliferay_tickets_command ;;
       "jira") cliferay_jira_command ;;
       "todo") cliferay_todo_command ;;
       "todos") cliferay_todos_command ;;
+      "team") cliferay_team_command ;;
+      "team users") cliferay_team_users_command ;;
+      "team users jira") cliferay_team_users_jira_command ;;
+      "team users emails") cliferay_team_users_emails_command ;;
+      "team years") cliferay_team_years_command ;;
+      "team ranking") cliferay_team_ranking_command ;;
+      "team tickets") cliferay_team_tickets_command ;;
+      "team commits") cliferay_team_commits_command ;;
+      "team folders") cliferay_team_folders_command ;;
+      "team review") cliferay_team_review_command ;;
+      "team assigned") cliferay_team_assigned_command ;;
+      "team headless-summary") cliferay_team_headless_summary_command ;;
     esac
   }
 

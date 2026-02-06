@@ -1,17 +1,17 @@
-# cliferay stats tickets
+# cliferay team tickets
 
 Show tickets worked on, based on commits
 
 ## Usage
 
 ```bash
-cliferay stats tickets [USER]
+cliferay team tickets [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats tickets alejandro.tardin
+cliferay team tickets alejandro.tardin
 ```
 
 ## Arguments

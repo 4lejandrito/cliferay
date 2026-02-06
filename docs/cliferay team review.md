@@ -1,17 +1,17 @@
-# cliferay stats review
+# cliferay team review
 
 Write a review based on Git and Jira stats
 
 ## Usage
 
 ```bash
-cliferay stats review [USER]
+cliferay team review [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats review alejandro.tardin@liferay.com
+cliferay team review alejandro.tardin@liferay.com
 ```
 
 ## Arguments

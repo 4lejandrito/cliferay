@@ -1,17 +1,17 @@
-# cliferay stats assigned
+# cliferay team assigned
 
 Show all tickets ever assigned to the user
 
 ## Usage
 
 ```bash
-cliferay stats assigned [USER]
+cliferay team assigned [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats assigned alejandro.tardin
+cliferay team assigned alejandro.tardin
 ```
 
 ## Environment Variables

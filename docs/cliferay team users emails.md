@@ -1,17 +1,17 @@
-# cliferay stats users jira
+# cliferay team users emails
 
-Show the Jira ID
+Show the user's Git emails
 
 ## Usage
 
 ```bash
-cliferay stats users jira USER
+cliferay team users emails USER
 ```
 
 ## Examples
 
 ```bash
-cliferay stats users jira alejandro.tardin
+cliferay team users emails alejandro.tardin
 ```
 
 ## Arguments

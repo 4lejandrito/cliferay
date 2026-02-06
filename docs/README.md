@@ -85,7 +85,6 @@ Set to true to echo all commands being run
 - [brian](cliferay%20brian.md) - Forward an existing PR to Brian and close it
 - [backport](cliferay%20backport.md) - Backport commits to other branches
 - [set-ticket](cliferay%20set-ticket.md) - Set the Jira ticket on your local commits
-- [stats](cliferay%20stats.md) - Calculate various Git statistics
 - [sync](cliferay%20sync.md) - Sync fork and local copy with upstream
 - [tickets](cliferay%20tickets.md) - Extract all Jira tickets from the output of 'git log'
 
@@ -93,9 +92,10 @@ Set to true to echo all commands being run
 
 - [jira](cliferay%20jira.md) - Open a Jira ticket in the browser
 
-## GTD Commands
+## Personal Commands
 
 - [todo](cliferay%20todo.md) - Create a todo in Trello
 - [todos](cliferay%20todos.md) - List todos from Trello
+- [team](cliferay%20team.md) - Manage your team
 
 

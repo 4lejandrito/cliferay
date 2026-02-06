@@ -344,94 +344,6 @@ commands:
         arg: branch
         help: Source branch
 
-  - name: stats
-    help: Calculate various Git statistics
-    group: Git
-    commands:
-      - name: users
-        help: Get information about users
-        commands:
-          - name: jira
-            help: Show the Jira ID
-            args:
-              - name: user
-                help: The user handle
-                required: true
-            examples:
-              - cliferay stats users jira alejandro.tardin
-          - name: emails
-            help: Show the user's Git emails
-            args:
-              - name: user
-                help: The user handle
-                required: true
-            examples:
-              - cliferay stats users emails alejandro.tardin
-      - name: years
-        help: Show commit count per year
-        args:
-          - name: user
-            help: The user
-        examples:
-          - cliferay stats years alejandro.tardin
-      - name: ranking
-        help: Show commit ranking
-        args:
-          - name: emails
-            help: The emails of the commit authors
-            repeatable: true
-        examples:
-          - cliferay stats ranking alejandro.tardin@liferay.com
-      - name: tickets
-        help: Show tickets worked on, based on commits
-        args:
-          - name: user
-            help: The user
-        examples:
-          - cliferay stats tickets alejandro.tardin
-      - name: commits
-        help: Print the commits for the user
-        args:
-          - name: user
-            help: The user
-        examples:
-          - cliferay stats commits alejandro.tardin@liferay.com
-      - name: folders
-        help: Print the folders changed by the user
-        args:
-          - name: user
-            help: The user
-        examples:
-          - cliferay stats folders alejandro.tardin@liferay.com
-      - name: review
-        help: Write a review based on Git and Jira stats
-        args:
-          - name: user
-            help: The user to be reviewed
-        examples:
-          - cliferay stats review alejandro.tardin@liferay.com
-      - name: assigned
-        environment_variables:
-          - name: JIRA_API_USER
-            help: Your Jira email
-            required: true
-          - name: JIRA_API_TOKEN
-            help: Your Jira API Token (https://id.atlassian.com/manage-profile/security/api-tokens)
-            required: true
-        help: Show all tickets ever assigned to the user
-        args:
-          - name: user
-            help: The user
-        examples:
-          - cliferay stats assigned alejandro.tardin
-      - name: headless-summary
-        help: Show tickets grouped by folder
-        args:
-          - name: user
-            help: The user
-            required: true
-        examples:
-          - cliferay stats headless-summary alejandro.tardin
   - name: sync
     help: Sync fork and local copy with upstream
     group: Git
@@ -451,7 +363,7 @@ commands:
         help: The ticket reference (e.g., LPD-1234). If not provided, it will be extracted from the Git branch name.
     group: Jira
 
-  # GTD
+  # Personal
 
   - name: todo
     help: Create a todo in Trello
@@ -472,7 +384,7 @@ commands:
     examples:
       - cliferay todo Complete 100% of the milestone
       - cliferay todo Review PR http://github.com/...
-    group: GTD
+    group: Personal
 
   - name: todos
     help: List todos from Trello
@@ -488,4 +400,93 @@ commands:
         required: true
     examples:
       - cliferay todos
-    group: GTD
+    group: Personal
+
+  - name: team
+    help: Manage your team
+    group: Personal
+    commands:
+      - name: users
+        help: Get information about users
+        commands:
+          - name: jira
+            help: Show the Jira ID
+            args:
+              - name: user
+                help: The user handle
+                required: true
+            examples:
+              - cliferay team users jira alejandro.tardin
+          - name: emails
+            help: Show the user's Git emails
+            args:
+              - name: user
+                help: The user handle
+                required: true
+            examples:
+              - cliferay team users emails alejandro.tardin
+      - name: years
+        help: Show commit count per year
+        args:
+          - name: user
+            help: The user
+        examples:
+          - cliferay team years alejandro.tardin
+      - name: ranking
+        help: Show commit ranking
+        args:
+          - name: emails
+            help: The emails of the commit authors
+            repeatable: true
+        examples:
+          - cliferay team ranking alejandro.tardin@liferay.com
+      - name: tickets
+        help: Show tickets worked on, based on commits
+        args:
+          - name: user
+            help: The user
+        examples:
+          - cliferay team tickets alejandro.tardin
+      - name: commits
+        help: Print the commits for the user
+        args:
+          - name: user
+            help: The user
+        examples:
+          - cliferay team commits alejandro.tardin@liferay.com
+      - name: folders
+        help: Print the folders changed by the user
+        args:
+          - name: user
+            help: The user
+        examples:
+          - cliferay team folders alejandro.tardin@liferay.com
+      - name: review
+        help: Write a review based on Git and Jira stats
+        args:
+          - name: user
+            help: The user to be reviewed
+        examples:
+          - cliferay team review alejandro.tardin@liferay.com
+      - name: assigned
+        environment_variables:
+          - name: JIRA_API_USER
+            help: Your Jira email
+            required: true
+          - name: JIRA_API_TOKEN
+            help: Your Jira API Token (https://id.atlassian.com/manage-profile/security/api-tokens)
+            required: true
+        help: Show all tickets ever assigned to the user
+        args:
+          - name: user
+            help: The user
+        examples:
+          - cliferay team assigned alejandro.tardin
+      - name: headless-summary
+        help: Show tickets grouped by folder
+        args:
+          - name: user
+            help: The user
+            required: true
+        examples:
+          - cliferay team headless-summary alejandro.tardin

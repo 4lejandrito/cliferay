@@ -1,17 +1,17 @@
-# cliferay stats folders
+# cliferay team folders
 
 Print the folders changed by the user
 
 ## Usage
 
 ```bash
-cliferay stats folders [USER]
+cliferay team folders [USER]
 ```
 
 ## Examples
 
 ```bash
-cliferay stats folders alejandro.tardin@liferay.com
+cliferay team folders alejandro.tardin@liferay.com
 ```
 
 ## Arguments
