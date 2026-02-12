@@ -1,1 +1,1 @@
-pgrep -f tomcat | xargs kill -9
+pgrep -f tomcat | xargs -r kill -9
