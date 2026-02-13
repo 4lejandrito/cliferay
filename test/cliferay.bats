@@ -16,6 +16,7 @@ setup() {
     bats_require_minimum_version 1.5.0
     bats_load_library bats-assert
     bats_load_library bats-file
+    bats_load_library bats-support
     export LIFERAY_HOME=$TMP_DIR/liferay/liferay-portal
     mkdir -p $LIFERAY_HOME
 }
