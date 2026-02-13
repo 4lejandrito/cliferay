@@ -35,6 +35,7 @@ Build Commands:
   gw                Run gradlew
   ij                Run liferay-intellij
   morning           Run sync, build, ij, nuke and run
+  switch            Switch to a different bundle
 
 Server Commands:
   chat              Chat with the server

@@ -22,10 +22,12 @@ mkdir -p "$FOLDER"
         FILE="$TAR_FILE"
     fi
 )
+cliferay switch "${args["name"]}"
 rm -rf $(cliferay home)/../bundles
 cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" $(cliferay home)/../bundles
 deploy_activation_key $(cliferay home)/../bundles
 cd $(cliferay home)
 GITHASH=$(cat ../bundles/.githash)
+echo "${args["version"]}" > ../bundles/.cliferay-name
 git fetch --depth=1 upstream $GITHASH && git checkout $GITHASH
 cliferay ij

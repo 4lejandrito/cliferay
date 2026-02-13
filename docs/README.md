@@ -54,6 +54,7 @@ Set to true to echo all commands being run
 - [gw](cliferay%20gw.md) - Run gradlew
 - [ij](cliferay%20ij.md) - Run liferay-intellij
 - [morning](cliferay%20morning.md) - Run sync, build, ij, nuke and run
+- [switch](cliferay%20switch.md) - Switch to a different bundle
 
 ## Server Commands
 

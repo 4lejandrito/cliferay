@@ -101,6 +101,25 @@ commands:
         help: Force cleanup by running 'git clean -fdx'
     group: Build
 
+  - name: switch
+    help: |
+      Switch to a different bundle
+
+      This command automates switching between different Liferay bundles directories, each with its own database.
+    group: Build
+    args:
+      - name: name
+        help: |
+          The name of the bundle to switch to
+
+          If a bundle with that name is not present it will be copied from the current one.
+        required: true
+    examples:
+      - cliferay switch LPD-XXXXX
+      - cliferay switch master
+    completions:
+      - $(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null)
+
   # Server
 
   - name: chat

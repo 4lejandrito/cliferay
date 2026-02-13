@@ -92,11 +92,40 @@ setup() {
     assert_output 'missing required environment variable: LIFERAY_HOME'
 }
 
-@test "cliferay db-name" {
+@test "cliferay db-name/switch" {
     run cliferay db-name
     assert_output lportal
+
+    cd $(cliferay home)
+    mkdir -p ../bundles
+    run cliferay db-name
+    assert_output lportal
+    cliferay switch test
+    run cat ../bundles/.cliferay-name
+    assert_output test
+    run cat ../bundles-master/.cliferay-name
+    assert_output master
+    run cliferay db-name
+    assert_output lportal_test
+    cliferay switch master
+    run cliferay db-name
+    assert_output lportal
+    run cat ../bundles/.cliferay-name
+    assert_output master
+    run cat ../bundles-test/.cliferay-name
+    assert_output test
+
     mkdir -p $TMP_DIR/liferay-ee/liferay-portal-ee
     cd $TMP_DIR/liferay-ee/liferay-portal-ee
+    run cliferay db-name
+    assert_output lportalee
+    mkdir -p ../bundles
+    run cliferay db-name
+    assert_output lportalee
+    cliferay switch test
+    run cliferay db-name
+    assert_output lportalee_test
+    cliferay switch master
     run cliferay db-name
     assert_output lportalee
 }
