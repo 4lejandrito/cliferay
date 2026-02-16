@@ -10,6 +10,10 @@ cliferay morning [OPTIONS]
 
 ## Options
 
+#### *--brian*
+
+Sync from Brian instead of upstream
+
 #### *--no-nuke*
 
 Skip the nuke step

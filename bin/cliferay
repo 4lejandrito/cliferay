@@ -367,6 +367,11 @@ cliferay() {
 
       # :command.usage_flags
       # :flag.usage
+      printf "  %s\n" "--brian"
+      printf "    Sync from Brian instead of upstream\n"
+      echo
+
+      # :flag.usage
       printf "  %s\n" "--no-nuke"
       printf "    Skip the nuke step\n"
       echo
@@ -2254,7 +2259,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'morning\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--brian --force --help --no-nuke -f -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'switch\'*)'
@@ -2529,16 +2534,22 @@ cliferay() {
   cliferay_morning_command() {
 
     # src/commands/morning.sh
-    cliferay sync
+    (cliferay sync)
     if [[ ${args["--force"]} = 1 ]]; then
         cd $(cliferay home) && git clean -fdx
     fi
-    cliferay build
-    cliferay ij
-    if [[ ${args["--no-nuke"]} != 1 ]]; then
-        cliferay nuke
+    if [[ ${args["--brian"]} = 1 ]]; then
+        cd $(cliferay home)
+        git remote add brian git@github.com:brianchandotcom/liferay-portal.git 2>/dev/null || true
+        git fetch brian master
+        git checkout brian/master
     fi
-    cliferay run
+    (cliferay build)
+    (cliferay ij)
+    if [[ ${args["--no-nuke"]} != 1 ]]; then
+        (cliferay nuke)
+    fi
+    (cliferay run)
 
   }
 
@@ -4347,6 +4358,14 @@ EOF
     while [[ $# -gt 0 ]]; do
       key="$1"
       case "$key" in
+        # :flag.case
+        --brian)
+
+          # :flag.case_no_arg
+          args['--brian']=1
+          shift
+          ;;
+
         # :flag.case
         --no-nuke)
 

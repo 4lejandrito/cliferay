@@ -173,7 +173,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'morning\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--force --help --no-nuke -f -h")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--brian --force --help --no-nuke -f -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'switch\'*)'

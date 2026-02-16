@@ -94,6 +94,8 @@ commands:
   - name: morning
     help: Run sync, build, ij, nuke and run
     flags:
+      - long: --brian
+        help: Sync from Brian instead of upstream
       - long: --no-nuke
         help: Skip the nuke step
       - long: --force
