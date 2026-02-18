@@ -89,6 +89,12 @@ Environment Variables:
 
 ## Installation
 
+```bash
+curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install | sh
+```
+
+## Manual Installation
+
 1. Clone this repo.
 2. Add the `bin` folder to your path:
     ```bash
