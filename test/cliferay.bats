@@ -8,6 +8,8 @@ setup_file() {
     echo "#!/bin/sh" > $TMP_DIR/mocks/mysql
     chmod +x $TMP_DIR/mocks/*
     PATH="$TMP_DIR/mocks:/code/bin:$PATH"
+    export CLIFERAY_DATA_FOLDER=$TMP_DIR/data
+    mkdir -p $CLIFERAY_DATA_FOLDER
     git config --global --add safe.directory /code
     git config --global init.defaultBranch master
 }
@@ -134,4 +136,30 @@ setup() {
 @test "cliferay ij" {
     run -1 cliferay ij
     assert_exists $TMP_DIR/liferay/liferay-intellij/.git
+}
+
+@test "cliferay team users jira" {
+    printf "user1 jiraid1 user1@example.com\nuser2 jiraid2 user2@example.com alt@user2.com\n" > $TMP_DIR/data/users
+
+    run cliferay team users jira user1
+    assert_output "jiraid1"
+
+    run cliferay team users jira user2
+    assert_output "jiraid2"
+}
+
+@test "cliferay team users emails" {
+    printf "user1 jiraid1 email1@example.com\nuser2 jiraid2 email2@example.com email3@example.com\n" > $TMP_DIR/data/users
+
+    run cliferay team users emails
+    assert_line "email1@example.com"
+    assert_line "email2@example.com"
+    assert_line "email3@example.com"
+
+    run cliferay team users emails user1
+    assert_output "email1@example.com"
+
+    run cliferay team users emails user2
+    assert_line "email2@example.com"
+    assert_line "email3@example.com"
 }

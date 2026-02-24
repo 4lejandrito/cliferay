@@ -2431,7 +2431,7 @@ cliferay() {
   cliferay_data_folder_command() {
 
     # src/commands/data-folder.sh
-    echo -n $(cliferay source-folder)/.data
+    echo -n ${CLIFERAY_DATA_FOLDER:-$(cliferay source-folder)/.data}
   }
 
   # :command.function

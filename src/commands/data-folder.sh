@@ -1,1 +1,1 @@
-echo -n $(cliferay source-folder)/.data
+echo -n ${CLIFERAY_DATA_FOLDER:-$(cliferay source-folder)/.data}
