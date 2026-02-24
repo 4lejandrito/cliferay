@@ -2447,7 +2447,7 @@ cliferay() {
     # src/commands/update.sh
     cd $(cliferay source-folder)
 
-    ./install
+    ./install.sh
   }
 
   # :command.function

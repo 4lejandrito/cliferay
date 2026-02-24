@@ -1,3 +1,3 @@
 cd $(cliferay source-folder)
 
-./install
+./install.sh

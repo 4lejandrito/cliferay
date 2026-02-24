@@ -90,7 +90,7 @@ Environment Variables:
 ## Installation
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install | sh
+curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install.sh | sh
 ```
 
 ## Manual Installation
