@@ -5,7 +5,7 @@ Show the user's Git emails
 ## Usage
 
 ```bash
-cliferay team users emails USER
+cliferay team users emails [USER]
 ```
 
 ## Examples
@@ -19,9 +19,5 @@ cliferay team users emails alejandro.tardin
 #### *USER*
 
 The user handle
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
 
 

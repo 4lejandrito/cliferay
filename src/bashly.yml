@@ -443,7 +443,6 @@ commands:
             args:
               - name: user
                 help: The user handle
-                required: true
             examples:
               - cliferay team users emails alejandro.tardin
       - name: years

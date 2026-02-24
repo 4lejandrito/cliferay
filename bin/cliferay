@@ -1580,7 +1580,7 @@ cliferay() {
     printf "cliferay team users emails - Show the user's Git emails\n\n"
 
     printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay team users emails USER\n"
+    printf "  cliferay team users emails [USER]\n"
     printf "  cliferay team users emails --help | -h\n"
     echo
 
@@ -6730,13 +6730,6 @@ EOF
 
       esac
     done
-
-    # :command.required_args_filter
-    if [[ -z ${args['user']+x} ]]; then
-      printf "missing required argument: USER\nusage: cliferay team users emails USER\n" >&2
-
-      exit 1
-    fi
 
   }
 
