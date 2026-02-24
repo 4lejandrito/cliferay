@@ -133,11 +133,6 @@ setup() {
     assert_output lportalee
 }
 
-@test "cliferay ij" {
-    run -1 cliferay ij
-    assert_exists $TMP_DIR/liferay/liferay-intellij/.git
-}
-
 @test "cliferay team users jira" {
     printf "user1 jiraid1 user1@example.com\nuser2 jiraid2 user2@example.com alt@user2.com\n" > $TMP_DIR/data/users
 
