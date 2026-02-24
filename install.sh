@@ -33,6 +33,7 @@ fi
 
 CLIFERAY_SETUP=$({
   echo ""
+  echo ""
   echo "# cliferay"
   echo "export PATH=\"$INSTALL_DIR/bin:\$PATH\""
   echo 'eval "$(cliferay completions)"'
