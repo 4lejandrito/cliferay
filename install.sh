@@ -32,7 +32,8 @@ elif [ -f "$HOME/.profile" ]; then
 fi
 
 CLIFERAY_SETUP=$({
-  echo "\n# cliferay"
+  echo ""
+  echo "# cliferay"
   echo "export PATH=\"$INSTALL_DIR/bin:\$PATH\""
   echo 'eval "$(cliferay completions)"'
   echo 'eval "$(cliferay aliases)"'
