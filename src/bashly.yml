@@ -350,6 +350,20 @@ commands:
         help: Source branch
     group: Git
 
+  - name: revert
+    alias: r
+    help: Revert commits that match a text
+    args:
+      - name: text
+        help: Text to filter commits by (e.g., LPD-1234)
+        required: true
+    flags:
+      - long: --branch
+        short: -b
+        arg: branch
+        help: Source branch
+    group: Git
+
   - name: set-ticket
     help: Set the Jira ticket on your local commits
     group: Git
