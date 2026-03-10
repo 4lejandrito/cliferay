@@ -67,6 +67,7 @@ cliferay() {
     printf "%s\n" "$(bold "Git Commands:")"
     printf "  %s   Forward an existing PR to Brian and close it\n" "$(green_bold "brian")          "
     printf "  %s   Backport commits to other branches\n" "$(green_bold "backport")       "
+    printf "  %s   Revert commits that match a text\n" "$(green_bold "revert")         "
     printf "  %s   Set the Jira ticket on your local commits\n" "$(green_bold "set-ticket")     "
     printf "  %s   Sync fork and local copy with upstream\n" "$(green_bold "sync")           "
     printf "  %s   Extract all Jira tickets from the output of 'git log'\n" "$(green_bold "tickets")        "
@@ -1271,6 +1272,43 @@ cliferay() {
   }
 
   # :command.usage
+  cliferay_revert_usage() {
+    printf "cliferay revert - Revert commits that match a text\n\n"
+    printf "Alias: r\n"
+    echo
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay revert TEXT [OPTIONS]\n"
+    printf "  cliferay revert --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--branch, -b BRANCH"
+      printf "    Source branch\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "TEXT"
+      printf "    Text to filter commits by (e.g., LPD-1234)\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
   cliferay_set_ticket_usage() {
     printf "cliferay set-ticket - Set the Jira ticket on your local commits\n\n"
 
@@ -2154,7 +2192,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team users emails\'*)'
+    echo $'    \'curl batch-export\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2162,11 +2200,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl batch-export\'*)'
+    echo $'    \'curl new-instance\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-instance\'*)'
+    echo $'    \'team users emails\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2186,11 +2224,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team assigned\'*)'
+    echo $'    \'format-source\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'format-source\'*)'
+    echo $'    \'team assigned\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2262,11 +2300,19 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--brian --force --help --no-nuke -f -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'switch\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
+    echo $'    \'revert\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'gemini\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2274,16 +2320,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'update\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'switch\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'docker\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'build\'*)'
@@ -2298,23 +2340,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'todos\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'repo\'*)'
+    echo $'    \'todos\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'todo\'*)'
+    echo $'    \'sync\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2322,7 +2356,23 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'sync\'*)'
+    echo $'    \'todo\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h assigned commits folders headless-summary ranking review tickets users years")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'curl\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'chat\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'repo\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2336,14 +2386,6 @@ cliferay() {
     echo $''
     echo $'    \'nuke\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'chat\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'curl\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'home\'*)'
@@ -2362,27 +2404,31 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'sd\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'sf\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'cm\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'ij\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'gw\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'ij\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sf\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'sd\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'b\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'r\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2391,7 +2437,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi repo run sd set-ticket sf sql super-deploy switch sync team tickets todo todos update")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi r repo revert run sd set-ticket sf sql super-deploy switch sync team tickets todo todos update")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -3209,6 +3255,49 @@ EOF
   }
 
   # :command.function
+  cliferay_revert_command() {
+
+    # src/commands/revert.sh
+    WHITE='\033[00;97m'
+    BOLD_WHITE='\033[01;97m'
+    NC='\033[0m' # No Color
+
+    TEXT=${args["text"]}
+    SOURCE_BRANCH=${args["--branch"]:-master}
+
+    COMMITS=$(git log $SOURCE_BRANCH --format="%H" --grep=^$TEXT | tac)
+
+    if [[ -z "$COMMITS" ]]; then
+      echo "No commits found matching '$TEXT'"
+      exit 0
+    fi
+
+    echo -e "${BOLD_WHITE}Commits in chronological order:${NC}"
+    echo ""
+
+    git --no-pager show --no-patch --oneline $COMMITS
+    echo ""
+
+    echo -n -e "${BOLD_WHITE}Do you want to revert all these commits? (y/n)${WHITE} "
+    read answer
+    echo -e "${NC}"
+
+    if [[ "$answer" == "y" ]]; then
+        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        NEW_BRANCH="${CURRENT_BRANCH}-revert-$TEXT"
+
+        git checkout -B "$NEW_BRANCH"
+        git revert --no-edit $COMMITS || {
+            echo "Conflict detected. Resolve manually and run 'git revert --continue'"
+            exit 1
+        }
+    else
+        echo "No problem. Try some other time."
+    fi
+
+  }
+
+  # :command.function
   cliferay_set_ticket_command() {
 
     # src/commands/set-ticket.sh
@@ -3727,6 +3816,13 @@ EOF
         action="backport"
         shift
         cliferay_backport_parse_requirements "$@"
+        shift $#
+        ;;
+
+      revert | r)
+        action="revert"
+        shift
+        cliferay_revert_parse_requirements "$@"
         shift $#
         ;;
 
@@ -6079,6 +6175,77 @@ EOF
   }
 
   # :command.parse_requirements
+  cliferay_revert_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_revert_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="revert"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --branch | -b)
+
+          # :flag.case_arg
+          if [[ -n ${2+x} ]]; then
+            args['--branch']="$2"
+            shift
+            shift
+          else
+            printf "%s\n" "--branch requires an argument: --branch, -b BRANCH" >&2
+            exit 1
+          fi
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['text']+x} ]]; then
+            args['text']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.required_args_filter
+    if [[ -z ${args['text']+x} ]]; then
+      printf "missing required argument: TEXT\nusage: cliferay revert TEXT [OPTIONS]\n" >&2
+
+      exit 1
+    fi
+
+  }
+
+  # :command.parse_requirements
   cliferay_set_ticket_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -7239,6 +7406,7 @@ EOF
       "super-deploy") cliferay_super_deploy_command ;;
       "brian") cliferay_brian_command ;;
       "backport") cliferay_backport_command ;;
+      "revert") cliferay_revert_command ;;
       "set-ticket") cliferay_set_ticket_command ;;
       "sync") cliferay_sync_command ;;
       "tickets") cliferay_tickets_command ;;
