@@ -86,6 +86,7 @@ Set to true to echo all commands being run
 
 - [brian](cliferay%20brian.md) - Forward an existing PR to Brian and close it
 - [backport](cliferay%20backport.md) - Backport commits to other branches
+- [revert](cliferay%20revert.md) - Revert commits that match a text
 - [set-ticket](cliferay%20set-ticket.md) - Set the Jira ticket on your local commits
 - [sync](cliferay%20sync.md) - Sync fork and local copy with upstream
 - [tickets](cliferay%20tickets.md) - Extract all Jira tickets from the output of 'git log'
