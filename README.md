@@ -63,6 +63,7 @@ Code Commands:
 Git Commands:
   brian             Forward an existing PR to Brian and close it
   backport          Backport commits to other branches
+  revert            Revert commits that match a text
   set-ticket        Set the Jira ticket on your local commits
   sync              Sync fork and local copy with upstream
   tickets           Extract all Jira tickets from the output of 'git log'
