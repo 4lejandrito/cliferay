@@ -33,17 +33,17 @@ Read and understand the actual code changes (the diff). Then compose the commit 
 
 ### Title (first line)
 
-Format: `<TICKET> <What changed>`
+Format: `<TICKET> <What is being fixed/added/improved>`
 
 - Start with the Jira ticket ID
-- Follow with a concise summary of **what** changed (not why or how)
+- Follow with a concise summary of **what** is being fixed or achieved — describe the problem or behavior change, not the code changes
 - Use sentence case (capitalize first word only)
 - No period at the end
 - Keep under 72 characters total (ticket + space + summary)
 - If a second Jira ticket is relevant (e.g., the change addresses a sub-task tracked elsewhere), include it after the first: `LPD-12345 LPD-67890 Summary`
 
 Examples of good titles:
-- `LPD-83847 Process content per item instead of loading entire JSON into memory`
+- `LPD-84627 Prevent dispatch trigger loss when analytics admin user is missing`
 - `LPD-83357 Add validation to prevent folder changes for CMS object definitions`
 - `LPD-83630 Fix typo`
 - `LCD-50509 Grant ArgoCD permission to correct namespace`
@@ -54,7 +54,7 @@ Add a body **only** if the title alone doesn't fully explain the change. Skip th
 
 When included:
 - Separate from title with a blank line
-- Explain **how** or **why**, not what (the title covers what)
+- Explain **why** the change is needed — describe the problem, the previous behavior, or the motivation, not the code changes themselves
 - Wrap lines at 72 characters
 - Use plain prose, not bullet points (match the repo convention)
 
