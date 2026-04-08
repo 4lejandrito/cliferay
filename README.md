@@ -47,6 +47,7 @@ Server Commands:
   nuke              Delete all persisted data
   run               Start the server
   sql               Run a SQL query against the Liferay database
+  weblogic          Start a Liferay bundle on WebLogic 14.1.2
 
 Code Commands:
   baseline          Run baseline in the current folder

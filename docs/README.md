@@ -67,6 +67,7 @@ Set to true to echo all commands being run
 - [nuke](cliferay%20nuke.md) - Delete all persisted data
 - [run](cliferay%20run.md) - Start the server
 - [sql](cliferay%20sql.md) - Run a SQL query against the Liferay database
+- [weblogic](cliferay%20weblogic.md) - Start a Liferay bundle on WebLogic 14.1.2
 
 ## Code Commands
 

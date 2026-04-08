@@ -1,0 +1,1 @@
+$(cliferay source-folder)/src/standalone/weblogic.sh "${args["version"]}"

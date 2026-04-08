@@ -244,6 +244,25 @@ commands:
       - cliferay sql "SELECT COUNT(*) FROM User_"
     group: Server
 
+  - name: weblogic
+    help: |
+      Start a Liferay bundle on WebLogic 14.1.2
+
+      Liferay will be available at http://localhost:7001.
+      The debugger will be available on port 5005.
+
+      Run inside an empty folder the first time. After that, it is idempotent.
+    group: Server
+    args:
+      - name: version
+        help: The version to run
+        required: true
+    examples:
+      - cliferay weblogic dxp/2025.q1.12-lts
+    completions:
+      - dxp/nightly
+      - dxp/2025.q1.12-lts
+
   # Code
 
   - name: baseline
