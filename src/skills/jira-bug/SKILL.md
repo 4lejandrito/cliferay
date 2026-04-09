@@ -2,7 +2,6 @@
 name: jira-bug
 description: Create a Jira bug ticket in the LPD project. Use when the user asks to create/file a Jira bug or LPD ticket.
 argument-hint: "[commit-hash-or-description]"
-disable-model-invocation: true
 allowed-tools: Bash(git *), Bash(curl *), Read, Grep, Glob
 ---
 
