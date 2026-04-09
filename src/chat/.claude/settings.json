@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__liferay__get-openapis",
+      "mcp__liferay__get-openapi",
+      "mcp__liferay__call-http-endpoint"
+    ]
+  }
+}

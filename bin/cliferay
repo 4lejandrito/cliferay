@@ -2624,7 +2624,7 @@ cliferay() {
 
     # src/commands/chat.sh
     cd $(cliferay source-folder)/src/chat
-    cliferay gemini
+    claude
   }
 
   # :command.function

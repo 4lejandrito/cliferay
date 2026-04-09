@@ -1,7 +1,8 @@
 {
   "mcpServers": {
     "liferay": {
-      "httpUrl": "http://localhost:8080/o/mcp",
+      "type": "http",
+      "url": "http://localhost:8080/o/mcp",
       "headers": {
         "Authorization": "Basic dGVzdEBsaWZlcmF5LmNvbTp0ZXN0"
       }
