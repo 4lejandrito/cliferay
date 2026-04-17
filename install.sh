@@ -51,10 +51,4 @@ else
   echo "$CLIFERAY_SETUP\n"
 fi
 
-SKILLS_SRC="$INSTALL_DIR/src/skills"
-for dir in "$HOME/.claude/skills" "$HOME/.gemini/skills"; do
-  mkdir -p "$dir"
-  cp -r "$SKILLS_SRC"/. "$dir"/
-done
-
 echo "Installation complete. Enjoy cliferay!"
