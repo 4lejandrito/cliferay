@@ -38,6 +38,7 @@ virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com,[0:0:0:0:0:0:0:1]
 
 # MCP Server
 feature.flag.LPD-63311=true
+feature.flag.LPD-86164=true
 
 include-and-override=\${liferay.home}/portal-custom.properties
 " > $1/portal-ext.properties
