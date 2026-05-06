@@ -2500,6 +2500,7 @@ cliferay() {
     echo 'alias cdc="cd \$(cliferay source-folder)"'
     echo 'alias cdl="cd \$(cliferay home)"'
     echo 'alias c="cliferay"'
+    echo 'alias cc="claude --dangerously-skip-permissions"'
 
   }
 
