@@ -5,7 +5,13 @@ Start the server
 ## Usage
 
 ```bash
-cliferay run [COMMAND]
+cliferay run [COMMAND] [OPTIONS]
+```
+
+## Examples
+
+```bash
+cliferay run --profile mcp-oauth
 ```
 
 ## Arguments
@@ -13,5 +19,14 @@ cliferay run [COMMAND]
 #### *COMMAND*
 
 Tomcat command
+
+## Options
+
+#### *--profile, -p PROFILE*
+
+Run profile with extra properties and OSGi configs.  
+Profiles live in src/run-profiles/\<profile\> and are layered on  
+top of the shared baseline.  
+
 
 

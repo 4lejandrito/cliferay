@@ -228,9 +228,26 @@ commands:
       - name: command
         help: Tomcat command
         required: false
+    flags:
+      - long: --profile
+        short: -p
+        arg: profile
+        help: |
+          Run profile with extra properties and OSGi configs.
+          Profiles live in src/run-profiles/<profile> and are layered on
+          top of the shared baseline.
+        completions:
+          - $(cliferay run-profiles)
+    examples:
+      - cliferay run --profile mcp-oauth
 
   - name: tomcat-folder
     help: Print the current Tomcat folder path
+    group: Server
+    private: true
+
+  - name: run-profiles
+    help: List the available run profiles
     group: Server
     private: true
 

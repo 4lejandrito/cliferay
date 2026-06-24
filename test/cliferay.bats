@@ -23,6 +23,17 @@ setup() {
     mkdir -p $LIFERAY_HOME
 }
 
+setup_run() {
+    export LIFERAY_HOME=$TMP_DIR/run/liferay-portal
+    export BUNDLES=$TMP_DIR/run/bundles
+    export PROPS=$BUNDLES/portal-ext.properties
+    rm -rf $TMP_DIR/run
+    mkdir -p $LIFERAY_HOME $BUNDLES/tomcat-10.1.40/bin
+    printf '#!/bin/sh\nexit 0\n' > $BUNDLES/tomcat-10.1.40/bin/catalina.sh
+    chmod +x $BUNDLES/tomcat-10.1.40/bin/catalina.sh
+    cd $TMP_DIR/run
+}
+
 @test "cliferay" {
     run cliferay
     assert_line "cliferay - Daily scripts for working with Liferay"
@@ -157,4 +168,97 @@ setup() {
     run cliferay team users emails user2
     assert_line "email2@example.com"
     assert_line "email3@example.com"
+}
+
+@test "cliferay run-profiles" {
+    run cliferay run-profiles
+    assert_line "mcp"
+    assert_line "mcp-oauth"
+}
+
+@test "cliferay run" {
+    setup_run
+
+    run cliferay run
+    assert_success
+    assert_exists $PROPS
+
+    run grep -qx 'company.default.web.id=liferay.com' $PROPS
+    assert_success
+
+    assert_equal "$(tail -n 1 $PROPS)" 'include-and-override=${liferay.home}/portal-custom.properties'
+
+    run grep -q '# Profile:' $PROPS
+    assert_failure
+    run grep -q 'feature.flag.LPD-63311' $PROPS
+    assert_failure
+
+    assert_exists $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
+    assert_not_exists $BUNDLES/osgi/configs/com.liferay.mcp.server.rest.internal.configuration.MCPServerConfiguration.config
+}
+
+@test "cliferay run --profile mcp" {
+    setup_run
+
+    run cliferay run --profile mcp
+    assert_success
+    assert_exists $PROPS
+
+    run grep -qx '# Profile: mcp' $PROPS
+    assert_success
+
+    run grep -qx 'feature.flag.LPD-63311=true' $PROPS
+    assert_success
+    run grep -q 'web.server.host' $PROPS
+    assert_failure
+
+    assert_exists $BUNDLES/osgi/configs/com.liferay.mcp.server.rest.internal.configuration.MCPServerConfiguration.config
+}
+
+@test "cliferay run --profile mcp-oauth" {
+    setup_run
+
+    run cliferay run --profile mcp-oauth
+    assert_success
+    assert_exists $PROPS
+
+    run grep -qx '# Profile: mcp-oauth' $PROPS
+    assert_success
+
+    run grep -qx 'feature.flag.LPD-63311=true' $PROPS
+    assert_success
+    run grep -qx 'feature.flag.LPD-63415=true' $PROPS
+    assert_success
+    run grep -qx 'feature.flag.LPD-63416=true' $PROPS
+    assert_success
+    run grep -q 'web.server.host' $PROPS
+    assert_failure
+
+    run bash -c "grep -A 1 '# Profile: mcp-oauth' $PROPS | tail -n 1"
+    assert_output ''
+
+    assert_equal "$(tail -n 1 $PROPS)" 'include-and-override=${liferay.home}/portal-custom.properties'
+
+    assert_exists $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
+    assert_exists $BUNDLES/osgi/configs/com.liferay.mcp.server.rest.internal.configuration.MCPServerConfiguration.config
+    assert_exists $BUNDLES/osgi/configs/com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration~default.config
+    assert_exists $BUNDLES/osgi/configs/com.liferay.oauth2.provider.rest.internal.configuration.DynamicRegistrationConfiguration.config
+}
+
+@test "cliferay run --profile nope" {
+    setup_run
+
+    run cliferay run --profile nope
+    assert_failure
+    assert_line "Unknown run profile: nope"
+    assert_line --partial "mcp-oauth"
+}
+
+@test "cliferay run -p mcp-oauth" {
+    setup_run
+
+    run cliferay run -p mcp-oauth
+    assert_success
+    run grep -qx '# Profile: mcp-oauth' $PROPS
+    assert_success
 }

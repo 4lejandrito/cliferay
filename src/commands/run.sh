@@ -1,3 +1,15 @@
+PROFILE="${args[--profile]:-}"
+
+if [ -n "$PROFILE" ]; then
+    PROFILE_DIR=$(cliferay source-folder)/src/run-profiles/$PROFILE
+    if [ ! -d "$PROFILE_DIR" ]; then
+        echo "Unknown run profile: $PROFILE" >&2
+        echo "Available profiles:" >&2
+        cliferay run-profiles | sed 's/^/  /' >&2
+        exit 1
+    fi
+fi
+
 function generate-configuration() {
 echo "
 # This file was created by cliferay $(cliferay --version).
@@ -35,18 +47,30 @@ feature.flag.ui.visible[dev]=true
 module.framework.properties.osgi.console=11311
 
 virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com,[0:0:0:0:0:0:0:1]
-
-# MCP Server
-feature.flag.LPD-63311=true
-feature.flag.LPD-86164=true
-
-include-and-override=\${liferay.home}/portal-custom.properties
 " > $1/portal-ext.properties
+
+if [ -n "$PROFILE" ] && [ -f "$PROFILE_DIR/portal-ext.properties" ]; then
+    echo "" >> $1/portal-ext.properties
+    echo "# Profile: $PROFILE" >> $1/portal-ext.properties
+    echo "" >> $1/portal-ext.properties
+    cat "$PROFILE_DIR/portal-ext.properties" >> $1/portal-ext.properties
+fi
+
+echo "" >> $1/portal-ext.properties
+echo "include-and-override=\${liferay.home}/portal-custom.properties" >> $1/portal-ext.properties
+
+sed -i 's/^[[:space:]]*//' $1/portal-ext.properties
+
 if [ ! -f "$1/portal-custom.properties" ]; then
     echo "# Override your config here, don't touch portal-ext.properties" > $1/portal-custom.properties
 fi
 mkdir -p $1/osgi/configs
 echo 'maxChallenges=I"-1"' > $1/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
+
+# Layer the run profile OSGi configs on top of the shared baseline.
+if [ -n "$PROFILE" ] && [ -d "$PROFILE_DIR/osgi/configs" ]; then
+    cp "$PROFILE_DIR/osgi/configs/"*.config $1/osgi/configs/
+fi
 }
 
 BUNDLES=$(realpath $(cliferay home)/../bundles)
