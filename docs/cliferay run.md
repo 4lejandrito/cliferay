@@ -26,7 +26,8 @@ Tomcat command
 
 Run profile with extra properties and OSGi configs.  
 Profiles live in src/run-profiles/\<profile\> and are layered on  
-top of the shared baseline.  
+top of the shared baseline. A profile's catalina-opts file  
+(e.g. -Dliferay.mode=test) is added to CATALINA_OPTS for the run.  
 
 
 

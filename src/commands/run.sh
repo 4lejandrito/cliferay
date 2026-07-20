@@ -77,4 +77,9 @@ BUNDLES=$(realpath $(cliferay home)/../bundles)
 
 generate-configuration $BUNDLES
 
+if [ -n "$PROFILE" ] && [ -f "$PROFILE_DIR/catalina-opts" ]; then
+    PROFILE_OPTS=$(grep -v '^[[:space:]]*#' "$PROFILE_DIR/catalina-opts" | tr '\n' ' ')
+    export CATALINA_OPTS="${CATALINA_OPTS:-} $PROFILE_OPTS"
+fi
+
 $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run

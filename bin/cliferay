@@ -847,7 +847,7 @@ cliferay() {
       # :command.usage_flags
       # :flag.usage
       printf "  %s\n" "--profile, -p PROFILE"
-      printf "    Run profile with extra properties and OSGi configs.\n    Profiles live in src/run-profiles/<profile> and are layered on\n    top of the shared baseline.\n"
+      printf "    Run profile with extra properties and OSGi configs.\n    Profiles live in src/run-profiles/<profile> and are layered on\n    top of the shared baseline. A profile's catalina-opts file\n    (e.g. -Dliferay.mode=test) is added to CATALINA_OPTS for the run.\n"
       echo
 
       # :command.usage_fixed_flags
@@ -3166,6 +3166,11 @@ EOF
     BUNDLES=$(realpath $(cliferay home)/../bundles)
 
     generate-configuration $BUNDLES
+
+    if [ -n "$PROFILE" ] && [ -f "$PROFILE_DIR/catalina-opts" ]; then
+        PROFILE_OPTS=$(grep -v '^[[:space:]]*#' "$PROFILE_DIR/catalina-opts" | tr '\n' ' ')
+        export CATALINA_OPTS="${CATALINA_OPTS:-} $PROFILE_OPTS"
+    fi
 
     $(cliferay tomcat-folder)/bin/catalina.sh ${args["command"]:-jpda} run
 

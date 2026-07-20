@@ -29,7 +29,7 @@ setup_run() {
     export PROPS=$BUNDLES/portal-ext.properties
     rm -rf $TMP_DIR/run
     mkdir -p $LIFERAY_HOME $BUNDLES/tomcat-10.1.40/bin
-    printf '#!/bin/sh\nexit 0\n' > $BUNDLES/tomcat-10.1.40/bin/catalina.sh
+    printf '#!/bin/sh\necho "CATALINA_OPTS=$CATALINA_OPTS"\nexit 0\n' > $BUNDLES/tomcat-10.1.40/bin/catalina.sh
     chmod +x $BUNDLES/tomcat-10.1.40/bin/catalina.sh
     cd $TMP_DIR/run
 }
@@ -181,6 +181,7 @@ setup_run() {
 
     run cliferay run
     assert_success
+    refute_output --partial 'liferay.mode=test'
     assert_exists $PROPS
 
     run grep -qx 'company.default.web.id=liferay.com' $PROPS
@@ -202,6 +203,7 @@ setup_run() {
 
     run cliferay run --profile mcp
     assert_success
+    refute_output --partial 'liferay.mode=test'
     assert_exists $PROPS
 
     run grep -qx '# Profile: mcp' $PROPS
@@ -220,6 +222,7 @@ setup_run() {
 
     run cliferay run --profile mcp-oauth
     assert_success
+    assert_output --partial '-Dliferay.mode=test'
     assert_exists $PROPS
 
     run grep -qx '# Profile: mcp-oauth' $PROPS
