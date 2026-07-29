@@ -245,7 +245,7 @@ setup_run() {
     assert_exists $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
     assert_exists $BUNDLES/osgi/configs/com.liferay.mcp.server.rest.internal.configuration.MCPServerConfiguration.config
     assert_exists $BUNDLES/osgi/configs/com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration~default.config
-    assert_exists $BUNDLES/osgi/configs/com.liferay.oauth2.provider.rest.internal.configuration.DynamicRegistrationConfiguration.config
+    assert_exists $BUNDLES/osgi/configs/com.liferay.oauth2.provider.rest.internal.configuration.OAuth2DynamicRegistrationConfiguration.config
 }
 
 @test "cliferay run --profile nope" {
