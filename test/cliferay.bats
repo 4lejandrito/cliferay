@@ -40,13 +40,13 @@ setup_run() {
 }
 
 @test "cliferay nuke" {
-    mkdir -p $TMP_DIR/liferay/liferay-portal $TMP_DIR/liferay/bundles/elasticsearch7 $TMP_DIR/liferay/bundles/keep $TMP_DIR/liferay/bundles/data $TMP_DIR/liferay/bundles/osgi/war $TMP_DIR/liferay/bundles/osgi/state $TMP_DIR/liferay/bundles/osgi/keep
+    mkdir -p $TMP_DIR/liferay/liferay-portal $TMP_DIR/liferay/bundles/elasticsearch-sidecar $TMP_DIR/liferay/bundles/keep $TMP_DIR/liferay/bundles/data $TMP_DIR/liferay/bundles/osgi/war $TMP_DIR/liferay/bundles/osgi/state $TMP_DIR/liferay/bundles/osgi/keep
     export DEBUG=true
     run cliferay nuke
     assert_line "+ echo 'drop database IF EXISTS lportal; create database lportal CHARACTER SET utf8mb4 COLLATE utf8mb4_bin'"
     assert_exists $TMP_DIR/liferay/bundles/keep
     assert_exists $TMP_DIR/liferay/bundles/osgi/keep
-    assert_not_exists $TMP_DIR/liferay/bundles/elasticsearch7
+    assert_exists $TMP_DIR/liferay/bundles/elasticsearch-sidecar
     assert_not_exists $TMP_DIR/liferay/bundles/data
     assert_not_exists $TMP_DIR/liferay/bundles/osgi/war
     assert_not_exists $TMP_DIR/liferay/bundles/osgi/state
