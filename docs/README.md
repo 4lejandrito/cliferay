@@ -97,8 +97,8 @@ Set to true to echo all commands being run
 
 ## Personal Commands
 
-- [todo](cliferay%20todo.md) - Create a todo in Trello
-- [todos](cliferay%20todos.md) - List todos from Trello
+- [todo](cliferay%20todo.md) - Create a todo
+- [todos](cliferay%20todos.md) - Browse your todos
 - [team](cliferay%20team.md) - Manage your team
 
 

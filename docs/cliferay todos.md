@@ -1,6 +1,13 @@
 # cliferay todos
 
-List todos from Trello
+Browse your todos  
+  
+An interactive board with a tab per folder. Use the side arrows to change  
+tabs, up and down to move between todos, and enter to open one. Each tab  
+offers its own actions, listed at the bottom of the screen.  
+  
+When the output is piped it prints the 10 most important todos instead.  
+
 
 ## Usage
 
@@ -13,31 +20,5 @@ cliferay todos
 ```bash
 cliferay todos
 ```
-
-## Environment Variables
-
-#### *TRELLO_API_KEY*
-
-Your Trello API Key (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
-
-#### *TRELLO_TOKEN*
-
-Your Trello Token (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
-
-#### *TRELLO_LIST_ID*
-
-Your Trello List ID (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
 
 

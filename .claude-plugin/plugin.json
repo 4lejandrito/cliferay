@@ -1,0 +1,8 @@
+{
+  "name": "cliferay",
+  "description": "Manage your cliferay todos from Claude.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Alejandro Tardín"
+  }
+}

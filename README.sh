@@ -48,6 +48,24 @@ curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install.
 > export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 > ```
 
+## Claude Code plugin
+
+This repo also ships the `cliferay` Claude Code plugin. It exposes a `todo` skill, so you can read and manage your todos by asking Claude instead of opening the board.
+
+To install:
+
+```bash
+claude plugin marketplace add 4lejandrito/cliferay
+claude plugin install cliferay@cliferay
+```
+
+To try local changes, run this from your clone instead:
+
+```bash
+claude plugin marketplace add ./
+claude plugin install cliferay@cliferay
+```
+
 ## Contributing
 
 `cliferay` was created with [bashly.dev](https://bashly.dev). To contribute, please familiarize yourself with it first.

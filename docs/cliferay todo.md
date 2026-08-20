@@ -1,6 +1,11 @@
 # cliferay todo
 
-Create a todo in Trello
+Create a todo  
+  
+Each todo is a folder under $(cliferay data-folder)/todo/todo holding a todo.md and any related files, committed and pushed to the data repository.  
+  
+The folder is prefixed with its priority, 001 being the most important. A new todo goes first and pushes the rest down. Reprioritize by renaming the folder.  
+
 
 ## Usage
 
@@ -17,31 +22,5 @@ cliferay todo Complete 100% of the milestone
 ```bash
 cliferay todo Review PR http://github.com/...
 ```
-
-## Environment Variables
-
-#### *TRELLO_API_KEY*
-
-Your Trello API Key (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
-
-#### *TRELLO_TOKEN*
-
-Your Trello Token (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
-
-#### *TRELLO_LIST_ID*
-
-Your Trello List ID (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)
-
-| Attributes      | &nbsp;
-|-----------------|-------------
-| Required:       | ✓ Yes
 
 
