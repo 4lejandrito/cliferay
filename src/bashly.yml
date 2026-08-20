@@ -438,17 +438,12 @@ commands:
   # Personal
 
   - name: todo
-    help: Create a todo in Trello
-    environment_variables:
-      - name: TRELLO_API_KEY
-        help: Your Trello API Key (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)
-        required: true
-      - name: TRELLO_TOKEN
-        help: Your Trello Token (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)
-        required: true
-      - name: TRELLO_LIST_ID
-        help: Your Trello List ID (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)
-        required: true
+    help: |
+      Create a todo
+
+      Each todo is a folder under $(cliferay data-folder)/todo/todo holding a todo.md and any related files, committed and pushed to the data repository.
+
+      The folder is prefixed with its priority, 001 being the most important. A new todo goes first and pushes the rest down. Reprioritize by renaming the folder.
     catch_all:
       label: title
       help: The todo title
@@ -459,17 +454,14 @@ commands:
     group: Personal
 
   - name: todos
-    help: List todos from Trello
-    environment_variables:
-      - name: TRELLO_API_KEY
-        help: Your Trello API Key (https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization)
-        required: true
-      - name: TRELLO_TOKEN
-        help: Your Trello Token (https://trello.com/1/authorize?expiration=never&scope=read,write,account&response_type=token&key=TRELLO_API_KEY)
-        required: true
-      - name: TRELLO_LIST_ID
-        help: Your Trello List ID (https://community.atlassian.com/forums/Trello-questions/How-do-I-find-the-LIST-ID/qaq-p/2272862)
-        required: true
+    help: |
+      Browse your todos
+
+      An interactive board with a tab per folder. Use the side arrows to change
+      tabs, up and down to move between todos, and enter to open one. Each tab
+      offers its own actions, listed at the bottom of the screen.
+
+      When the output is piped it prints the 10 most important todos instead.
     examples:
       - cliferay todos
     group: Personal

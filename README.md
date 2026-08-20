@@ -73,8 +73,8 @@ Jira Commands:
   jira              Open a Jira ticket in the browser
 
 Personal Commands:
-  todo              Create a todo in Trello
-  todos             List todos from Trello
+  todo              Create a todo
+  todos             Browse your todos
   team              Manage your team
 
 Options:
@@ -128,6 +128,24 @@ curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install.
 > # Use coreutils installed via Homebrew: https://www.gnu.org/software/coreutils/
 > export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 > ```
+
+## Claude Code plugin
+
+This repo also ships the `cliferay` Claude Code plugin. It exposes a `todo` skill, so you can read and manage your todos by asking Claude instead of opening the board.
+
+To install:
+
+```bash
+claude plugin marketplace add 4lejandrito/cliferay
+claude plugin install cliferay@cliferay
+```
+
+To try local changes, run this from your clone instead:
+
+```bash
+claude plugin marketplace add ./
+claude plugin install cliferay@cliferay
+```
 
 ## Contributing
 

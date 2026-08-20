@@ -1,0 +1,13 @@
+{
+  "name": "cliferay",
+  "description": "Marketplace for the cliferay Claude Code plugin.",
+  "owner": {
+    "name": "Alejandro Tardín"
+  },
+  "plugins": [
+    {
+      "name": "cliferay",
+      "source": "./"
+    }
+  ]
+}
