@@ -1,3 +1,5 @@
+ensure-gnu-sed
+
 PROFILE="${args[--profile]:-}"
 
 if [ -n "$PROFILE" ]; then
@@ -59,7 +61,8 @@ fi
 echo "" >> $1/portal-ext.properties
 echo "include-and-override=\${liferay.home}/portal-custom.properties" >> $1/portal-ext.properties
 
-sed -i 's/^[[:space:]]*//' $1/portal-ext.properties
+# Strip the indentation that bashly adds when it compiles this file.
+$SED -i 's/^[[:space:]]*//' $1/portal-ext.properties
 
 if [ ! -f "$1/portal-custom.properties" ]; then
     echo "# Override your config here, don't touch portal-ext.properties" > $1/portal-custom.properties

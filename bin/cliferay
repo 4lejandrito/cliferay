@@ -2168,6 +2168,30 @@ cliferay() {
       cp $(cliferay data-folder)/activation-* $1/deploy/ 2>/dev/null || true
   }
 
+  # Locate a GNU sed and expose it as $SED.
+  #
+  # This follows the Autoconf convention (AC_PROG_SED sets the SED output
+  # variable) that Kubernetes also uses in kube::util::ensure-gnu-sed.
+  #
+  # BSD sed, which is what macOS ships, is not a drop-in replacement for GNU sed:
+  # -i requires a backup suffix argument there, and GNU regex extensions such as
+  # \s or \+ silently match nothing instead of failing.
+  #
+  #     ensure-gnu-sed
+  #
+  #     $SED -i 's/foo/bar/' "$file"
+  function ensure-gnu-sed() {
+      if sed --version 2>/dev/null | grep -q GNU; then
+          SED=sed
+      elif command -v gsed >/dev/null 2>&1; then
+          SED=gsed
+      else
+          echo "Failed to find GNU sed as sed or gsed." >&2
+          echo "On macOS: brew install gnu-sed" >&2
+          exit 1
+      fi
+  }
+
   # src/lib/send_completions.sh
   send_completions() {
     echo $'# cliferay completion                                      -*- shell-script -*-'
@@ -3065,6 +3089,8 @@ EOF
   cliferay_run_command() {
 
     # src/commands/run.sh
+    ensure-gnu-sed
+
     PROFILE="${args[--profile]:-}"
 
     if [ -n "$PROFILE" ]; then
@@ -3126,7 +3152,8 @@ EOF
     echo "" >> $1/portal-ext.properties
     echo "include-and-override=\${liferay.home}/portal-custom.properties" >> $1/portal-ext.properties
 
-    sed -i 's/^[[:space:]]*//' $1/portal-ext.properties
+    # Strip the indentation that bashly adds when it compiles this file.
+    $SED -i 's/^[[:space:]]*//' $1/portal-ext.properties
 
     if [ ! -f "$1/portal-custom.properties" ]; then
         echo "# Override your config here, don't touch portal-ext.properties" > $1/portal-custom.properties
@@ -4310,6 +4337,15 @@ EOF
       missing_deps=1
     else
       deps['jq']="$(command -v jq | head -n1)"
+    fi
+
+    # :dependency.filter
+    if ! command -v gsed sed >/dev/null 2>&1; then
+      printf "missing dependency: sed (gsed/sed)\n" >&2
+      printf "%s\n\n" "GNU sed is required. On macOS: brew install gnu-sed" >&2
+      missing_deps=1
+    else
+      deps['sed']="$(command -v gsed sed | head -n1)"
     fi
 
     if [[ -n $missing_deps ]]; then
