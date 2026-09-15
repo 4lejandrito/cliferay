@@ -33,6 +33,10 @@ Install from https://cli.github.com
 
 Install from https://jqlang.github.io/jq
 
+#### *gsed, sed*
+
+GNU sed is required. On macOS: brew install gnu-sed
+
 ## Environment Variables
 
 #### *DEBUG*

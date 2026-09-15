@@ -23,6 +23,9 @@ dependencies:
   jq:
     command: [jq]
     help: Install from https://jqlang.github.io/jq
+  sed:
+    command: [gsed, sed]
+    help: "GNU sed is required. On macOS: brew install gnu-sed"
 commands:
 
   # cliferay

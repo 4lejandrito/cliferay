@@ -6,6 +6,17 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 
+# Locate a GNU sed as $SED. BSD sed (macOS) needs a backup suffix for -i.
+if sed --version 2>/dev/null | grep -q GNU; then
+	SED=sed
+elif command -v gsed >/dev/null 2>&1; then
+	SED=gsed
+else
+	echo "Failed to find GNU sed as sed or gsed." >&2
+	echo "On macOS: brew install gnu-sed" >&2
+	exit 1
+fi
+
 LIFERAY_RELEASE_URL="https://releases.liferay.com/$1"
 LIFERAY_VERSION=$(basename "$1")
 
@@ -124,7 +135,7 @@ chmod +x "$DOMAIN_HOME/bin/setUserOverridesLate.sh"
 
 echo "Configuring nodemanager.properties..."
 
-sed -i 's/NativeVersionEnabled=true/NativeVersionEnabled=false/' "$DOMAIN_HOME/nodemanager/nodemanager.properties"
+$SED -i 's/NativeVersionEnabled=true/NativeVersionEnabled=false/' "$DOMAIN_HOME/nodemanager/nodemanager.properties"
 
 echo "Configuring portal-ext.properties..."
 

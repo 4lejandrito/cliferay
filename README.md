@@ -116,10 +116,13 @@ curl -sSL https://raw.githubusercontent.com/4lejandrito/cliferay/master/install.
     ```
 
 > **Note for macOS users:**
-> You need to install `coreutils`. You can install it via Homebrew:
+> You need to install `coreutils` and `gnu-sed`. macOS ships the BSD variants of
+> these tools, which are not drop-in replacements: `sed -i` requires a backup
+> suffix argument there, and GNU regex extensions such as `\s` silently match
+> nothing. You can install both via Homebrew:
 >
 > ```sh
-> brew install coreutils
+> brew install coreutils gnu-sed
 > ```
 >
 > Then, add the `gnubin` directory to your `PATH` in your `.zshrc` or `.bashrc`:
