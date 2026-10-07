@@ -16,7 +16,7 @@ cliferay mysql COMMAND
 ## Commands
 
 - [create](cliferay%20mysql%20create.md) - Create and start the MySQL container, with the current database already created
-- [start](cliferay%20mysql%20start.md) - Start the MySQL container
+- [start](cliferay%20mysql%20start.md) - Start the MySQL container, creating it first if it does not exist
 - [stop](cliferay%20mysql%20stop.md) - Stop the MySQL container, keeping its data
 - [remove](cliferay%20mysql%20remove.md) - Remove the MySQL container and its data
 

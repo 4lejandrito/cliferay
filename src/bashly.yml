@@ -100,7 +100,10 @@ commands:
     group: Build
 
   - name: morning
-    help: Run sync, build, ij, nuke and run
+    help: |
+      Run sync, build, ij, nuke and run
+
+      Starts the 'cliferay mysql' container first unless a MySQL server is already listening on localhost:3306.
     flags:
       - long: --brian
         help: Sync from Brian instead of upstream
@@ -248,7 +251,7 @@ commands:
           - "8.4"
           - "9"
       - name: start
-        help: Start the MySQL container
+        help: Start the MySQL container, creating it first if it does not exist
       - name: stop
         help: Stop the MySQL container, keeping its data
       - name: remove

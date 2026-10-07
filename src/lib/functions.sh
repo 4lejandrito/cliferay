@@ -134,3 +134,19 @@ function mysql-wait() {
     echo "Timed out waiting for the $MYSQL_CONTAINER container to accept connections" >&2
     return 1
 }
+
+# Make sure a MySQL server is listening on localhost:3306 before commands that
+# need one, such as 'cliferay morning'.
+#
+# Does nothing when the 'cliferay mysql' container is running or when another
+# server, like a local install, already listens on the port. Otherwise it
+# starts the container, creating it first if needed.
+function mysql-up() {
+    if mysql-container-running; then
+        return
+    fi
+    if (exec 3<>/dev/tcp/127.0.0.1/3306) 2>/dev/null; then
+        return
+    fi
+    cliferay mysql start
+}

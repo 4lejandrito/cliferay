@@ -1,6 +1,9 @@
 # cliferay morning
 
-Run sync, build, ij, nuke and run
+Run sync, build, ij, nuke and run  
+  
+Starts the 'cliferay mysql' container first unless a MySQL server is already listening on localhost:3306.  
+
 
 ## Usage
 
