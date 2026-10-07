@@ -3,7 +3,10 @@
 all: lint bin/cliferay README.md test/ok
 
 DOCKER_TTY := $(if $(CI),,-it)
-BASHLY := docker run --rm $(DOCKER_TTY) --user $$(id -u):$$(id -g) --volume "$$(pwd):/app" -e BASHLY_SETTINGS_PATH=src/settings.yml dannyben/bashly:1.3.3
+# Rootless Docker already maps the container root to the host user, and
+# passing --user there yields a subordinate uid that cannot write to src.
+DOCKER_USER := $(if $(findstring rootless,$(shell docker info -f '{{.SecurityOptions}}' 2>/dev/null)),,--user $$(id -u):$$(id -g))
+BASHLY := docker run --rm $(DOCKER_TTY) $(DOCKER_USER) --volume "$$(pwd):/app" -e BASHLY_SETTINGS_PATH=src/settings.yml dannyben/bashly:1.3.3
 
 bin/cliferay: $(shell find src) Makefile
 	@$(BASHLY) build --upgrade -r cliferay

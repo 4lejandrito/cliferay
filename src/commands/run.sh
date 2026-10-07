@@ -76,7 +76,7 @@ if [ -n "$PROFILE" ] && [ -d "$PROFILE_DIR/osgi/configs" ]; then
 fi
 }
 
-BUNDLES=$(realpath $(cliferay home)/../bundles)
+BUNDLES=$(realpath $(cliferay bundles-folder))
 
 generate-configuration $BUNDLES
 

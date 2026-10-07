@@ -6,6 +6,11 @@ You can run these scripts from any folder:
   - If you are outside a repository, LIFERAY_HOME will be used.  
   - If you are inside a repository, that repository will be used.  
   
+The bundles folder is read from app.server.parent.dir in the repository's  
+app.server.\<user\>.properties, the same file the Liferay build uses, and  
+defaults to ../bundles next to the repository. CLIFERAY_BUNDLES_FOLDER  
+overrides both.  
+  
 For example, every day I open my terminal and type:  
   
   \> cliferay morning  

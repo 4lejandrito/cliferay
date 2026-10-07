@@ -197,7 +197,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'switch\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay bundles-folder)*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'update\'*)'

@@ -23,12 +23,13 @@ mkdir -p "$FOLDER"
     fi
 )
 (cliferay switch "${args["version"]}")
-rm -rf $(cliferay home)/../bundles
-cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" $(cliferay home)/../bundles
-deploy_activation_key $(cliferay home)/../bundles
+BUNDLES=$(cliferay bundles-folder)
+rm -rf "$BUNDLES"
+cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" "$BUNDLES"
+deploy_activation_key "$BUNDLES"
 cd $(cliferay home)
-GITHASH=$(cat ../bundles/.githash)
-echo "${args["version"]}" > ../bundles/.cliferay-name
-cp $(cliferay data-folder)/activation-* ../bundles/deploy/ 2>/dev/null || true
+GITHASH=$(cat "$BUNDLES/.githash")
+echo "${args["version"]}" > "$BUNDLES/.cliferay-name"
+cp $(cliferay data-folder)/activation-* "$BUNDLES/deploy/" 2>/dev/null || true
 git fetch --depth=1 upstream $GITHASH && git checkout $GITHASH
 cliferay ij

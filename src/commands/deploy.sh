@@ -1,5 +1,5 @@
 if [[ "$PWD" = */portal-test ]]; then
-    cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
+    cliferay ant deploy install-portal-snapshot && cp "$(cliferay bundles-folder)/osgi/test/com.liferay.portal.test.jar" "$(cliferay bundles-folder)/osgi/modules"
 elif [[ "$PWD" = */portal-kernel ]]; then
     cliferay ant deploy install-portal-snapshot
 elif [[ "$PWD" = */portal-impl ]]; then
@@ -7,7 +7,7 @@ elif [[ "$PWD" = */portal-impl ]]; then
 elif [[ "$PWD" = *test-util ]]; then
     cliferay gw -a depl
     JAR=$( echo "$(realpath $PWD --relative-to $(cliferay home))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
-    cp "$(cliferay home)/../bundles/osgi/test/$JAR" "$(cliferay home)/../bundles/osgi/modules/"
+    cp "$(cliferay bundles-folder)/osgi/test/$JAR" "$(cliferay bundles-folder)/osgi/modules/"
 elif [[ "$PWD" = *gradle-plugins* ]]; then
     cliferay gw installCache updateFileVersions
     git add $(cliferay home) && git commit -m "DELETE ME"

@@ -15,7 +15,7 @@ cliferay() {
   cliferay_usage() {
     if [[ -n $long_usage ]]; then
       printf "cliferay\n\n"
-      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n  \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
+      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n  \n  The bundles folder is read from app.server.parent.dir in the repository's\n  app.server.<user>.properties, the same file the Liferay build uses, and\n  defaults to ../bundles next to the repository. CLIFERAY_BUNDLES_FOLDER\n  overrides both.\n  \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
     else
       printf "cliferay - Daily scripts for working with Liferay\n\n"
     fi
@@ -887,6 +887,40 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_bundles_folder_usage() {
+    if [[ -n $long_usage ]]; then
+      printf "cliferay bundles-folder\n\n"
+      printf "  Print the Liferay bundles folder path\n  \n  Resolved in this order:\n    1. The CLIFERAY_BUNDLES_FOLDER environment variable\n    2. app.server.parent.dir in app.server.<user>.properties inside the\n  repository, the same file the Liferay build reads. ${project.dir} expands to\n  the repository path.\n    3. ../bundles next to the repository\n\n"
+    else
+      printf "cliferay bundles-folder - Print the Liferay bundles folder path\n\n"
+    fi
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay bundles-folder\n"
+    printf "  cliferay bundles-folder --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_environment_variables
+      printf "%s\n" "$(bold "Environment Variables:")"
+
+      # :environment_variable.usage
+      printf "  %s\n" "CLIFERAY_BUNDLES_FOLDER"
+      printf "    Path to the Liferay bundles folder, overriding app.server.<user>.properties\n"
       echo
 
     fi
@@ -2391,7 +2425,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    \'switch\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay bundles-folder)*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'update\'*)'
@@ -2630,13 +2664,14 @@ cliferay() {
         fi
     )
     (cliferay switch "${args["version"]}")
-    rm -rf $(cliferay home)/../bundles
-    cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" $(cliferay home)/../bundles
-    deploy_activation_key $(cliferay home)/../bundles
+    BUNDLES=$(cliferay bundles-folder)
+    rm -rf "$BUNDLES"
+    cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" "$BUNDLES"
+    deploy_activation_key "$BUNDLES"
     cd $(cliferay home)
-    GITHASH=$(cat ../bundles/.githash)
-    echo "${args["version"]}" > ../bundles/.cliferay-name
-    cp $(cliferay data-folder)/activation-* ../bundles/deploy/ 2>/dev/null || true
+    GITHASH=$(cat "$BUNDLES/.githash")
+    echo "${args["version"]}" > "$BUNDLES/.cliferay-name"
+    cp $(cliferay data-folder)/activation-* "$BUNDLES/deploy/" 2>/dev/null || true
     git fetch --depth=1 upstream $GITHASH && git checkout $GITHASH
     cliferay ij
   }
@@ -2688,21 +2723,22 @@ cliferay() {
   cliferay_switch_command() {
 
     # src/commands/switch.sh
-    cd $(cliferay home)
-    CURRENT_NAME=$(cat ../bundles/.cliferay-name 2>/dev/null || echo master)
+    BUNDLES=$(cliferay bundles-folder)
+    CURRENT_NAME=$(cat "$BUNDLES/.cliferay-name" 2>/dev/null || echo master)
     if [[ "$CURRENT_NAME" == "${args[name]}" ]]; then
       return
     fi
     (cliferay kill)
-    echo "$CURRENT_NAME" > ../bundles/.cliferay-name
-    mv ../bundles "../bundles-$CURRENT_NAME"
-    if [ ! -d "../bundles-${args[name]}" ]; then
-      cp -r "../bundles-$CURRENT_NAME" ../bundles
-      echo "${args[name]}" > ../bundles/.cliferay-name
+    echo "$CURRENT_NAME" > "$BUNDLES/.cliferay-name"
+    mv "$BUNDLES" "$BUNDLES-$CURRENT_NAME"
+    if [ ! -d "$BUNDLES-${args[name]}" ]; then
+      cp -r "$BUNDLES-$CURRENT_NAME" "$BUNDLES"
+      echo "${args[name]}" > "$BUNDLES/.cliferay-name"
       cliferay nuke
     else
-      mv "../bundles-${args[name]}" ../bundles
+      mv "$BUNDLES-${args[name]}" "$BUNDLES"
     fi
+
   }
 
   # :command.function
@@ -3021,13 +3057,14 @@ cliferay() {
 
     # src/commands/db-name.sh
     DB_NAME=$([[ "$(cliferay home)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal")
-    NAME=$(cat "$(cliferay home)/../bundles/.cliferay-name" 2>/dev/null || echo "master")
+    NAME=$(cat "$(cliferay bundles-folder)/.cliferay-name" 2>/dev/null || echo "master")
 
     if [[ -n "$NAME" && "$NAME" != "master" ]]; then
       echo "${DB_NAME}_$NAME" | tr '-' '_' | tr '/' '_' | tr '.' '_'
     else
       echo $DB_NAME
     fi
+
   }
 
   # :command.function
@@ -3080,9 +3117,10 @@ EOF
   cliferay_nuke_command() {
 
     # src/commands/nuke.sh
-    cd $(cliferay home)
-    rm -rf ../bundles/data ../bundles/osgi/war ../bundles/osgi/state $(cliferay tomcat-folder)/work/Catalina
+    BUNDLES=$(cliferay bundles-folder)
+    rm -rf "$BUNDLES/data" "$BUNDLES/osgi/war" "$BUNDLES/osgi/state" $(cliferay tomcat-folder)/work/Catalina
     echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
+
   }
 
   # :command.function
@@ -3167,7 +3205,7 @@ EOF
     fi
     }
 
-    BUNDLES=$(realpath $(cliferay home)/../bundles)
+    BUNDLES=$(realpath $(cliferay bundles-folder))
 
     generate-configuration $BUNDLES
 
@@ -3184,8 +3222,38 @@ EOF
   cliferay_tomcat_folder_command() {
 
     # src/commands/tomcat-folder.sh
-    cd $(cliferay home)/../bundles
+    cd $(cliferay bundles-folder)
     ls -d "$PWD/"** | grep tomcat | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n 1
+
+  }
+
+  # :command.function
+  cliferay_bundles_folder_command() {
+
+    # src/commands/bundles-folder.sh
+    HOME_FOLDER=$(cliferay home)
+
+    if [ -n "${CLIFERAY_BUNDLES_FOLDER:-}" ]; then
+        echo "$CLIFERAY_BUNDLES_FOLDER"
+        exit
+    fi
+
+    # The Liferay build reads app.server.${user.name}.properties on top of
+    # app.server.properties, so honoring the same file keeps cliferay and ant
+    # pointing at the same bundle.
+    PROPERTIES="$HOME_FOLDER/app.server.$(id -un).properties"
+
+    if [ -f "$PROPERTIES" ]; then
+        PARENT_DIR=$(grep -E '^[[:space:]]*app\.server\.parent\.dir[[:space:]]*=' "$PROPERTIES" | tail -n 1 | cut -d= -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+        if [ -n "$PARENT_DIR" ]; then
+            echo "${PARENT_DIR//\$\{project.dir\}/$HOME_FOLDER}"
+            exit
+        fi
+    fi
+
+    echo "$HOME_FOLDER/../bundles"
+
   }
 
   # :command.function
@@ -3251,7 +3319,7 @@ EOF
 
     # src/commands/deploy.sh
     if [[ "$PWD" = */portal-test ]]; then
-        cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
+        cliferay ant deploy install-portal-snapshot && cp "$(cliferay bundles-folder)/osgi/test/com.liferay.portal.test.jar" "$(cliferay bundles-folder)/osgi/modules"
     elif [[ "$PWD" = */portal-kernel ]]; then
         cliferay ant deploy install-portal-snapshot
     elif [[ "$PWD" = */portal-impl ]]; then
@@ -3259,7 +3327,7 @@ EOF
     elif [[ "$PWD" = *test-util ]]; then
         cliferay gw -a depl
         JAR=$( echo "$(realpath $PWD --relative-to $(cliferay home))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
-        cp "$(cliferay home)/../bundles/osgi/test/$JAR" "$(cliferay home)/../bundles/osgi/modules/"
+        cp "$(cliferay bundles-folder)/osgi/test/$JAR" "$(cliferay bundles-folder)/osgi/modules/"
     elif [[ "$PWD" = *gradle-plugins* ]]; then
         cliferay gw installCache updateFileVersions
         git add $(cliferay home) && git commit -m "DELETE ME"
@@ -4516,6 +4584,13 @@ EOF
         action="tomcat-folder"
         shift
         cliferay_tomcat_folder_parse_requirements "$@"
+        shift $#
+        ;;
+
+      bundles-folder)
+        action="bundles-folder"
+        shift
+        cliferay_bundles_folder_parse_requirements "$@"
         shift $#
         ;;
 
@@ -6263,6 +6338,55 @@ EOF
 
     # :command.command_filter
     action="tomcat-folder"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_bundles_folder_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_bundles_folder_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.environment_variables_filter
+
+    env_var_names+=("CLIFERAY_BUNDLES_FOLDER")
+
+    # :command.command_filter
+    action="bundles-folder"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -8278,6 +8402,7 @@ EOF
       "nuke") cliferay_nuke_command ;;
       "run") cliferay_run_command ;;
       "tomcat-folder") cliferay_tomcat_folder_command ;;
+      "bundles-folder") cliferay_bundles_folder_command ;;
       "run-profiles") cliferay_run_profiles_command ;;
       "sql") cliferay_sql_command ;;
       "weblogic") cliferay_weblogic_command ;;
