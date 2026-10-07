@@ -6,6 +6,11 @@ help: |
     - If you are outside a repository, LIFERAY_HOME will be used.
     - If you are inside a repository, that repository will be used.
 
+  The bundles folder is read from app.server.parent.dir in the repository's
+  app.server.<user>.properties, the same file the Liferay build uses, and
+  defaults to ../bundles next to the repository. CLIFERAY_BUNDLES_FOLDER
+  overrides both.
+
   For example, every day I open my terminal and type:
 
     > cliferay morning
@@ -123,7 +128,7 @@ commands:
       - cliferay switch LPD-XXXXX
       - cliferay switch master
     completions:
-      - $(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null)
+      - $(cat $(cliferay bundles-folder)*/.cliferay-name 2> /dev/null)
 
   # Server
 
@@ -247,6 +252,20 @@ commands:
 
   - name: tomcat-folder
     help: Print the current Tomcat folder path
+    group: Server
+    private: true
+
+  - name: bundles-folder
+    help: |
+      Print the Liferay bundles folder path
+
+      Resolved in this order:
+        1. The CLIFERAY_BUNDLES_FOLDER environment variable
+        2. app.server.parent.dir in app.server.<user>.properties inside the repository, the same file the Liferay build reads. ${project.dir} expands to the repository path.
+        3. ../bundles next to the repository
+    environment_variables:
+      - name: CLIFERAY_BUNDLES_FOLDER
+        help: Path to the Liferay bundles folder, overriding app.server.<user>.properties
     group: Server
     private: true
 

@@ -21,6 +21,8 @@ setup() {
     bats_load_library bats-support
     export LIFERAY_HOME=$TMP_DIR/liferay/liferay-portal
     mkdir -p $LIFERAY_HOME
+    rm -f $LIFERAY_HOME/app.server.*.properties
+    unset CLIFERAY_BUNDLES_FOLDER
 }
 
 setup_run() {
@@ -50,6 +52,69 @@ setup_run() {
     assert_not_exists $TMP_DIR/liferay/bundles/data
     assert_not_exists $TMP_DIR/liferay/bundles/osgi/war
     assert_not_exists $TMP_DIR/liferay/bundles/osgi/state
+}
+
+@test "cliferay bundles-folder" {
+    run cliferay bundles-folder
+    assert_output $LIFERAY_HOME/../bundles
+
+    PROPERTIES=$LIFERAY_HOME/app.server.$(id -un).properties
+
+    echo "app.server.parent.dir=$TMP_DIR/lili/bundles/master" > $PROPERTIES
+    run cliferay bundles-folder
+    assert_output $TMP_DIR/lili/bundles/master
+
+    printf 'app.server.tomcat.version=10.1.40\n  app.server.parent.dir = ${project.dir}/../custom-bundles  \n' > $PROPERTIES
+    run cliferay bundles-folder
+    assert_output $LIFERAY_HOME/../custom-bundles
+
+    echo "app.server.tomcat.version=10.1.40" > $PROPERTIES
+    run cliferay bundles-folder
+    assert_output $LIFERAY_HOME/../bundles
+
+    export CLIFERAY_BUNDLES_FOLDER=$TMP_DIR/env/bundles
+    run cliferay bundles-folder
+    assert_output $TMP_DIR/env/bundles
+}
+
+@test "cliferay nuke/run/switch with a configured bundles folder" {
+    echo "app.server.parent.dir=$TMP_DIR/lili/bundles/master" > $LIFERAY_HOME/app.server.$(id -un).properties
+    BUNDLES=$TMP_DIR/lili/bundles/master
+    rm -rf $TMP_DIR/lili
+    mkdir -p $BUNDLES/tomcat-10.1.40/bin $BUNDLES/tomcat-10.1.40/work/Catalina $BUNDLES/data $BUNDLES/osgi/war $BUNDLES/osgi/state $BUNDLES/osgi/keep
+    printf '#!/bin/sh\nexit 0\n' > $BUNDLES/tomcat-10.1.40/bin/catalina.sh
+    chmod +x $BUNDLES/tomcat-10.1.40/bin/catalina.sh
+
+    run cliferay tomcat-folder
+    assert_output $BUNDLES/tomcat-10.1.40
+
+    run cliferay nuke
+    assert_success
+    assert_not_exists $BUNDLES/data
+    assert_not_exists $BUNDLES/osgi/war
+    assert_not_exists $BUNDLES/osgi/state
+    assert_not_exists $BUNDLES/tomcat-10.1.40/work/Catalina
+    assert_exists $BUNDLES/osgi/keep
+
+    cd $TMP_DIR
+    run cliferay run
+    assert_success
+    assert_exists $BUNDLES/portal-ext.properties
+    run grep -qx "liferay.home=$BUNDLES" $BUNDLES/portal-ext.properties
+    assert_success
+    assert_exists $BUNDLES/osgi/configs/com.liferay.captcha.configuration.CaptchaConfiguration.config
+
+    cliferay switch LPD-1
+    run cliferay db-name
+    assert_output lportal_LPD_1
+    run cat $BUNDLES/.cliferay-name
+    assert_output LPD-1
+    run cat $BUNDLES-master/.cliferay-name
+    assert_output master
+    cliferay switch master
+    run cliferay db-name
+    assert_output lportal
+    assert_exists $BUNDLES-LPD-1/.cliferay-name
 }
 
 @test "cliferay tomcat-folder" {
