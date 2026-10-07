@@ -49,6 +49,7 @@ Server Commands:
   elastic-search    Query the Elasticsearch index
   gogo              Open the Gogo Shell
   kill              Kill the server
+  mysql             Manage a MySQL Docker container for the Liferay database
   nuke              Delete all persisted data
   run               Start the server
   sql               Run a SQL query against the Liferay database

@@ -225,6 +225,41 @@ commands:
     help: Kill the server
     group: Server
 
+  - name: mysql
+    help: |
+      Manage a MySQL Docker container for the Liferay database
+
+      The container is called cliferay-mysql. It listens on localhost:3306 with user root and password root, and keeps its data in the cliferay-mysql Docker volume, so it works out of the box with 'cliferay run', 'cliferay nuke', 'cliferay sql' and 'cliferay switch'.
+
+      While it is running, 'cliferay nuke' and 'cliferay sql' go through the container, so no local mysql client is needed.
+    group: Server
+    commands:
+      - name: create
+        help: Create and start the MySQL container, with the current database already created
+        args:
+          - name: version
+            help: The tag of the mysql Docker image to use
+            default: "8"
+        examples:
+          - cliferay mysql create
+          - cliferay mysql create 8.4
+        completions:
+          - "8"
+          - "8.4"
+          - "9"
+      - name: start
+        help: Start the MySQL container
+      - name: stop
+        help: Stop the MySQL container, keeping its data
+      - name: remove
+        help: Remove the MySQL container and its data
+        flags:
+          - long: --keep-data
+            help: Keep the Docker volume with the databases, so a new container picks them up
+        examples:
+          - cliferay mysql remove
+          - cliferay mysql remove --keep-data
+
   - name: nuke
     help: Delete all persisted data
     group: Server

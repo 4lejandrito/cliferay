@@ -15,7 +15,7 @@ cliferay() {
   cliferay_usage() {
     if [[ -n $long_usage ]]; then
       printf "cliferay\n\n"
-      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n  \n  The bundles folder is read from app.server.parent.dir in the repository's\n  app.server.<user>.properties, the same file the Liferay build uses, and\n  defaults to ../bundles next to the repository. CLIFERAY_BUNDLES_FOLDER\n  overrides both.\n  \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
+      printf "  Daily scripts for working with Liferay\n  \n  You can run these scripts from any folder:\n    - If you are outside a repository, LIFERAY_HOME will be used.\n    - If you are inside a repository, that repository will be used.\n  \n  For example, every day I open my terminal and type:\n  \n    > cliferay morning\n  \n  and it will work, no matter which folder I am in.\n\n"
     else
       printf "cliferay - Daily scripts for working with Liferay\n\n"
     fi
@@ -48,6 +48,7 @@ cliferay() {
     printf "  %s   Query the Elasticsearch index\n" "$(green_bold "elastic-search") "
     printf "  %s   Open the Gogo Shell\n" "$(green_bold "gogo")           "
     printf "  %s   Kill the server\n" "$(green_bold "kill")           "
+    printf "  %s   Manage a MySQL Docker container for the Liferay database\n" "$(green_bold "mysql")          "
     printf "  %s   Delete all persisted data\n" "$(green_bold "nuke")           "
     printf "  %s   Start the server\n" "$(green_bold "run")            "
     printf "  %s   Run a SQL query against the Liferay database\n" "$(green_bold "sql")            "
@@ -811,6 +812,150 @@ cliferay() {
   }
 
   # :command.usage
+  cliferay_mysql_usage() {
+    if [[ -n $long_usage ]]; then
+      printf "cliferay mysql\n\n"
+      printf "  Manage a MySQL Docker container for the Liferay database\n  \n  The container is called cliferay-mysql. It listens on localhost:3306 with user\n  root and password root, and keeps its data in the cliferay-mysql Docker\n  volume, so it works out of the box with 'cliferay run', 'cliferay nuke',\n  'cliferay sql' and 'cliferay switch'.\n  \n  While it is running, 'cliferay nuke' and 'cliferay sql' go through the\n  container, so no local mysql client is needed.\n\n"
+    else
+      printf "cliferay mysql - Manage a MySQL Docker container for the Liferay database\n\n"
+    fi
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay mysql COMMAND\n"
+    printf "  cliferay mysql [COMMAND] --help | -h\n"
+    echo
+    # :command.usage_commands
+    printf "%s\n" "$(bold "Commands:")"
+    printf "  %s   Create and start the MySQL container, with the current database already created\n" "$(green_bold "create")"
+    printf "  %s   Start the MySQL container\n" "$(green_bold "start") "
+    printf "  %s   Stop the MySQL container, keeping its data\n" "$(green_bold "stop")  "
+    printf "  %s   Remove the MySQL container and its data\n" "$(green_bold "remove")"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_mysql_create_usage() {
+    printf "cliferay mysql create - Create and start the MySQL container, with the current database already created\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay mysql create [VERSION]\n"
+    printf "  cliferay mysql create --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_args
+      printf "%s\n" "$(bold "Arguments:")"
+
+      # :argument.usage
+      printf "  %s\n" "VERSION"
+      printf "    The tag of the mysql Docker image to use\n"
+      printf "    %s\n" "Default: 8"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay mysql create\n"
+      printf "  cliferay mysql create 8.4\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_mysql_start_usage() {
+    printf "cliferay mysql start - Start the MySQL container\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay mysql start\n"
+    printf "  cliferay mysql start --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_mysql_stop_usage() {
+    printf "cliferay mysql stop - Stop the MySQL container, keeping its data\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay mysql stop\n"
+    printf "  cliferay mysql stop --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
+  cliferay_mysql_remove_usage() {
+    printf "cliferay mysql remove - Remove the MySQL container and its data\n\n"
+
+    printf "%s\n" "$(bold "Usage:")"
+    printf "  cliferay mysql remove [OPTIONS]\n"
+    printf "  cliferay mysql remove --help | -h\n"
+    echo
+
+    # :command.long_usage
+    if [[ -n "$long_usage" ]]; then
+      printf "%s\n" "$(bold "Options:")"
+
+      # :command.usage_flags
+      # :flag.usage
+      printf "  %s\n" "--keep-data"
+      printf "    Keep the Docker volume with the databases, so a new container picks them up\n"
+      echo
+
+      # :command.usage_fixed_flags
+      printf "  %s\n" "--help, -h"
+      printf "    Show this help\n"
+      echo
+
+      # :command.usage_examples
+      printf "%s\n" "$(bold "Examples:")"
+      printf "  cliferay mysql remove\n"
+      printf "  cliferay mysql remove --keep-data\n"
+      echo
+
+    fi
+  }
+
+  # :command.usage
   cliferay_nuke_usage() {
     printf "cliferay nuke - Delete all persisted data\n\n"
 
@@ -887,40 +1032,6 @@ cliferay() {
       # :command.usage_fixed_flags
       printf "  %s\n" "--help, -h"
       printf "    Show this help\n"
-      echo
-
-    fi
-  }
-
-  # :command.usage
-  cliferay_bundles_folder_usage() {
-    if [[ -n $long_usage ]]; then
-      printf "cliferay bundles-folder\n\n"
-      printf "  Print the Liferay bundles folder path\n  \n  Resolved in this order:\n    1. The CLIFERAY_BUNDLES_FOLDER environment variable\n    2. app.server.parent.dir in app.server.<user>.properties inside the\n  repository, the same file the Liferay build reads. ${project.dir} expands to\n  the repository path.\n    3. ../bundles next to the repository\n\n"
-    else
-      printf "cliferay bundles-folder - Print the Liferay bundles folder path\n\n"
-    fi
-
-    printf "%s\n" "$(bold "Usage:")"
-    printf "  cliferay bundles-folder\n"
-    printf "  cliferay bundles-folder --help | -h\n"
-    echo
-
-    # :command.long_usage
-    if [[ -n "$long_usage" ]]; then
-      printf "%s\n" "$(bold "Options:")"
-
-      # :command.usage_fixed_flags
-      printf "  %s\n" "--help, -h"
-      printf "    Show this help\n"
-      echo
-
-      # :command.usage_environment_variables
-      printf "%s\n" "$(bold "Environment Variables:")"
-
-      # :environment_variable.usage
-      printf "  %s\n" "CLIFERAY_BUNDLES_FOLDER"
-      printf "    Path to the Liferay bundles folder, overriding app.server.<user>.properties\n"
       echo
 
     fi
@@ -2226,6 +2337,50 @@ cliferay() {
       fi
   }
 
+  # The MySQL Docker container managed by 'cliferay mysql'.
+  #
+  # It listens on localhost:3306 with root/root, which is what 'cliferay run'
+  # writes into portal-ext.properties, so the server works against it unchanged.
+  MYSQL_CONTAINER=cliferay-mysql
+
+  function mysql-container-exists() {
+      command -v docker >/dev/null 2>&1 && docker container inspect "$MYSQL_CONTAINER" >/dev/null 2>&1
+  }
+
+  function mysql-container-running() {
+      command -v docker >/dev/null 2>&1 && [ "$(docker container inspect -f '{{.State.Running}}' "$MYSQL_CONTAINER" 2>/dev/null)" == "true" ]
+  }
+
+  # Run the mysql client as root against the Liferay database server.
+  #
+  # Goes through the 'cliferay mysql' container when it is running, so no local
+  # mysql client is needed, and falls back to a local one otherwise.
+  #
+  #     echo "SELECT 1" | mysql-client lportal
+  function mysql-client() {
+      if mysql-container-running; then
+          docker exec -i "$MYSQL_CONTAINER" mysql -uroot -proot "$@"
+      else
+          mysql -uroot -proot "$@"
+      fi
+  }
+
+  # Block until the 'cliferay mysql' container accepts TCP connections.
+  #
+  # The ping goes over TCP on purpose: while the mysql image initializes a fresh
+  # data directory it runs a temporary server on the socket only, and a socket
+  # ping would report ready too early.
+  function mysql-wait() {
+      for _ in $(seq 1 60); do
+          if docker exec "$MYSQL_CONTAINER" mysqladmin ping -h127.0.0.1 --protocol=tcp -uroot -proot --silent >/dev/null 2>&1; then
+              return 0
+          fi
+          sleep 1
+      done
+      echo "Timed out waiting for the $MYSQL_CONTAINER container to accept connections" >&2
+      return 1
+  }
+
   # src/lib/send_completions.sh
   send_completions() {
     echo $'# cliferay completion                                      -*- shell-script -*-'
@@ -2296,10 +2451,6 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team users emails\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'curl batch-import\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
@@ -2308,16 +2459,20 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-instance\'*)'
+    echo $'    \'team users emails\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team users jira\'*)'
+    echo $'    \'curl new-instance\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'changed-modules\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team users jira\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'curl new-object\'*)'
@@ -2328,24 +2483,36 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'format-source\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
     echo $'    \'run\'*\'--profile\')'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cliferay run-profiles)")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'format-source\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'team assigned\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'curl new-api\'*)'
+    echo $'    \'mysql remove\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --keep-data -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'mysql create\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h 8 8.4 9")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'team folders\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'team commits\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'super-deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'team tickets\'*)'
@@ -2356,15 +2523,7 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'team folders\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'super-deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'completions\'*)'
+    echo $'    \'curl new-api\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2372,7 +2531,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'build-rest\'*)'
+    echo $'    \'mysql start\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'completions\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2388,20 +2551,24 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'baseline\'*)'
+    echo $'    \'build-rest\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'weblogic\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2025.q1.12-lts dxp/nightly")" -- "$cur")'
+    echo $'    \'mysql stop\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'backport\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'tickets\'*)'
+    echo $'    \'baseline\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'weblogic\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2025.q1.12-lts dxp/nightly")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'aliases\'*)'
@@ -2412,47 +2579,51 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--brian --force --help --no-nuke -f -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'revert\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'gemini\'*)'
+    echo $'    \'tickets\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'deploy\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'switch\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay bundles-folder)*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'update\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'bundle\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'switch\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cat $(cliferay home)/../bundles*/.cliferay-name 2> /dev/null) --help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'revert\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'docker\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp dxp:2025.q3.8 dxp:7.4.13.nightly portal portal:7.4.3.132-ga132 release-candidates:7.4.13-u143-1762358432")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'bundle\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h dxp/2023.q4.0 dxp/nightly portal/7.4.3.132-ga132")" -- "$cur")'
+    echo $'    \'gemini\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'run\'*\'-p\')'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "$(cliferay run-profiles)")" -- "$cur")'
     echo $'      ;;'
     echo $''
+    echo $'    \'deploy\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
     echo $'    \'build\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'todos\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'mysql\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h create remove start stop")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'brian\'*)'
+    echo $'    \'owner\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2460,19 +2631,15 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'owner\'*)'
+    echo $'    \'brian\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'chat\'*)'
+    echo $'    \'todos\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'repo\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'home\'*)'
+    echo $'    \'nuke\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2488,15 +2655,19 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'gogo\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
+    echo $'    \'kill\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'sync\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'kill\'*)'
+    echo $'    \'chat\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'repo\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2504,7 +2675,11 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h batch-export batch-import mcp-developer-prompt new-api new-instance new-object new-site-object new-versioned-object")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'nuke\'*)'
+    echo $'    \'gogo\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h diag jaxrs:check scr:list unsatisfied")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'home\'*)'
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
@@ -2520,12 +2695,8 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'gw\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
-    echo $'      ;;'
-    echo $''
-    echo $'    \'ij\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'    \'cm\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'sd\'*)'
@@ -2536,8 +2707,12 @@ cliferay() {
     echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
-    echo $'    \'cm\'*)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--branch --help -b -h")" -- "$cur")'
+    echo $'    \'ij\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
+    echo $'      ;;'
+    echo $''
+    echo $'    \'gw\'*)'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help -h")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'    \'r\'*)'
@@ -2553,7 +2728,7 @@ cliferay() {
     echo $'      ;;'
     echo $''
     echo $'    *)'
-    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning nuke owner poshi r repo revert run sd set-ticket sf sql super-deploy switch sync team tickets todo todos update weblogic")" -- "$cur")'
+    echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_cliferay_completions_filter "--help --version -h -v aliases ant b backport baseline brian build build-rest bundle changed-modules chat cm completions curl d deploy docker elastic-search format-source gemini gogo gw home ij jira kill morning mysql nuke owner poshi r repo revert run sd set-ticket sf sql super-deploy switch sync team tickets todo todos update weblogic")" -- "$cur")'
     echo $'      ;;'
     echo $''
     echo $'  esac'
@@ -2664,14 +2839,13 @@ cliferay() {
         fi
     )
     (cliferay switch "${args["version"]}")
-    BUNDLES=$(cliferay bundles-folder)
-    rm -rf "$BUNDLES"
-    cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" "$BUNDLES"
-    deploy_activation_key "$BUNDLES"
+    rm -rf $(cliferay home)/../bundles
+    cp -r "$(find "$FOLDER" -maxdepth 1 -type d -name 'liferay-*' | head -n1)" $(cliferay home)/../bundles
+    deploy_activation_key $(cliferay home)/../bundles
     cd $(cliferay home)
-    GITHASH=$(cat "$BUNDLES/.githash")
-    echo "${args["version"]}" > "$BUNDLES/.cliferay-name"
-    cp $(cliferay data-folder)/activation-* "$BUNDLES/deploy/" 2>/dev/null || true
+    GITHASH=$(cat ../bundles/.githash)
+    echo "${args["version"]}" > ../bundles/.cliferay-name
+    cp $(cliferay data-folder)/activation-* ../bundles/deploy/ 2>/dev/null || true
     git fetch --depth=1 upstream $GITHASH && git checkout $GITHASH
     cliferay ij
   }
@@ -2723,22 +2897,21 @@ cliferay() {
   cliferay_switch_command() {
 
     # src/commands/switch.sh
-    BUNDLES=$(cliferay bundles-folder)
-    CURRENT_NAME=$(cat "$BUNDLES/.cliferay-name" 2>/dev/null || echo master)
+    cd $(cliferay home)
+    CURRENT_NAME=$(cat ../bundles/.cliferay-name 2>/dev/null || echo master)
     if [[ "$CURRENT_NAME" == "${args[name]}" ]]; then
       return
     fi
     (cliferay kill)
-    echo "$CURRENT_NAME" > "$BUNDLES/.cliferay-name"
-    mv "$BUNDLES" "$BUNDLES-$CURRENT_NAME"
-    if [ ! -d "$BUNDLES-${args[name]}" ]; then
-      cp -r "$BUNDLES-$CURRENT_NAME" "$BUNDLES"
-      echo "${args[name]}" > "$BUNDLES/.cliferay-name"
+    echo "$CURRENT_NAME" > ../bundles/.cliferay-name
+    mv ../bundles "../bundles-$CURRENT_NAME"
+    if [ ! -d "../bundles-${args[name]}" ]; then
+      cp -r "../bundles-$CURRENT_NAME" ../bundles
+      echo "${args[name]}" > ../bundles/.cliferay-name
       cliferay nuke
     else
-      mv "$BUNDLES-${args[name]}" "$BUNDLES"
+      mv "../bundles-${args[name]}" ../bundles
     fi
-
   }
 
   # :command.function
@@ -3057,14 +3230,13 @@ cliferay() {
 
     # src/commands/db-name.sh
     DB_NAME=$([[ "$(cliferay home)" =~ .*-ee$ ]] && echo "lportalee" || echo "lportal")
-    NAME=$(cat "$(cliferay bundles-folder)/.cliferay-name" 2>/dev/null || echo "master")
+    NAME=$(cat "$(cliferay home)/../bundles/.cliferay-name" 2>/dev/null || echo "master")
 
     if [[ -n "$NAME" && "$NAME" != "master" ]]; then
       echo "${DB_NAME}_$NAME" | tr '-' '_' | tr '/' '_' | tr '.' '_'
     else
       echo $DB_NAME
     fi
-
   }
 
   # :command.function
@@ -3114,12 +3286,84 @@ EOF
   }
 
   # :command.function
+  cliferay_mysql_create_command() {
+
+    # src/commands/mysql/create.sh
+    if mysql-container-exists; then
+        echo "The $MYSQL_CONTAINER container already exists. Run 'cliferay mysql start' to start it or 'cliferay mysql remove' to recreate it." >&2
+        exit 1
+    fi
+
+    DB_NAME=$(cliferay db-name)
+
+    docker run --name "$MYSQL_CONTAINER" -d \
+        -e MYSQL_ROOT_PASSWORD=root \
+        -p 127.0.0.1:3306:3306 \
+        -v "$MYSQL_CONTAINER:/var/lib/mysql" \
+        "mysql:${args[version]}" \
+        --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+    mysql-wait
+
+    echo "create database IF NOT EXISTS $DB_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql-client
+
+    echo "MySQL is ready on localhost:3306 (user root, password root) with the $DB_NAME database"
+
+  }
+
+  # :command.function
+  cliferay_mysql_start_command() {
+
+    # src/commands/mysql/start.sh
+    if ! mysql-container-exists; then
+        echo "The $MYSQL_CONTAINER container does not exist. Run 'cliferay mysql create' first." >&2
+        exit 1
+    fi
+
+    docker start "$MYSQL_CONTAINER"
+
+    mysql-wait
+
+    echo "MySQL is ready on localhost:3306 (user root, password root)"
+
+  }
+
+  # :command.function
+  cliferay_mysql_stop_command() {
+
+    # src/commands/mysql/stop.sh
+    if ! mysql-container-exists; then
+        echo "The $MYSQL_CONTAINER container does not exist." >&2
+        exit 1
+    fi
+
+    docker stop "$MYSQL_CONTAINER"
+
+  }
+
+  # :command.function
+  cliferay_mysql_remove_command() {
+
+    # src/commands/mysql/remove.sh
+    if mysql-container-exists; then
+        docker rm -f "$MYSQL_CONTAINER"
+    else
+        echo "The $MYSQL_CONTAINER container does not exist." >&2
+    fi
+
+    if [[ ${args[--keep-data]} != 1 ]] && docker volume inspect "$MYSQL_CONTAINER" >/dev/null 2>&1; then
+        docker volume rm "$MYSQL_CONTAINER"
+    fi
+
+  }
+
+  # :command.function
   cliferay_nuke_command() {
 
     # src/commands/nuke.sh
-    BUNDLES=$(cliferay bundles-folder)
-    rm -rf "$BUNDLES/data" "$BUNDLES/osgi/war" "$BUNDLES/osgi/state" $(cliferay tomcat-folder)/work/Catalina
-    echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql -uroot -proot
+    cd $(cliferay home)
+    rm -rf ../bundles/data ../bundles/osgi/war ../bundles/osgi/state $(cliferay tomcat-folder)/work/Catalina
+    echo "drop database IF EXISTS $(cliferay db-name); create database $(cliferay db-name) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin" | mysql-client
 
   }
 
@@ -3205,7 +3449,7 @@ EOF
     fi
     }
 
-    BUNDLES=$(realpath $(cliferay bundles-folder))
+    BUNDLES=$(realpath $(cliferay home)/../bundles)
 
     generate-configuration $BUNDLES
 
@@ -3222,38 +3466,8 @@ EOF
   cliferay_tomcat_folder_command() {
 
     # src/commands/tomcat-folder.sh
-    cd $(cliferay bundles-folder)
+    cd $(cliferay home)/../bundles
     ls -d "$PWD/"** | grep tomcat | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | tail -n 1
-
-  }
-
-  # :command.function
-  cliferay_bundles_folder_command() {
-
-    # src/commands/bundles-folder.sh
-    HOME_FOLDER=$(cliferay home)
-
-    if [ -n "${CLIFERAY_BUNDLES_FOLDER:-}" ]; then
-        echo "$CLIFERAY_BUNDLES_FOLDER"
-        exit
-    fi
-
-    # The Liferay build reads app.server.${user.name}.properties on top of
-    # app.server.properties, so honoring the same file keeps cliferay and ant
-    # pointing at the same bundle.
-    PROPERTIES="$HOME_FOLDER/app.server.$(id -un).properties"
-
-    if [ -f "$PROPERTIES" ]; then
-        PARENT_DIR=$(grep -E '^[[:space:]]*app\.server\.parent\.dir[[:space:]]*=' "$PROPERTIES" | tail -n 1 | cut -d= -f2- | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-
-        if [ -n "$PARENT_DIR" ]; then
-            echo "${PARENT_DIR//\$\{project.dir\}/$HOME_FOLDER}"
-            exit
-        fi
-    fi
-
-    echo "$HOME_FOLDER/../bundles"
-
   }
 
   # :command.function
@@ -3274,7 +3488,7 @@ EOF
   cliferay_sql_command() {
 
     # src/commands/sql.sh
-    echo "${args["sql"]}" | mysql -uroot -proot $(cliferay db-name)
+    echo "${args["sql"]}" | mysql-client $(cliferay db-name)
 
   }
 
@@ -3319,7 +3533,7 @@ EOF
 
     # src/commands/deploy.sh
     if [[ "$PWD" = */portal-test ]]; then
-        cliferay ant deploy install-portal-snapshot && cp "$(cliferay bundles-folder)/osgi/test/com.liferay.portal.test.jar" "$(cliferay bundles-folder)/osgi/modules"
+        cliferay ant deploy install-portal-snapshot && cp ../../bundles/osgi/test/com.liferay.portal.test.jar ../../bundles/osgi/modules
     elif [[ "$PWD" = */portal-kernel ]]; then
         cliferay ant deploy install-portal-snapshot
     elif [[ "$PWD" = */portal-impl ]]; then
@@ -3327,7 +3541,7 @@ EOF
     elif [[ "$PWD" = *test-util ]]; then
         cliferay gw -a depl
         JAR=$( echo "$(realpath $PWD --relative-to $(cliferay home))" | sed 's#modules/apps/[^/]*/\([^/]*\)-test-util#\1#' | sed 's/-/./g' | sed 's/\(.*\)/com.liferay.\1.test.util.jar/')
-        cp "$(cliferay bundles-folder)/osgi/test/$JAR" "$(cliferay bundles-folder)/osgi/modules/"
+        cp "$(cliferay home)/../bundles/osgi/test/$JAR" "$(cliferay home)/../bundles/osgi/modules/"
     elif [[ "$PWD" = *gradle-plugins* ]]; then
         cliferay gw installCache updateFileVersions
         git add $(cliferay home) && git commit -m "DELETE ME"
@@ -4566,6 +4780,13 @@ EOF
         shift $#
         ;;
 
+      mysql)
+        action="mysql"
+        shift
+        cliferay_mysql_parse_requirements "$@"
+        shift $#
+        ;;
+
       nuke)
         action="nuke"
         shift
@@ -4584,13 +4805,6 @@ EOF
         action="tomcat-folder"
         shift
         cliferay_tomcat_folder_parse_requirements "$@"
-        shift $#
-        ;;
-
-      bundles-folder)
-        action="bundles-folder"
-        shift
-        cliferay_bundles_folder_parse_requirements "$@"
         shift $#
         ;;
 
@@ -6209,6 +6423,291 @@ EOF
   }
 
   # :command.parse_requirements
+  cliferay_mysql_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_mysql_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action=${1:-}
+
+    case $action in
+      -*) ;;
+
+      create)
+        action="create"
+        shift
+        cliferay_mysql_create_parse_requirements "$@"
+        shift $#
+        ;;
+
+      start)
+        action="start"
+        shift
+        cliferay_mysql_start_parse_requirements "$@"
+        shift $#
+        ;;
+
+      stop)
+        action="stop"
+        shift
+        cliferay_mysql_stop_parse_requirements "$@"
+        shift $#
+        ;;
+
+      remove)
+        action="remove"
+        shift
+        cliferay_mysql_remove_parse_requirements "$@"
+        shift $#
+        ;;
+
+      # :command.command_fallback
+      "")
+        cliferay_mysql_usage >&2
+        exit 1
+        ;;
+
+      *)
+        printf "invalid command: %s\n" "$action" >&2
+        exit 1
+        ;;
+
+    esac
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_mysql_create_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_mysql_create_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="mysql create"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          # :argument.case
+          if [[ -z ${args['version']+x} ]]; then
+            args['version']=$1
+            shift
+          else
+            printf "invalid argument: %s\n" "$key" >&2
+            exit 1
+          fi
+
+          ;;
+
+      esac
+    done
+
+    # :command.default_assignments
+    [[ -n ${args['version']:-} ]] || args['version']="8"
+
+  }
+
+  # :command.parse_requirements
+  cliferay_mysql_start_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_mysql_start_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="mysql start"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_mysql_stop_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_mysql_stop_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="mysql stop"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
+  cliferay_mysql_remove_parse_requirements() {
+    # :command.fixed_flags_filter
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        --help | -h)
+          long_usage=yes
+          cliferay_mysql_remove_usage
+          exit
+          ;;
+
+        *)
+          break
+          ;;
+
+      esac
+    done
+
+    # :command.command_filter
+    action="mysql remove"
+
+    # :command.parse_requirements_while
+    while [[ $# -gt 0 ]]; do
+      key="$1"
+      case "$key" in
+        # :flag.case
+        --keep-data)
+
+          # :flag.case_no_arg
+          args['--keep-data']=1
+          shift
+          ;;
+
+        -?*)
+          printf "invalid option: %s\n" "$key" >&2
+          exit 1
+          ;;
+
+        *)
+          # :command.parse_requirements_case
+          # :command.parse_requirements_case_simple
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+
+          ;;
+
+      esac
+    done
+
+  }
+
+  # :command.parse_requirements
   cliferay_nuke_parse_requirements() {
     # :command.fixed_flags_filter
     while [[ $# -gt 0 ]]; do
@@ -6338,55 +6837,6 @@ EOF
 
     # :command.command_filter
     action="tomcat-folder"
-
-    # :command.parse_requirements_while
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-
-        -?*)
-          printf "invalid option: %s\n" "$key" >&2
-          exit 1
-          ;;
-
-        *)
-          # :command.parse_requirements_case
-          # :command.parse_requirements_case_simple
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-
-          ;;
-
-      esac
-    done
-
-  }
-
-  # :command.parse_requirements
-  cliferay_bundles_folder_parse_requirements() {
-    # :command.fixed_flags_filter
-    while [[ $# -gt 0 ]]; do
-      key="$1"
-      case "$key" in
-        --help | -h)
-          long_usage=yes
-          cliferay_bundles_folder_usage
-          exit
-          ;;
-
-        *)
-          break
-          ;;
-
-      esac
-    done
-
-    # :command.environment_variables_filter
-
-    env_var_names+=("CLIFERAY_BUNDLES_FOLDER")
-
-    # :command.command_filter
-    action="bundles-folder"
 
     # :command.parse_requirements_while
     while [[ $# -gt 0 ]]; do
@@ -8399,10 +8849,14 @@ EOF
       "elastic-search") cliferay_elastic_search_command ;;
       "gogo") cliferay_gogo_command ;;
       "kill") cliferay_kill_command ;;
+      "mysql") cliferay_mysql_command ;;
+      "mysql create") cliferay_mysql_create_command ;;
+      "mysql start") cliferay_mysql_start_command ;;
+      "mysql stop") cliferay_mysql_stop_command ;;
+      "mysql remove") cliferay_mysql_remove_command ;;
       "nuke") cliferay_nuke_command ;;
       "run") cliferay_run_command ;;
       "tomcat-folder") cliferay_tomcat_folder_command ;;
-      "bundles-folder") cliferay_bundles_folder_command ;;
       "run-profiles") cliferay_run_profiles_command ;;
       "sql") cliferay_sql_command ;;
       "weblogic") cliferay_weblogic_command ;;
