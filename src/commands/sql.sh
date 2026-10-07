@@ -1,1 +1,1 @@
-echo "${args["sql"]}" | mysql -uroot -proot $(cliferay db-name)
+echo "${args["sql"]}" | mysql-client $(cliferay db-name)

@@ -73,6 +73,7 @@ Set to true to echo all commands being run
 - [elastic-search](cliferay%20elastic-search.md) - Query the Elasticsearch index
 - [gogo](cliferay%20gogo.md) - Open the Gogo Shell
 - [kill](cliferay%20kill.md) - Kill the server
+- [mysql](cliferay%20mysql.md) - Manage a MySQL Docker container for the Liferay database
 - [nuke](cliferay%20nuke.md) - Delete all persisted data
 - [run](cliferay%20run.md) - Start the server
 - [sql](cliferay%20sql.md) - Run a SQL query against the Liferay database

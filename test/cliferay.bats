@@ -6,6 +6,8 @@ setup_file() {
     mkdir -p $TMP_DIR/mocks
     echo "#!/bin/sh" > $TMP_DIR/mocks/gh
     echo "#!/bin/sh" > $TMP_DIR/mocks/mysql
+    # Logs every call. 'container inspect' succeeds only when MOCK_MYSQL_CONTAINER is set.
+    printf '#!/bin/sh\necho "$@" >> %s/docker.log\nif [ "$1 $2" = "container inspect" ]; then\n  [ -n "$MOCK_MYSQL_CONTAINER" ] || exit 1\n  echo true\nfi\n' "$TMP_DIR" > $TMP_DIR/mocks/docker
     chmod +x $TMP_DIR/mocks/*
     PATH="$TMP_DIR/mocks:/code/bin:$PATH"
     export CLIFERAY_DATA_FOLDER=$TMP_DIR/data
@@ -115,6 +117,88 @@ setup_run() {
     run cliferay db-name
     assert_output lportal
     assert_exists $BUNDLES-LPD-1/.cliferay-name
+}
+
+@test "cliferay mysql create" {
+    rm -f $TMP_DIR/docker.log
+    export DEBUG=true
+    run cliferay mysql create
+    assert_success
+    assert_line "+ echo 'create database IF NOT EXISTS lportal CHARACTER SET utf8mb4 COLLATE utf8mb4_bin'"
+    assert_line "MySQL is ready on localhost:3306 (user root, password root) with the lportal database"
+    run cat $TMP_DIR/docker.log
+    assert_line "run --name cliferay-mysql -d -e MYSQL_ROOT_PASSWORD=root -p 127.0.0.1:3306:3306 -v cliferay-mysql:/var/lib/mysql mysql:8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    assert_line "exec cliferay-mysql mysqladmin ping -h127.0.0.1 --protocol=tcp -uroot -proot --silent"
+}
+
+@test "cliferay mysql create 8.4" {
+    rm -f $TMP_DIR/docker.log
+    run cliferay mysql create 8.4
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line --partial " mysql:8.4 "
+}
+
+@test "cliferay mysql create when the container exists" {
+    export MOCK_MYSQL_CONTAINER=true
+    run cliferay mysql create
+    assert_failure
+    assert_line --partial "already exists"
+}
+
+@test "cliferay mysql start" {
+    rm -f $TMP_DIR/docker.log
+    run cliferay mysql start
+    assert_failure
+    assert_line --partial "does not exist"
+
+    export MOCK_MYSQL_CONTAINER=true
+    run cliferay mysql start
+    assert_success
+    assert_line "MySQL is ready on localhost:3306 (user root, password root)"
+    run cat $TMP_DIR/docker.log
+    assert_line "start cliferay-mysql"
+}
+
+@test "cliferay mysql stop" {
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_CONTAINER=true
+    run cliferay mysql stop
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line "stop cliferay-mysql"
+}
+
+@test "cliferay mysql remove" {
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_CONTAINER=true
+    run cliferay mysql remove
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line "rm -f cliferay-mysql"
+    assert_line "volume rm cliferay-mysql"
+
+    rm -f $TMP_DIR/docker.log
+    run cliferay mysql remove --keep-data
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line "rm -f cliferay-mysql"
+    refute_line "volume rm cliferay-mysql"
+}
+
+@test "cliferay sql/nuke go through the mysql container when it is running" {
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_CONTAINER=true
+    run cliferay sql "SELECT 1"
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line "exec -i cliferay-mysql mysql -uroot -proot lportal"
+
+    rm -f $TMP_DIR/docker.log
+    run cliferay nuke
+    assert_success
+    run cat $TMP_DIR/docker.log
+    assert_line "exec -i cliferay-mysql mysql -uroot -proot"
 }
 
 @test "cliferay tomcat-folder" {

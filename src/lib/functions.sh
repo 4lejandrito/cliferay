@@ -90,3 +90,47 @@ function ensure-gnu-sed() {
         exit 1
     fi
 }
+
+# The MySQL Docker container managed by 'cliferay mysql'.
+#
+# It listens on localhost:3306 with root/root, which is what 'cliferay run'
+# writes into portal-ext.properties, so the server works against it unchanged.
+MYSQL_CONTAINER=cliferay-mysql
+
+function mysql-container-exists() {
+    command -v docker >/dev/null 2>&1 && docker container inspect "$MYSQL_CONTAINER" >/dev/null 2>&1
+}
+
+function mysql-container-running() {
+    command -v docker >/dev/null 2>&1 && [ "$(docker container inspect -f '{{.State.Running}}' "$MYSQL_CONTAINER" 2>/dev/null)" == "true" ]
+}
+
+# Run the mysql client as root against the Liferay database server.
+#
+# Goes through the 'cliferay mysql' container when it is running, so no local
+# mysql client is needed, and falls back to a local one otherwise.
+#
+#     echo "SELECT 1" | mysql-client lportal
+function mysql-client() {
+    if mysql-container-running; then
+        docker exec -i "$MYSQL_CONTAINER" mysql -uroot -proot "$@"
+    else
+        mysql -uroot -proot "$@"
+    fi
+}
+
+# Block until the 'cliferay mysql' container accepts TCP connections.
+#
+# The ping goes over TCP on purpose: while the mysql image initializes a fresh
+# data directory it runs a temporary server on the socket only, and a socket
+# ping would report ready too early.
+function mysql-wait() {
+    for _ in $(seq 1 60); do
+        if docker exec "$MYSQL_CONTAINER" mysqladmin ping -h127.0.0.1 --protocol=tcp -uroot -proot --silent >/dev/null 2>&1; then
+            return 0
+        fi
+        sleep 1
+    done
+    echo "Timed out waiting for the $MYSQL_CONTAINER container to accept connections" >&2
+    return 1
+}
