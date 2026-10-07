@@ -10,6 +10,7 @@ if [[ ${args["--brian"]} = 1 ]]; then
 fi
 (cliferay build)
 (cliferay ij)
+mysql-up
 if [[ ${args["--no-nuke"]} != 1 ]]; then
     (cliferay nuke)
 fi

@@ -1,6 +1,11 @@
+if mysql-container-running; then
+    echo "The $MYSQL_CONTAINER container is already running"
+    exit
+fi
+
 if ! mysql-container-exists; then
-    echo "The $MYSQL_CONTAINER container does not exist. Run 'cliferay mysql create' first." >&2
-    exit 1
+    cliferay mysql create
+    exit
 fi
 
 docker start "$MYSQL_CONTAINER"

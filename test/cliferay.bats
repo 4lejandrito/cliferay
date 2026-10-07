@@ -6,8 +6,9 @@ setup_file() {
     mkdir -p $TMP_DIR/mocks
     echo "#!/bin/sh" > $TMP_DIR/mocks/gh
     echo "#!/bin/sh" > $TMP_DIR/mocks/mysql
-    # Logs every call. 'container inspect' succeeds only when MOCK_MYSQL_CONTAINER is set.
-    printf '#!/bin/sh\necho "$@" >> %s/docker.log\nif [ "$1 $2" = "container inspect" ]; then\n  [ -n "$MOCK_MYSQL_CONTAINER" ] || exit 1\n  echo true\nfi\n' "$TMP_DIR" > $TMP_DIR/mocks/docker
+    # Logs every call. 'container inspect' succeeds only when MOCK_MYSQL_CONTAINER is set,
+    # and reports the state in MOCK_MYSQL_RUNNING (default true) when asked with -f.
+    printf '#!/bin/sh\necho "$@" >> %s/docker.log\nif [ "$1 $2" = "container inspect" ]; then\n  [ -n "$MOCK_MYSQL_CONTAINER" ] || exit 1\n  if [ "$3" = "-f" ]; then echo "${MOCK_MYSQL_RUNNING:-true}"; fi\nfi\n' "$TMP_DIR" > $TMP_DIR/mocks/docker
     chmod +x $TMP_DIR/mocks/*
     PATH="$TMP_DIR/mocks:/code/bin:$PATH"
     export CLIFERAY_DATA_FOLDER=$TMP_DIR/data
@@ -149,15 +150,27 @@ setup_run() {
 @test "cliferay mysql start" {
     rm -f $TMP_DIR/docker.log
     run cliferay mysql start
-    assert_failure
-    assert_line --partial "does not exist"
+    assert_success
+    assert_line "MySQL is ready on localhost:3306 (user root, password root) with the lportal database"
+    run cat $TMP_DIR/docker.log
+    assert_line --partial "run --name cliferay-mysql "
+    refute_line "start cliferay-mysql"
 
-    export MOCK_MYSQL_CONTAINER=true
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_CONTAINER=true MOCK_MYSQL_RUNNING=false
     run cliferay mysql start
     assert_success
     assert_line "MySQL is ready on localhost:3306 (user root, password root)"
     run cat $TMP_DIR/docker.log
     assert_line "start cliferay-mysql"
+
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_RUNNING=true
+    run cliferay mysql start
+    assert_success
+    assert_line "The cliferay-mysql container is already running"
+    run cat $TMP_DIR/docker.log
+    refute_line "start cliferay-mysql"
 }
 
 @test "cliferay mysql stop" {
