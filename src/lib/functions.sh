@@ -135,6 +135,20 @@ function mysql-wait() {
     return 1
 }
 
+# Whether a MySQL server, the container or another one, listens on localhost:3306.
+function mysql-port-in-use() {
+    (exec 3<>/dev/tcp/127.0.0.1/3306) 2>/dev/null
+}
+
+# Fail before docker binds localhost:3306 when another server, like a local
+# install, already listens on it, so no broken container is left behind.
+function mysql-port-free() {
+    if mysql-port-in-use; then
+        echo "Another MySQL server already listens on localhost:3306. Stop it to use the $MYSQL_CONTAINER container instead." >&2
+        exit 1
+    fi
+}
+
 # Make sure a MySQL server is listening on localhost:3306 before commands that
 # need one, such as 'cliferay morning'.
 #
@@ -145,7 +159,7 @@ function mysql-up() {
     if mysql-container-running; then
         return
     fi
-    if (exec 3<>/dev/tcp/127.0.0.1/3306) 2>/dev/null; then
+    if mysql-port-in-use; then
         return
     fi
     cliferay mysql start

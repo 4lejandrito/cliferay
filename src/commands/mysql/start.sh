@@ -8,6 +8,8 @@ if ! mysql-container-exists; then
     exit
 fi
 
+mysql-port-free
+
 docker start "$MYSQL_CONTAINER"
 
 mysql-wait

@@ -147,6 +147,33 @@ setup_run() {
     assert_line --partial "already exists"
 }
 
+@test "cliferay mysql create when another server listens on 3306" {
+    rm -f $TMP_DIR/docker.log
+    nc -lk -p 3306 -e true &
+    NC_PID=$!
+    sleep 0.2
+    run cliferay mysql create
+    kill $NC_PID
+    assert_failure
+    assert_line --partial "already listens on localhost:3306"
+    run cat $TMP_DIR/docker.log
+    refute_line --partial "run --name cliferay-mysql "
+}
+
+@test "cliferay mysql start when another server listens on 3306" {
+    rm -f $TMP_DIR/docker.log
+    export MOCK_MYSQL_CONTAINER=true MOCK_MYSQL_RUNNING=false
+    nc -lk -p 3306 -e true &
+    NC_PID=$!
+    sleep 0.2
+    run cliferay mysql start
+    kill $NC_PID
+    assert_failure
+    assert_line --partial "already listens on localhost:3306"
+    run cat $TMP_DIR/docker.log
+    refute_line "start cliferay-mysql"
+}
+
 @test "cliferay mysql start" {
     rm -f $TMP_DIR/docker.log
     run cliferay mysql start

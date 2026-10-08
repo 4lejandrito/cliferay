@@ -3,6 +3,8 @@ if mysql-container-exists; then
     exit 1
 fi
 
+mysql-port-free
+
 DB_NAME=$(cliferay db-name)
 
 docker run --name "$MYSQL_CONTAINER" -d \
