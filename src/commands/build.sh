@@ -1,7 +1,9 @@
 cd $(cliferay home)
 cliferay ant all
-(cd modules/util/portal-tools-rest-builder-test-external-api && cliferay deploy)
-(cd modules/util/portal-tools-rest-builder-test-external-impl && cliferay deploy)
-(cd modules/util/portal-tools-rest-builder-test-api && cliferay deploy)
-(cd modules/util/portal-tools-rest-builder-test-client && cliferay deploy)
-(cd modules/util/portal-tools-rest-builder-test-impl && cliferay deploy)
+for module in external*-api external*-impl api client impl; do
+    for dir in modules/util/portal-tools-rest-builder-test-$module; do
+        # Renamed modules leave behind folders holding only ignored files
+        [[ -f $dir/build.gradle ]] || continue
+        (cd $dir && cliferay deploy)
+    done
+done
